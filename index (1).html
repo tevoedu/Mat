@@ -1,0 +1,1837 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BB Inteligente – Plataforma de Estudos</title>
+    <style>
+        /* ============================================
+           DESIGN SYSTEM – BB Inteligente (mantido)
+           ============================================ */
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --primary-light: #818cf8;
+            --secondary: #10b981;
+            --secondary-dark: #059669;
+            --accent: #f59e0b;
+            --accent-light: #fbbf24;
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --surface-hover: #f1f5f9;
+            --border: #e2e8f0;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --success: #22c55e;
+            --error: #ef4444;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+            --font-sans: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            --font-mono: 'SF Mono', monospace;
+            --space-xs: 0.25rem;
+            --space-sm: 0.5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --radius-full: 9999px;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            --transition-fast: 150ms ease;
+            --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animações (mantidas) */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        @keyframes progressFill {
+            from { width: 0%; }
+        }
+        .animate-fade-in { animation: fadeIn var(--transition-slow) forwards; }
+        .animate-slide-right { animation: slideInRight var(--transition-slow) forwards; }
+        .animate-slide-left { animation: slideInLeft var(--transition-slow) forwards; }
+        .stagger-1 { animation-delay: 0.05s; opacity: 0; }
+        .stagger-2 { animation-delay: 0.1s; opacity: 0; }
+        .stagger-3 { animation-delay: 0.15s; opacity: 0; }
+        .stagger-4 { animation-delay: 0.2s; opacity: 0; }
+        .stagger-5 { animation-delay: 0.25s; opacity: 0; }
+
+        .hidden { display: none !important; }
+        .flex { display: flex; }
+        .grid { display: grid; }
+        .items-center { align-items: center; }
+        .justify-center { justify-content: center; }
+        .justify-between { justify-content: space-between; }
+        .gap-sm { gap: var(--space-sm); }
+        .gap-md { gap: var(--space-md); }
+        .gap-lg { gap: var(--space-lg); }
+        .text-center { text-align: center; }
+        .w-full { width: 100%; }
+
+        /* Botões, cards, badges, progress (mantidos) */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-sm);
+            padding: var(--space-md) var(--space-xl);
+            border: none;
+            border-radius: var(--radius-md);
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            position: relative;
+            overflow: hidden;
+        }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .btn--primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            box-shadow: 0 4px 14px 0 rgba(99, 102, 241, 0.39);
+        }
+        .btn--primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px 0 rgba(99, 102, 241, 0.5);
+        }
+        .btn--secondary {
+            background: var(--surface);
+            color: var(--text-primary);
+            border: 2px solid var(--border);
+        }
+        .btn--secondary:hover:not(:disabled) {
+            background: var(--surface-hover);
+            border-color: var(--primary-light);
+            color: var(--primary);
+        }
+        .btn--success {
+            background: linear-gradient(135deg, var(--success), var(--secondary-dark));
+            color: white;
+        }
+        .btn--ghost {
+            background: transparent;
+            color: var(--text-secondary);
+            padding: var(--space-sm) var(--space-md);
+        }
+        .btn--ghost:hover { background: var(--surface-hover); color: var(--text-primary); }
+        .btn--small {
+            padding: var(--space-sm) var(--space-lg);
+            font-size: 0.875rem;
+        }
+
+        .card {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border);
+            transition: all var(--transition-base);
+        }
+        .card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+        .card--interactive { cursor: pointer; }
+        .card--interactive:hover { border-color: var(--primary-light); }
+        .card--locked {
+            opacity: 0.6;
+            cursor: not-allowed;
+            filter: grayscale(0.5);
+        }
+        .card--locked:hover { transform: none; box-shadow: var(--shadow-md); }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-xs);
+            padding: var(--space-xs) var(--space-md);
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .badge--primary { background: rgba(99, 102, 241, 0.1); color: var(--primary); }
+        .badge--success { background: rgba(34, 197, 94, 0.1); color: var(--success); }
+        .badge--warning { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+        .badge--error { background: rgba(239, 68, 68, 0.1); color: var(--error); }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--border);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+        }
+        .progress-bar__fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: var(--radius-full);
+            transition: width var(--transition-slow);
+            position: relative;
+        }
+        .progress-bar__fill::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+        .progress-ring {
+            transform: rotate(-90deg);
+        }
+        .progress-ring__circle {
+            transition: stroke-dashoffset var(--transition-slow);
+        }
+
+        .icon { width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center; }
+        .icon--lg { width: 32px; height: 32px; }
+        .icon--xl { width: 48px; height: 48px; }
+
+        /* Layout principal (mantido) */
+        .app { min-height: 100vh; display: flex; flex-direction: column; }
+        .header {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: var(--space-md) var(--space-xl);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.9);
+        }
+        .header__inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .logo__icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.1rem;
+            box-shadow: var(--shadow-md);
+        }
+        .header__stats {
+            display: flex;
+            align-items: center;
+            gap: var(--space-lg);
+        }
+        .stat-pill {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: var(--space-sm) var(--space-md);
+            background: var(--bg);
+            border-radius: var(--radius-full);
+            border: 1px solid var(--border);
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+        .stat-pill__icon { font-size: 1rem; }
+        .stat-pill--xp { color: var(--primary); }
+        .stat-pill--streak { color: var(--accent); }
+        .stat-pill--level { color: var(--secondary); }
+
+        .main { flex: 1; max-width: 1200px; width: 100%; margin: 0 auto; padding: var(--space-xl); }
+        .footer {
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            padding: var(--space-lg) var(--space-xl);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        /* Telas */
+        .screen { display: none; animation: fadeIn var(--transition-slow); }
+        .screen.active { display: block; }
+        .screen-header { margin-bottom: var(--space-2xl); }
+        .screen-header__title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: var(--space-sm);
+            background: linear-gradient(135deg, var(--text-primary), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .screen-header__subtitle { color: var(--text-secondary); font-size: 1.125rem; }
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-lg);
+            color: var(--text-secondary);
+            font-weight: 600;
+            cursor: pointer;
+            transition: color var(--transition-fast);
+        }
+        .back-btn:hover { color: var(--primary); }
+
+        /* Dashboard (mantido) */
+        .dashboard__hero {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: var(--radius-xl);
+            padding: var(--space-2xl);
+            color: white;
+            margin-bottom: var(--space-2xl);
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-xl);
+        }
+        .dashboard__hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+        .dashboard__hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -5%;
+            width: 200px;
+            height: 200px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+        }
+        .dashboard__hero-content { position: relative; z-index: 1; }
+        .dashboard__hero h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: var(--space-md); }
+        .dashboard__hero p { font-size: 1.125rem; opacity: 0.9; max-width: 600px; }
+
+        .dashboard__stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-lg);
+            margin-bottom: var(--space-2xl);
+        }
+        .stat-card {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition-base);
+        }
+        .stat-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+        .stat-card__icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: var(--space-md);
+        }
+        .stat-card__icon--xp { background: rgba(99, 102, 241, 0.1); }
+        .stat-card__icon--level { background: rgba(16, 185, 129, 0.1); }
+        .stat-card__icon--streak { background: rgba(245, 158, 11, 0.1); }
+        .stat-card__icon--accuracy { background: rgba(59, 130, 246, 0.1); }
+        .stat-card__value { font-size: 1.75rem; font-weight: 800; color: var(--text-primary); margin-bottom: var(--space-xs); }
+        .stat-card__label { font-size: 0.875rem; color: var(--text-secondary); font-weight: 500; }
+
+        .disciplines-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: var(--space-xl);
+        }
+        .discipline-card { position: relative; overflow: hidden; }
+        .discipline-card__header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: var(--space-lg);
+        }
+        .discipline-card__icon {
+            width: 56px;
+            height: 56px;
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+        }
+        .discipline-card__icon--math { background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; }
+        .discipline-card__icon--fin { background: linear-gradient(135deg, #10b981, #059669); color: white; }
+        .discipline-card__title { font-size: 1.25rem; font-weight: 700; margin-bottom: var(--space-xs); }
+        .discipline-card__desc { color: var(--text-secondary); font-size: 0.9375rem; margin-bottom: var(--space-lg); line-height: 1.5; }
+        .discipline-card__progress { margin-bottom: var(--space-md); }
+        .discipline-card__progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: var(--space-sm);
+            font-size: 0.875rem;
+        }
+        .discipline-card__progress-label { color: var(--text-secondary); font-weight: 500; }
+        .discipline-card__progress-value { font-weight: 700; color: var(--primary); }
+        .discipline-card__modules {
+            display: flex;
+            gap: var(--space-sm);
+            flex-wrap: wrap;
+            margin-top: var(--space-md);
+        }
+        .module-chip {
+            padding: var(--space-xs) var(--space-md);
+            background: var(--bg);
+            border-radius: var(--radius-full);
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+        }
+        .module-chip--completed {
+            background: rgba(34, 197, 94, 0.1);
+            color: var(--success);
+            border-color: rgba(34, 197, 94, 0.2);
+        }
+        .module-chip--current {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary);
+            border-color: rgba(99, 102, 241, 0.2);
+        }
+
+        /* Tela de disciplina (módulos) - mantido */
+        .modules-list { display: flex; flex-direction: column; gap: var(--space-lg); }
+        .module-card {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: var(--space-xl);
+            align-items: center;
+            padding: var(--space-xl);
+        }
+        .module-card__number {
+            width: 56px;
+            height: 56px;
+            border-radius: var(--radius-lg);
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--primary);
+            border: 2px solid var(--border);
+        }
+        .module-card__number--completed { background: var(--success); color: white; border-color: var(--success); }
+        .module-card__number--locked { background: var(--bg); color: var(--text-muted); border-color: var(--border); }
+        .module-card__info h3 { font-size: 1.125rem; font-weight: 700; margin-bottom: var(--space-xs); }
+        .module-card__info p { color: var(--text-secondary); font-size: 0.9375rem; }
+        .module-card__meta { display: flex; align-items: center; gap: var(--space-lg); }
+        .module-card__progress-ring { position: relative; width: 56px; height: 56px; }
+        .module-card__progress-text {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+        }
+
+        /* Tela de tópicos (etapas do módulo) */
+        .topics-list { display: flex; flex-direction: column; gap: var(--space-md); }
+        .topic-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-lg);
+            padding: var(--space-lg) var(--space-xl);
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+        .topic-item:hover:not(.topic-item--locked) {
+            border-color: var(--primary-light);
+            box-shadow: var(--shadow-md);
+            transform: translateX(4px);
+        }
+        .topic-item__status {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+        .topic-item__status--pending { background: var(--bg); border: 2px solid var(--border); color: var(--text-muted); }
+        .topic-item__status--completed { background: var(--success); color: white; }
+        .topic-item__status--current { background: var(--primary); color: white; animation: pulse 2s infinite; }
+        .topic-item__status--locked { background: var(--bg); color: var(--text-muted); }
+        .topic-item__content { flex: 1; }
+        .topic-item__title { font-weight: 700; margin-bottom: var(--space-xs); }
+        .topic-item__desc { font-size: 0.875rem; color: var(--text-secondary); }
+        .topic-item__stats { display: flex; align-items: center; gap: var(--space-md); font-size: 0.875rem; color: var(--text-muted); }
+        .topic-item--locked { opacity: 0.6; cursor: not-allowed; }
+
+        /* Tela de estudo (fluxo em etapas) */
+        .study-container { max-width: 800px; margin: 0 auto; }
+        .study-stepper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-2xl);
+            padding: var(--space-lg);
+            background: var(--surface);
+            border-radius: var(--radius-full);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            flex-wrap: wrap;
+        }
+        .stepper__step { display: flex; align-items: center; gap: var(--space-sm); }
+        .stepper__dot {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            background: var(--bg);
+            border: 2px solid var(--border);
+            color: var(--text-muted);
+            transition: all var(--transition-base);
+        }
+        .stepper__dot--active { background: var(--primary); border-color: var(--primary); color: white; box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2); }
+        .stepper__dot--completed { background: var(--success); border-color: var(--success); color: white; }
+        .stepper__line { width: 24px; height: 2px; background: var(--border); transition: background var(--transition-base); }
+        .stepper__line--completed { background: var(--success); }
+
+        .study-content {
+            background: var(--surface);
+            border-radius: var(--radius-xl);
+            padding: var(--space-2xl);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border);
+            min-height: 400px;
+        }
+        .study-content__header { text-align: center; margin-bottom: var(--space-2xl); }
+        .study-content__header h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: var(--space-sm); color: var(--text-primary); }
+        .study-content__header p { color: var(--text-secondary); }
+        .study-content__body { line-height: 1.8; }
+        .study-content__body svg { max-width: 100%; height: auto; margin: var(--space-md) 0; border: 1px solid var(--border); border-radius: var(--radius-sm); }
+        .study-content__body .diagram-container {
+            background: var(--bg);
+            padding: var(--space-md);
+            border-radius: var(--radius-md);
+            margin: var(--space-md) 0;
+            text-align: center;
+        }
+        .study-actions { display: flex; justify-content: center; gap: var(--space-md); margin-top: var(--space-2xl); flex-wrap: wrap; }
+
+        .feedback-box { 
+            margin-top: 16px; 
+            padding: 16px; 
+            border-radius: 12px;
+            clear: both;
+        }
+        .feedback-box.success { background: #dcfce7; border: 1px solid #86efac; color: #166534; }
+        .feedback-box.error { background: #fee2e2; border: 1px solid #fca5a5; color: #991b1b; }
+        .alternatives .btn { text-align: left; justify-content: flex-start; }
+        .alternatives .btn--success { background: #22c55e; color: white; border-color: #22c55e; }
+        .alternatives .btn--error { background: #ef4444; color: white; border-color: #ef4444; }
+
+        /* Conquistas */
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: var(--space-md);
+        }
+        .achievement {
+            text-align: center;
+            padding: var(--space-lg);
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            transition: all var(--transition-base);
+        }
+        .achievement:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+        .achievement__icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto var(--space-md);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            background: var(--bg);
+            border: 2px solid var(--border);
+        }
+        .achievement--unlocked .achievement__icon {
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            border-color: var(--accent);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+        }
+        .achievement__title { font-size: 0.875rem; font-weight: 700; margin-bottom: var(--space-xs); }
+        .achievement__desc { font-size: 0.75rem; color: var(--text-muted); }
+
+        /* Toast */
+        .toast-container {
+            position: fixed;
+            top: 80px;
+            right: var(--space-xl);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+            pointer-events: none;
+        }
+        .toast {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg) var(--space-xl);
+            box-shadow: var(--shadow-xl);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            min-width: 300px;
+            animation: slideInRight 0.4s ease, fadeIn 0.4s ease;
+            pointer-events: all;
+        }
+        .toast--success { border-left: 4px solid var(--success); }
+        .toast--warning { border-left: 4px solid var(--warning); }
+        .toast--info { border-left: 4px solid var(--info); }
+        .toast__icon { font-size: 1.5rem; }
+        .toast__content h4 { font-weight: 700; margin-bottom: var(--space-xs); }
+        .toast__content p { font-size: 0.875rem; color: var(--text-secondary); }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .main { padding: var(--space-md); }
+            .header__inner { padding: 0 var(--space-md); }
+            .header__stats { gap: var(--space-sm); }
+            .stat-pill span:not(.stat-pill__icon) { display: none; }
+            .dashboard__hero h1 { font-size: 1.75rem; }
+            .dashboard__hero { padding: var(--space-xl); }
+            .disciplines-grid { grid-template-columns: 1fr; }
+            .module-card { grid-template-columns: 1fr; text-align: center; gap: var(--space-md); }
+            .module-card__number { margin: 0 auto; }
+            .study-stepper { overflow-x: auto; padding: var(--space-md); }
+            .stepper__line { width: 12px; }
+            .toast-container { right: var(--space-md); left: var(--space-md); }
+            .toast { min-width: auto; width: 100%; }
+        }
+        @media (max-width: 480px) {
+            .screen-header__title { font-size: 1.5rem; }
+            .study-content { padding: var(--space-lg); }
+            .btn { padding: var(--space-md) var(--space-lg); width: 100%; }
+            .study-actions { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+<div class="app" id="app">
+    <!-- Header -->
+    <header class="header">
+        <div class="header__inner">
+            <a class="logo" onclick="App.navigate('dashboard')">
+                <div class="logo__icon">BB</div>
+                <span>BB Inteligente</span>
+            </a>
+            <div class="header__stats" id="headerStats"></div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Tela: Dashboard -->
+        <section class="screen active" id="screen-dashboard">
+            <div class="dashboard__hero animate-fade-in">
+                <div class="dashboard__hero-content">
+                    <h1>Olá, <span id="userName">Estudante</span>! 👋</h1>
+                    <p>Continue sua preparação para o concurso do Banco do Brasil. Você está no caminho certo para a aprovação!</p>
+                </div>
+            </div>
+            <div class="dashboard__stats-grid" id="dashboardStats"></div>
+            <div class="screen-header animate-fade-in stagger-2">
+                <h2 class="screen-header__title">Disciplinas</h2>
+                <p class="screen-header__subtitle">Escolha uma área de estudo para continuar</p>
+            </div>
+            <div class="disciplines-grid" id="disciplinesGrid"></div>
+        </section>
+
+        <!-- Tela: Disciplina (Módulos) -->
+        <section class="screen" id="screen-discipline">
+            <div class="back-btn" onclick="App.navigate('dashboard')">← Voltar ao Dashboard</div>
+            <div class="screen-header">
+                <h1 class="screen-header__title" id="disciplineTitle">Matemática</h1>
+                <p class="screen-header__subtitle" id="disciplineSubtitle">Selecione um módulo para estudar</p>
+            </div>
+            <div class="modules-list" id="modulesList"></div>
+        </section>
+
+        <!-- Tela: Módulo (Etapas) -->
+        <section class="screen" id="screen-module">
+            <div class="back-btn" onclick="App.goBack()">← Voltar aos Módulos</div>
+            <div class="screen-header">
+                <h1 class="screen-header__title" id="moduleTitle">Progressões</h1>
+                <p class="screen-header__subtitle" id="moduleSubtitle">Siga as etapas para aprender o conteúdo</p>
+            </div>
+            <div class="topics-list" id="topicsList"></div>
+            <div id="finalExamButton" class="text-center" style="margin-top: var(--space-2xl);"></div>
+        </section>
+
+        <!-- Tela: Estudo (conteúdo dinâmico) -->
+        <section class="screen" id="screen-study">
+            <div class="back-btn" onclick="App.confirmExitStudy()">← Sair da Aula</div>
+            <div class="study-container">
+                <div class="study-stepper" id="studyStepper"></div>
+                <div class="study-content" id="studyContent"></div>
+            </div>
+        </section>
+
+        <!-- Tela: Avaliação Final -->
+        <section class="screen" id="screen-exam">
+            <div class="back-btn" onclick="App.confirmExitExam()">← Sair da Avaliação</div>
+            <div class="study-container">
+                <h2 class="text-center" style="margin-bottom: var(--space-lg);">Avaliação Final</h2>
+                <p class="text-center" style="color: var(--text-secondary); margin-bottom: var(--space-xl);">Responda todas as questões. Para ser aprovado, você precisa acertar pelo menos 80%.</p>
+                <div id="examContent"></div>
+            </div>
+        </section>
+
+        <!-- Tela: Perfil -->
+        <section class="screen" id="screen-profile">
+            <div class="back-btn" onclick="App.navigate('dashboard')">← Voltar ao Dashboard</div>
+            <div class="screen-header">
+                <h1 class="screen-header__title">Seu Perfil</h1>
+                <p class="screen-header__subtitle">Acompanhe sua evolução e conquistas</p>
+            </div>
+            <div id="profileContent"></div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>BB Inteligente – Plataforma de Estudos para o Concurso Banco do Brasil (CESGRANRIO)</p>
+    </footer>
+
+    <div class="toast-container" id="toastContainer"></div>
+</div>
+
+<script>
+    // ======================================================================
+    // 1. ESTADO GLOBAL COM PERSISTÊNCIA
+    // ======================================================================
+    let MODULOS = [];
+    const STATE_KEY = 'bb_inteligente_state';
+
+    const defaultState = {
+        xp: 0,
+        streak: 0,
+        level: 1,
+        conquistas: [],
+        progresso: {},
+        ultimaAtividade: null,
+        currentScreen: 'dashboard',
+        disciplineFilter: null,
+        currentModuleId: null,
+        currentStep: null,
+        previousScreen: null,
+        previousModuleId: null,
+        studyIndex: 0,
+        examQuestions: [],
+        examIndex: 0,
+        examCorrect: 0,
+        examAnswered: false,
+        lastWrongTopic: null,
+        adaptAttempts: 0,
+    };
+
+    let state = loadState();
+
+    function loadState() {
+        try {
+            const saved = localStorage.getItem(STATE_KEY);
+            if (saved) {
+                const parsed = JSON.parse(saved);
+                return { ...defaultState, ...parsed };
+            }
+        } catch (e) {}
+        return { ...defaultState };
+    }
+
+    function saveState() {
+        try {
+            localStorage.setItem(STATE_KEY, JSON.stringify(state));
+        } catch (e) {}
+    }
+
+    // ======================================================================
+    // 2. FUNÇÕES AUXILIARES
+    // ======================================================================
+    function getModulo(id) { return MODULOS.find(m => m.id === id); }
+
+    function getModulosByDisciplina(disciplina) {
+        return MODULOS.filter(m => m.disciplina === disciplina).sort((a, b) => a.ordem - b.ordem);
+    }
+
+    function getDisciplinas() {
+        const set = new Set(MODULOS.map(m => m.disciplina));
+        return Array.from(set);
+    }
+
+    function isModuloConcluido(id) {
+        const p = state.progresso[id];
+        return p ? p.concluido : false;
+    }
+
+    function isModuloBloqueado(id) {
+        const modulo = getModulo(id);
+        if (!modulo) return true;
+        const mods = getModulosByDisciplina(modulo.disciplina);
+        const idx = mods.findIndex(m => m.id === id);
+        if (idx === 0) return false;
+        const anterior = mods[idx - 1];
+        return !isModuloConcluido(anterior.id);
+    }
+
+    function getEtapaStatus(moduloId, etapaIndex) {
+        const p = state.progresso[moduloId];
+        if (!p) return 'locked';
+        if (p.topicos && p.topicos[etapaIndex]) return 'completed';
+        if (etapaIndex === 0) return 'current';
+        if (p.topicos && p.topicos[etapaIndex - 1]) return 'current';
+        return 'locked';
+    }
+
+    function calcularProgressoModulo(id) {
+        const p = state.progresso[id];
+        if (!p || !p.topicos) return 0;
+        const total = p.topicos.length;
+        const concluidos = p.topicos.filter(Boolean).length;
+        return total > 0 ? Math.round((concluidos / total) * 100) : 0;
+    }
+
+    function calcularProgressoDisciplina(disciplina) {
+        const mods = getModulosByDisciplina(disciplina);
+        if (mods.length === 0) return 0;
+        let total = 0;
+        mods.forEach(m => {
+            total += calcularProgressoModulo(m.id);
+        });
+        return Math.round(total / mods.length);
+    }
+
+    // ======================================================================
+    // 3. TOAST
+    // ======================================================================
+    function showToast(message, type = 'info', title = '') {
+        const container = document.getElementById('toastContainer');
+        const toast = document.createElement('div');
+        toast.className = `toast toast--${type}`;
+        const iconMap = { success: '✅', warning: '⚠️', info: 'ℹ️' };
+        toast.innerHTML = `
+            <div class="toast__icon">${iconMap[type] || 'ℹ️'}</div>
+            <div class="toast__content">
+                <h4>${title || (type === 'success' ? 'Parabéns!' : type === 'warning' ? 'Atenção' : 'Informação')}</h4>
+                <p>${message}</p>
+            </div>
+        `;
+        container.appendChild(toast);
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateX(30px)';
+            setTimeout(() => toast.remove(), 400);
+        }, 4000);
+    }
+
+    // ======================================================================
+    // 4. RENDERIZAÇÃO PRINCIPAL
+    // ======================================================================
+    function renderHeader() {
+        const stats = document.getElementById('headerStats');
+        stats.innerHTML = `
+            <div class="stat-pill stat-pill--xp">
+                <span class="stat-pill__icon">⭐</span>
+                <span>${state.xp} XP</span>
+            </div>
+            <div class="stat-pill stat-pill--streak">
+                <span class="stat-pill__icon">🔥</span>
+                <span>${state.streak}</span>
+            </div>
+            <div class="stat-pill stat-pill--level">
+                <span class="stat-pill__icon">🏅</span>
+                <span>Nível ${state.level}</span>
+            </div>
+            <span style="cursor:pointer; margin-left: var(--space-sm);" title="Perfil" onclick="App.navigate('profile')">👤</span>
+        `;
+    }
+
+    function renderDashboard() {
+        const statsGrid = document.getElementById('dashboardStats');
+        const totalModulos = MODULOS.length;
+        const concluidos = MODULOS.filter(m => isModuloConcluido(m.id)).length;
+        const totalTentativas = MODULOS.reduce((acc, m) => acc + (state.progresso[m.id]?.tentativas || 0), 0);
+        const totalAcertos = MODULOS.reduce((acc, m) => acc + (state.progresso[m.id]?.acertos || 0), 0);
+        const accuracy = totalTentativas > 0 ? Math.round((totalAcertos / totalTentativas) * 100) : 0;
+
+        statsGrid.innerHTML = `
+            <div class="stat-card animate-fade-in stagger-1">
+                <div class="stat-card__icon stat-card__icon--xp">⭐</div>
+                <div class="stat-card__value">${state.xp}</div>
+                <div class="stat-card__label">XP Total</div>
+            </div>
+            <div class="stat-card animate-fade-in stagger-2">
+                <div class="stat-card__icon stat-card__icon--level">🏅</div>
+                <div class="stat-card__value">${state.level}</div>
+                <div class="stat-card__label">Nível</div>
+            </div>
+            <div class="stat-card animate-fade-in stagger-3">
+                <div class="stat-card__icon stat-card__icon--streak">🔥</div>
+                <div class="stat-card__value">${state.streak}</div>
+                <div class="stat-card__label">Sequência (dias)</div>
+            </div>
+            <div class="stat-card animate-fade-in stagger-4">
+                <div class="stat-card__icon stat-card__icon--accuracy">🎯</div>
+                <div class="stat-card__value">${accuracy}%</div>
+                <div class="stat-card__label">Taxa de Acertos</div>
+            </div>
+        `;
+
+        const grid = document.getElementById('disciplinesGrid');
+        grid.innerHTML = '';
+        const disciplinas = getDisciplinas();
+        disciplinas.forEach(disciplina => {
+            const mods = getModulosByDisciplina(disciplina);
+            const progress = calcularProgressoDisciplina(disciplina);
+            const concluidosMods = mods.filter(m => isModuloConcluido(m.id)).length;
+            const totalMods = mods.length;
+            const isMath = disciplina === 'Matemática';
+            const card = document.createElement('div');
+            card.className = 'card discipline-card animate-fade-in stagger-5';
+            card.innerHTML = `
+                <div class="discipline-card__header">
+                    <div>
+                        <div class="discipline-card__icon ${isMath ? 'discipline-card__icon--math' : 'discipline-card__icon--fin'}">
+                            ${isMath ? '📐' : '💰'}
+                        </div>
+                    </div>
+                    <span class="badge badge--primary">${concluidosMods}/${totalMods}</span>
+                </div>
+                <h3 class="discipline-card__title">${disciplina}</h3>
+                <p class="discipline-card__desc">${isMath ? 'Raciocínio lógico, álgebra, sequências e mais.' : 'Juros, amortização, fluxos de caixa.'}</p>
+                <div class="discipline-card__progress">
+                    <div class="discipline-card__progress-header">
+                        <span class="discipline-card__progress-label">Progresso</span>
+                        <span class="discipline-card__progress-value">${progress}%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-bar__fill" style="width:${progress}%;"></div>
+                    </div>
+                </div>
+                <div class="discipline-card__modules">
+                    ${mods.map(m => `
+                        <span class="module-chip ${isModuloConcluido(m.id) ? 'module-chip--completed' : (m.id === mods[0]?.id ? 'module-chip--current' : '')}">
+                            ${m.nome}
+                        </span>
+                    `).join('')}
+                </div>
+            `;
+            card.addEventListener('click', () => App.navigate('discipline', disciplina));
+            grid.appendChild(card);
+        });
+    }
+
+    function renderDiscipline(disciplina) {
+        document.getElementById('disciplineTitle').textContent = disciplina;
+        document.getElementById('disciplineSubtitle').textContent = `Selecione um módulo para estudar (${disciplina})`;
+
+        const list = document.getElementById('modulesList');
+        list.innerHTML = '';
+        const mods = getModulosByDisciplina(disciplina);
+        mods.forEach((m, idx) => {
+            const concluido = isModuloConcluido(m.id);
+            const bloqueado = isModuloBloqueado(m.id);
+            const progress = calcularProgressoModulo(m.id);
+            const card = document.createElement('div');
+            card.className = `card module-card ${bloqueado ? 'card--locked' : 'card--interactive'}`;
+            card.innerHTML = `
+                <div class="module-card__number ${concluido ? 'module-card__number--completed' : (bloqueado ? 'module-card__number--locked' : '')}">
+                    ${concluido ? '✓' : (bloqueado ? '🔒' : idx + 1)}
+                </div>
+                <div class="module-card__info">
+                    <h3>${m.nome}</h3>
+                    <p>${m.introducao?.descricao?.substring(0, 80) || ''}${m.introducao?.descricao?.length > 80 ? '...' : ''}</p>
+                </div>
+                <div class="module-card__meta">
+                    <div class="module-card__progress-ring">
+                        <svg class="progress-ring" width="56" height="56">
+                            <circle cx="28" cy="28" r="22" fill="none" stroke="#e2e8f0" stroke-width="4"/>
+                            <circle class="progress-ring__circle" cx="28" cy="28" r="22" fill="none" stroke="${concluido ? '#22c55e' : '#6366f1'}" stroke-width="4"
+                                stroke-dasharray="${2 * Math.PI * 22}" stroke-dashoffset="${2 * Math.PI * 22 * (1 - progress/100)}" />
+                        </svg>
+                        <div class="module-card__progress-text">${progress}%</div>
+                    </div>
+                    ${!bloqueado ? `<button class="btn btn--primary btn--small" onclick="App.abrirModulo('${m.id}')">Estudar</button>` : ''}
+                </div>
+            `;
+            if (!bloqueado) {
+                card.addEventListener('click', () => App.abrirModulo(m.id));
+            }
+            list.appendChild(card);
+        });
+    }
+
+    // ======================================================================
+    // 5. RENDERIZAÇÃO DO MÓDULO (ETAPAS)
+    // ======================================================================
+    function renderModuleTopics(moduloId) {
+        const modulo = getModulo(moduloId);
+        if (!modulo) {
+            document.getElementById('moduleTitle').textContent = 'Módulo não encontrado';
+            return;
+        }
+        document.getElementById('moduleTitle').textContent = modulo.nome;
+        document.getElementById('moduleSubtitle').textContent = `Siga as etapas para aprender "${modulo.nome}". Complete todas e faça a avaliação final.`;
+
+        const list = document.getElementById('topicsList');
+        list.innerHTML = '';
+
+        // Construir lista de etapas
+        const etapas = [];
+        if (modulo.introducao) etapas.push({ tipo: 'introducao', titulo: 'Introdução', descricao: 'Conheça o tema' });
+        if (modulo.teoria && modulo.teoria.length) {
+            modulo.teoria.forEach((t, i) => {
+                etapas.push({ tipo: `teoria_${i}`, titulo: t.titulo || `Teoria ${i+1}`, descricao: 'Leia e entenda o conceito' });
+            });
+        }
+        if (modulo.exemplos && modulo.exemplos.length) {
+            modulo.exemplos.forEach((e, i) => {
+                etapas.push({ tipo: `exemplo_${i}`, titulo: e.titulo || `Exemplo ${i+1}`, descricao: 'Veja a resolução passo a passo' });
+            });
+        }
+        if (modulo.etapasAprendizagem && modulo.etapasAprendizagem.length) {
+            modulo.etapasAprendizagem.forEach((etapa, i) => {
+                const label = etapa.tipo === 'exercicio' ? 'Exercício Guiado' : 'Questão CESGRANRIO';
+                etapas.push({ tipo: `etapa_${i}`, titulo: etapa.titulo || `${label} ${i+1}`, descricao: etapa.tipo === 'exercicio' ? 'Pratique com auxílio' : 'Responda à questão' });
+            });
+        }
+        if (modulo.avaliacaoFinal && modulo.avaliacaoFinal.questoes && modulo.avaliacaoFinal.questoes.length > 0) {
+            etapas.push({ tipo: 'avaliacao', titulo: 'Avaliação Final', descricao: 'Prova com 20 questões (≥80% para aprovação)' });
+        } else if (modulo.questoes && modulo.questoes.length >= 20) {
+            etapas.push({ tipo: 'avaliacao', titulo: 'Avaliação Final', descricao: 'Prova com 20 questões (≥80% para aprovação)' });
+        }
+
+        // Renderizar cada etapa
+        etapas.forEach((etapa, idx) => {
+            const status = getEtapaStatus(moduloId, idx);
+            const isCompleted = status === 'completed';
+            const isLocked = status === 'locked';
+            const isCurrent = status === 'current';
+            const item = document.createElement('div');
+            item.className = `topic-item ${isLocked ? 'topic-item--locked' : ''}`;
+            const statusIcon = isCompleted ? '✅' : (isLocked ? '🔒' : '▶️');
+            const statusClass = isCompleted ? 'topic-item__status--completed' : (isLocked ? 'topic-item__status--locked' :
+                'topic-item__status--current');
+            item.innerHTML = `
+                <div class="topic-item__status ${statusClass}">${statusIcon}</div>
+                <div class="topic-item__content">
+                    <div class="topic-item__title">${etapa.titulo}</div>
+                    <div class="topic-item__desc">${etapa.descricao}</div>
+                </div>
+                <div class="topic-item__stats">
+                    ${isCompleted ? '<span class="badge badge--success">Concluído</span>' : (isLocked ? '<span class="badge badge--warning">Bloqueado</span>' : '<span class="badge badge--primary">Próximo</span>')}
+                </div>
+            `;
+            // Permite clicar em qualquer etapa não bloqueada (incluindo concluídas) para revisão
+            if (!isLocked) {
+                item.addEventListener('click', () => {
+                    // Se completed, abre em modo leitura (readonly)
+                    App.iniciarEtapa(moduloId, idx, isCompleted);
+                });
+            }
+            list.appendChild(item);
+        });
+
+        // Botão de avaliação
+        const examBtnContainer = document.getElementById('finalExamButton');
+        examBtnContainer.innerHTML = '';
+        const hasExam = modulo.avaliacaoFinal?.questoes?.length > 0 || (modulo.questoes && modulo.questoes.length >= 20);
+        if (hasExam) {
+            const totalEtapas = etapas.length - 1;
+            const p = state.progresso[moduloId];
+            const allDone = p && p.topicos && p.topicos.slice(0, totalEtapas).every(v => v === true);
+            if (allDone) {
+                const btn = document.createElement('button');
+                btn.className = 'btn btn--primary btn--large';
+                btn.textContent = '📝 Iniciar Avaliação Final';
+                btn.addEventListener('click', () => App.iniciarAvaliacao(moduloId));
+                examBtnContainer.appendChild(btn);
+            } else {
+                examBtnContainer.innerHTML = '<p style="color: var(--text-muted);">Complete todas as etapas para liberar a avaliação final.</p>';
+            }
+        }
+    }
+
+    // ======================================================================
+    // 6. ESTUDO – RENDERIZAÇÃO DE ETAPA (com suporte a readonly)
+    // ======================================================================
+    function renderStudy(moduloId, stepIndex, readonly = false) {
+        const modulo = getModulo(moduloId);
+        if (!modulo) return;
+
+        // Construir array de etapas (mesmo usado em renderModuleTopics)
+        const etapas = [];
+        if (modulo.introducao) etapas.push({ tipo: 'introducao', data: modulo.introducao });
+        if (modulo.teoria) {
+            modulo.teoria.forEach((t, i) => {
+                etapas.push({ tipo: `teoria_${i}`, data: t });
+            });
+        }
+        if (modulo.exemplos) {
+            modulo.exemplos.forEach((e, i) => {
+                etapas.push({ tipo: `exemplo_${i}`, data: e });
+            });
+        }
+        if (modulo.etapasAprendizagem) {
+            modulo.etapasAprendizagem.forEach((etapa, i) => {
+                etapas.push({ tipo: `etapa_${i}`, data: etapa });
+            });
+        }
+
+        if (stepIndex >= etapas.length) {
+            App.navigate('module', moduloId);
+            return;
+        }
+
+        const etapa = etapas[stepIndex];
+        const tipo = etapa.tipo;
+        const data = etapa.data;
+
+        // Atualizar stepper
+        const stepper = document.getElementById('studyStepper');
+        stepper.innerHTML = etapas.map((_, i) => {
+            const isActive = i === stepIndex;
+            const isCompleted = i < stepIndex;
+            const dotClass = isActive ? 'stepper__dot--active' : (isCompleted ? 'stepper__dot--completed' : '');
+            const lineClass = i < stepIndex ? 'stepper__line--completed' : '';
+            return `
+                <div class="stepper__step">
+                    <div class="stepper__dot ${dotClass}">${i + 1}</div>
+                    ${i < etapas.length - 1 ? `<div class="stepper__line ${lineClass}"></div>` : ''}
+                </div>
+            `;
+        }).join('');
+
+        const content = document.getElementById('studyContent');
+        let html = `
+            <div class="study-content__header">
+                <h2>${data.titulo || 'Etapa'}</h2>
+                <p>${tipo.startsWith('teoria') ? '📖 Teoria' : tipo.startsWith('exemplo') ? '📝 Exemplo' : tipo === 'introducao' ? '🌟 Introdução' : tipo.startsWith('etapa') ? (data.tipo === 'exercicio' ? '✏️ Exercício' : '🎯 Questão') : ''}</p>
+            </div>
+            <div class="study-content__body">
+        `;
+
+        // Conteúdo conforme o tipo
+        if (tipo === 'introducao') {
+            html += `<p>${data.descricao || ''}</p>`;
+            if (data.imagem) {
+                html += `<div class="diagram-container">${data.imagem}</div>`;
+            }
+            html += `<div class="study-actions">`;
+            if (!readonly) {
+                html += `<button class="btn btn--primary" onclick="App.avancarEtapa('${moduloId}')">Próximo →</button>`;
+            } else {
+                html += `<button class="btn btn--secondary" onclick="App.goBack()">Voltar ao Módulo</button>`;
+            }
+            html += `</div>`;
+        } else if (tipo.startsWith('teoria')) {
+            html += `<div>${data.conteudo || ''}</div>`;
+            if (data.imagem) {
+                html += `<div class="diagram-container">${data.imagem}</div>`;
+            }
+            html += `<div class="study-actions">`;
+            if (!readonly) {
+                html += `<button class="btn btn--primary" onclick="App.avancarEtapa('${moduloId}')">Próximo →</button>`;
+            } else {
+                html += `<button class="btn btn--secondary" onclick="App.goBack()">Voltar ao Módulo</button>`;
+            }
+            html += `</div>`;
+        } else if (tipo.startsWith('exemplo')) {
+            html += `<div><strong>Enunciado:</strong> ${data.enunciado || ''}</div>`;
+            if (data.imagem) {
+                html += `<div class="diagram-container">${data.imagem}</div>`;
+            }
+            html += `<div style="margin-top:16px;"><strong>Resolução:</strong> ${data.resolucao || ''}</div>`;
+            if (data.observacao) {
+                html += `<div style="margin-top:8px; color: var(--text-secondary); font-style: italic;">${data.observacao}</div>`;
+            }
+            html += `<div class="study-actions">`;
+            if (!readonly) {
+                html += `<button class="btn btn--primary" onclick="App.avancarEtapa('${moduloId}')">Próximo →</button>`;
+            } else {
+                html += `<button class="btn btn--secondary" onclick="App.goBack()">Voltar ao Módulo</button>`;
+            }
+            html += `</div>`;
+        } else if (tipo.startsWith('etapa')) {
+            // Exercício ou Questão
+            const isExercise = data.tipo === 'exercicio';
+            html += `<div>${data.conteudo || ''}</div>`;
+            if (data.pergunta) {
+                html += `<p style="font-weight:600;margin-top:16px;">${data.pergunta}</p>`;
+            }
+            if (data.alternativas && data.alternativas.length > 0) {
+                html += `<div class="alternatives" id="altContainer">`;
+                data.alternativas.forEach((alt, idx) => {
+                    const disabled = readonly ? 'disabled' : '';
+                    const isCorrect = (idx === data.correta);
+                    // Se readonly, mostrar a correta marcada
+                    const extraClass = readonly && isCorrect ? ' btn--success' : '';
+                    html += `<button class="btn btn--secondary${extraClass}" data-idx="${idx}" onclick="App.responderAlternativa('${moduloId}', ${stepIndex}, ${idx})" style="width:100%;margin:4px 0;justify-content:flex-start;" ${disabled}>
+                        ${String.fromCharCode(65 + idx)}. ${alt}
+                    </button>`;
+                });
+                html += `</div>`;
+                // Se readonly, mostrar a resposta correta e a explicação
+                if (readonly) {
+                    const respostaCorreta = data.alternativas[data.correta];
+                    html += `<div class="feedback-box success" style="margin-top:16px;">
+                        <strong>✅ Resposta correta:</strong> ${respostaCorreta}<br>
+                        <span style="display:block; margin-top:8px;">${data.explicacaoAcerto || 'Explicação não disponível.'}</span>
+                    </div>`;
+                    html += `<div class="study-actions"><button class="btn btn--secondary" onclick="App.goBack()">Voltar ao Módulo</button></div>`;
+                } else {
+                    html += `<div id="feedbackEtapa" class="feedback-box hidden"></div>`;
+                }
+            } else {
+                html += `<p style="color: var(--text-muted);">Alternativas não definidas.</p>`;
+                if (!readonly) {
+                    html += `<div class="study-actions"><button class="btn btn--primary" onclick="App.avancarEtapa('${moduloId}')">Próximo →</button></div>`;
+                } else {
+                    html += `<div class="study-actions"><button class="btn btn--secondary" onclick="App.goBack()">Voltar ao Módulo</button></div>`;
+                }
+            }
+        }
+
+        html += `</div>`;
+        content.innerHTML = html;
+
+        // Se não for readonly e for introdução/teoria/exemplo, marcar como concluído automaticamente
+        if (!readonly && (tipo === 'introducao' || tipo.startsWith('teoria') || tipo.startsWith('exemplo'))) {
+            const p = state.progresso[moduloId];
+            if (!p.topicos[stepIndex]) {
+                p.topicos[stepIndex] = true;
+                const xpGain = 10;
+                p.xpGanho += xpGain;
+                state.xp += xpGain;
+                updateLevel();
+                saveState();
+                renderHeader();
+                renderDashboard();
+                showToast(`+${xpGain} XP`, 'info', 'Progresso');
+            }
+        }
+    }
+
+    // ======================================================================
+    // 7. AVALIAÇÃO FINAL (mantida)
+    // ======================================================================
+    function renderExam(moduloId) {
+        const modulo = getModulo(moduloId);
+        if (!modulo) return;
+
+        let questions = [];
+        if (modulo.avaliacaoFinal && modulo.avaliacaoFinal.questoes && modulo.avaliacaoFinal.questoes.length > 0) {
+            questions = modulo.avaliacaoFinal.questoes;
+        } else if (modulo.questoes && modulo.questoes.length >= 20) {
+            const shuffled = [...modulo.questoes].sort(() => Math.random() - 0.5);
+            questions = shuffled.slice(0, 20);
+        } else {
+            const etapasQuestoes = modulo.etapasAprendizagem.filter(e => e.tipo === 'questao' && e.alternativas && e.correta !== undefined);
+            if (etapasQuestoes.length >= 20) {
+                questions = etapasQuestoes.map(e => ({
+                    pergunta: e.pergunta,
+                    alternativas: e.alternativas,
+                    correta: e.correta,
+                    explicacaoAcerto: e.explicacaoAcerto,
+                    explicacaoErro: e.explicacaoErro
+                }));
+            } else {
+                showToast('Não há questões suficientes para a avaliação.', 'warning', 'Atenção');
+                App.navigate('module', moduloId);
+                return;
+            }
+        }
+
+        const shuffled = [...questions].sort(() => Math.random() - 0.5);
+        const examQuestions = shuffled.slice(0, Math.min(20, shuffled.length));
+
+        state.examQuestions = examQuestions;
+        state.examIndex = 0;
+        state.examCorrect = 0;
+        state.examAnswered = false;
+        saveState();
+
+        renderExamQuestion(moduloId);
+    }
+
+    function renderExamQuestion(moduloId) {
+        const questions = state.examQuestions;
+        if (state.examIndex >= questions.length) {
+            const total = questions.length;
+            const correct = state.examCorrect;
+            const percent = Math.round((correct / total) * 100);
+            const aprovado = percent >= 80;
+
+            const content = document.getElementById('examContent');
+            content.innerHTML = `
+                <div class="card text-center" style="padding: var(--space-2xl);">
+                    <h3>📊 Resultado da Avaliação</h3>
+                    <p style="font-size: 2rem; font-weight: 800; margin: var(--space-lg) 0;">${correct}/${total}</p>
+                    <p style="font-size: 1.25rem;">${percent}% de acertos</p>
+                    <p style="margin: var(--space-lg) 0; font-weight: 700; color: ${aprovado ? 'var(--success)' : 'var(--error)'};">
+                        ${aprovado ? '✅ Aprovado! Parabéns!' : '❌ Reprovado. Estude mais e tente novamente.'}
+                    </p>
+                    ${!aprovado ? '<p style="color: var(--text-secondary);">Sugerimos revisar os tópicos com mais dificuldade e refazer a avaliação.</p>' : ''}
+                    <div class="study-actions">
+                        <button class="btn btn--primary" onclick="App.finalizarAvaliacao('${moduloId}', ${aprovado})">
+                            ${aprovado ? 'Concluir Módulo' : 'Revisar e Tentar Novamente'}
+                        </button>
+                    </div>
+                </div>
+            `;
+            return;
+        }
+
+        const q = questions[state.examIndex];
+        const content = document.getElementById('examContent');
+        let html = `
+            <div class="card" style="margin-bottom: var(--space-lg);">
+                <p style="font-weight: 600; margin-bottom: var(--space-md);">Questão ${state.examIndex + 1} de ${questions.length}</p>
+                <p>${q.pergunta || 'Pergunta não disponível'}</p>
+                <div class="alternatives" id="examAltContainer" style="margin-top: var(--space-lg);">
+        `;
+        if (q.alternativas && q.alternativas.length > 0) {
+            q.alternativas.forEach((alt, idx) => {
+                html += `<button class="btn btn--secondary" data-idx="${idx}" onclick="App.responderExame('${moduloId}', ${idx})" style="width:100%;margin:4px 0;justify-content:flex-start;">
+                    ${String.fromCharCode(65 + idx)}. ${alt}
+                </button>`;
+            });
+        } else {
+            html += `<p style="color: var(--text-muted);">Alternativas não definidas.</p>`;
+        }
+        html += `</div><div id="examFeedback" class="feedback-box hidden"></div></div>`;
+        content.innerHTML = html;
+    }
+
+    // ======================================================================
+    // 8. LÓGICA DE NÍVEL
+    // ======================================================================
+    function updateLevel() {
+        const newLevel = Math.floor(state.xp / 100) + 1;
+        if (newLevel > state.level) {
+            state.level = newLevel;
+            showToast(`🎉 Subiu para o nível ${state.level}!`, 'success', 'Parabéns!');
+        }
+        state.level = newLevel;
+    }
+
+    // ======================================================================
+    // 9. APP - NAVEGAÇÃO E AÇÕES (com readonly)
+    // ======================================================================
+    const App = {
+        navigate(screen, data) {
+            document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+
+            if (screen === 'dashboard') {
+                document.getElementById('screen-dashboard').classList.add('active');
+                state.currentScreen = 'dashboard';
+                renderDashboard();
+                renderHeader();
+            } else if (screen === 'discipline') {
+                document.getElementById('screen-discipline').classList.add('active');
+                state.currentScreen = 'discipline';
+                state.disciplineFilter = data;
+                renderDiscipline(data);
+                renderHeader();
+            } else if (screen === 'module') {
+                document.getElementById('screen-module').classList.add('active');
+                state.currentScreen = 'module';
+                state.currentModuleId = data;
+                renderModuleTopics(data);
+                renderHeader();
+            } else if (screen === 'study') {
+                document.getElementById('screen-study').classList.add('active');
+                state.currentScreen = 'study';
+                state.currentModuleId = data.moduleId;
+                state.studyIndex = data.stepIndex || 0;
+                renderStudy(data.moduleId, data.stepIndex || 0, data.readonly || false);
+                renderHeader();
+            } else if (screen === 'exam') {
+                document.getElementById('screen-exam').classList.add('active');
+                state.currentScreen = 'exam';
+                state.currentModuleId = data;
+                renderExam(data);
+                renderHeader();
+            } else if (screen === 'profile') {
+                document.getElementById('screen-profile').classList.add('active');
+                state.currentScreen = 'profile';
+                renderProfile();
+                renderHeader();
+            }
+            saveState();
+        },
+
+        goBack() {
+            if (state.currentScreen === 'module') {
+                App.navigate('discipline', state.disciplineFilter || 'Matemática');
+            } else if (state.currentScreen === 'study' || state.currentScreen === 'exam') {
+                App.navigate('module', state.currentModuleId);
+            } else {
+                App.navigate('dashboard');
+            }
+        },
+
+        abrirModulo(id) {
+            if (isModuloBloqueado(id)) {
+                showToast('Complete o módulo anterior primeiro.', 'warning', 'Bloqueado');
+                return;
+            }
+            if (!state.progresso[id]) {
+                const modulo = getModulo(id);
+                const totalEtapas = (modulo?.introducao ? 1 : 0) + (modulo?.teoria?.length || 0) + (modulo?.exemplos?.length || 0) + (modulo?.etapasAprendizagem?.length || 0);
+                state.progresso[id] = {
+                    concluido: false,
+                    acertos: 0,
+                    tentativas: 0,
+                    xpGanho: 0,
+                    topicos: new Array(totalEtapas).fill(false),
+                    questoesFeitas: []
+                };
+                saveState();
+            }
+            App.navigate('module', id);
+        },
+
+        iniciarEtapa(moduloId, stepIndex, readonly = false) {
+            const status = getEtapaStatus(moduloId, stepIndex);
+            if (status === 'locked') {
+                showToast('Esta etapa está bloqueada.', 'warning', 'Atenção');
+                return;
+            }
+            // Se for readonly, forçamos a abertura independente do status
+            App.navigate('study', { moduleId: moduloId, stepIndex, readonly });
+        },
+
+        avancarEtapa(moduloId) {
+            const modulo = getModulo(moduloId);
+            if (!modulo) return;
+            const totalEtapas = (modulo.introducao ? 1 : 0) + (modulo.teoria?.length || 0) + (modulo.exemplos?.length || 0) + (modulo.etapasAprendizagem?.length || 0);
+            const nextIndex = state.studyIndex + 1;
+            if (nextIndex < totalEtapas) {
+                App.iniciarEtapa(moduloId, nextIndex);
+            } else {
+                showToast('Todas as etapas concluídas!', 'success', 'Parabéns!');
+                App.navigate('module', moduloId);
+            }
+        },
+
+        responderAlternativa(moduloId, stepIndex, idx) {
+            const modulo = getModulo(moduloId);
+            if (!modulo) return;
+            const etapas = [];
+            if (modulo.introducao) etapas.push({ tipo: 'introducao', data: modulo.introducao });
+            if (modulo.teoria) modulo.teoria.forEach((t, i) => etapas.push({ tipo: `teoria_${i}`, data: t }));
+            if (modulo.exemplos) modulo.exemplos.forEach((e, i) => etapas.push({ tipo: `exemplo_${i}`, data: e }));
+            if (modulo.etapasAprendizagem) modulo.etapasAprendizagem.forEach((e, i) => etapas.push({ tipo: `etapa_${i}`, data: e }));
+
+            const etapa = etapas[stepIndex];
+            if (!etapa || !etapa.data || (etapa.data.tipo !== 'exercicio' && etapa.data.tipo !== 'questao')) return;
+
+            const data = etapa.data;
+            const correta = data.correta;
+            const buttons = document.querySelectorAll('#altContainer .btn');
+            buttons.forEach((btn, i) => {
+                btn.disabled = true;
+                if (i === correta) btn.classList.add('btn--success');
+                if (i === idx && idx !== correta) btn.classList.add('btn--error');
+            });
+
+            const feedback = document.getElementById('feedbackEtapa');
+            feedback.classList.remove('hidden');
+            const p = state.progresso[moduloId];
+            if (idx === correta) {
+                feedback.className = 'feedback-box success';
+                feedback.innerHTML = `<strong>✅ Correto!</strong> ${data.explicacaoAcerto || 'Muito bem!'}`;
+                p.acertos = (p.acertos || 0) + 1;
+                p.tentativas = (p.tentativas || 0) + 1;
+                p.xpGanho += 15;
+                state.xp += 15;
+                if (!p.topicos[stepIndex]) {
+                    p.topicos[stepIndex] = true;
+                }
+                updateLevel();
+                saveState();
+                renderHeader();
+                renderDashboard();
+                showToast('+15 XP', 'success', 'Resposta correta!');
+                // Botão Continuar com clear
+                const nextWrapper = document.createElement('div');
+                nextWrapper.style.clear = 'both';
+                nextWrapper.style.marginTop = '12px';
+                const nextBtn = document.createElement('button');
+                nextBtn.className = 'btn btn--primary';
+                nextBtn.textContent = 'Continuar →';
+                nextBtn.onclick = () => {
+                    App.avancarEtapa(moduloId);
+                };
+                nextWrapper.appendChild(nextBtn);
+                feedback.appendChild(nextWrapper);
+            } else {
+                feedback.className = 'feedback-box error';
+                feedback.innerHTML = `<strong>❌ Errado.</strong> ${data.explicacaoErro || 'Tente novamente!'}`;
+                p.tentativas = (p.tentativas || 0) + 1;
+                saveState();
+                showToast('Tente novamente!', 'warning', 'Não foi dessa vez');
+
+                // Sistema adaptativo: oferecer outra questão
+                const questoesModulo = modulo.questoes || [];
+                const questoesRestantes = questoesModulo.filter(q => q.pergunta !== data.pergunta);
+                if (questoesRestantes.length > 0) {
+                    const novaQuestao = questoesRestantes[Math.floor(Math.random() * questoesRestantes.length)];
+                    const newData = {
+                        ...novaQuestao,
+                        tipo: 'questao',
+                        titulo: 'Questão Adaptativa',
+                        conteudo: 'Tente resolver esta nova questão sobre o mesmo tópico.',
+                    };
+                    etapas[stepIndex].data = newData;
+                    // Re-renderiza a etapa sem readonly
+                    renderStudy(moduloId, stepIndex, false);
+                } else {
+                    // Botão para tentar novamente
+                    const retryWrapper = document.createElement('div');
+                    retryWrapper.style.clear = 'both';
+                    retryWrapper.style.marginTop = '12px';
+                    const retryBtn = document.createElement('button');
+                    retryBtn.className = 'btn btn--secondary';
+                    retryBtn.textContent = 'Tentar Novamente';
+                    retryBtn.onclick = () => {
+                        const altContainer = document.getElementById('altContainer');
+                        if (altContainer) {
+                            altContainer.querySelectorAll('.btn').forEach(btn => {
+                                btn.disabled = false;
+                                btn.classList.remove('btn--success', 'btn--error');
+                            });
+                        }
+                        feedback.className = 'feedback-box hidden';
+                        feedback.innerHTML = '';
+                    };
+                    retryWrapper.appendChild(retryBtn);
+                    feedback.appendChild(retryWrapper);
+                }
+            }
+        },
+
+        responderExame(moduloId, idx) {
+            if (state.examAnswered) return;
+            const questions = state.examQuestions;
+            const q = questions[state.examIndex];
+            const correta = q.correta;
+            const buttons = document.querySelectorAll('#examAltContainer .btn');
+            buttons.forEach((btn, i) => {
+                btn.disabled = true;
+                if (i === correta) btn.classList.add('btn--success');
+                if (i === idx && idx !== correta) btn.classList.add('btn--error');
+            });
+
+            const feedback = document.getElementById('examFeedback');
+            feedback.classList.remove('hidden');
+            if (idx === correta) {
+                feedback.className = 'feedback-box success';
+                feedback.innerHTML = `<strong>✅ Correto!</strong> ${q.explicacaoAcerto || 'Boa!'}`;
+                state.examCorrect++;
+            } else {
+                feedback.className = 'feedback-box error';
+                feedback.innerHTML = `<strong>❌ Errado.</strong> ${q.explicacaoErro || 'Estude mais!'}`;
+            }
+            state.examAnswered = true;
+            saveState();
+
+            const nextWrapper = document.createElement('div');
+            nextWrapper.style.clear = 'both';
+            nextWrapper.style.marginTop = '12px';
+            const nextBtn = document.createElement('button');
+            nextBtn.className = 'btn btn--primary';
+            nextBtn.textContent = state.examIndex < questions.length - 1 ? 'Próxima Questão →' : 'Ver Resultado';
+            nextBtn.onclick = () => {
+                state.examIndex++;
+                state.examAnswered = false;
+                saveState();
+                renderExamQuestion(moduloId);
+            };
+            nextWrapper.appendChild(nextBtn);
+            feedback.appendChild(nextWrapper);
+        },
+
+        iniciarAvaliacao(moduloId) {
+            const modulo = getModulo(moduloId);
+            if (!modulo) return;
+            if (modulo.avaliacaoFinal && modulo.avaliacaoFinal.questoes && modulo.avaliacaoFinal.questoes.length > 0) {
+                App.navigate('exam', moduloId);
+            } else if (modulo.questoes && modulo.questoes.length >= 20) {
+                App.navigate('exam', moduloId);
+            } else {
+                showToast('Este módulo não possui questões suficientes para avaliação.', 'warning', 'Atenção');
+            }
+        },
+
+        finalizarAvaliacao(moduloId, aprovado) {
+            if (aprovado) {
+                const p = state.progresso[moduloId];
+                if (!p.concluido) {
+                    p.concluido = true;
+                    p.xpGanho += 100;
+                    state.xp += 100;
+                    state.ultimaAtividade = getModulo(moduloId)?.nome;
+                    if (!state.conquistas.find(c => c.nome === 'Primeiro Módulo Aprovado')) {
+                        state.conquistas.push({ nome: 'Primeiro Módulo Aprovado', icone: '🏆' });
+                    }
+                    updateLevel();
+                    saveState();
+                    renderHeader();
+                    renderDashboard();
+                    showToast(`Módulo "${getModulo(moduloId)?.nome}" aprovado! +100 XP`, 'success', '🎉 Parabéns!');
+                }
+                App.navigate('discipline', getModulo(moduloId)?.disciplina || 'Matemática');
+            } else {
+                showToast('Revise os tópicos com dificuldade e tente novamente.', 'warning', 'Estude mais');
+                App.iniciarAvaliacao(moduloId);
+            }
+        },
+
+        confirmExitStudy() {
+            if (confirm('Tem certeza que deseja sair da aula? Seu progresso será salvo.')) {
+                App.goBack();
+            }
+        },
+
+        confirmExitExam() {
+            if (confirm('Tem certeza que deseja sair da avaliação? Seu progresso será perdido.')) {
+                App.goBack();
+            }
+        }
+    };
+
+    // ======================================================================
+    // 10. PERFIL (mantido)
+    // ======================================================================
+    function renderProfile() {
+        const container = document.getElementById('profileContent');
+        let disciplinasHtml = '';
+        const disciplinas = getDisciplinas();
+        disciplinas.forEach(disc => {
+            const mods = getModulosByDisciplina(disc);
+            const concluidos = mods.filter(m => isModuloConcluido(m.id)).length;
+            const progress = calcularProgressoDisciplina(disc);
+            disciplinasHtml += `
+                <div style="display: flex; justify-content: space-between; padding: var(--space-sm) 0; border-bottom: 1px solid var(--border);">
+                    <span>${disc}</span>
+                    <span>${concluidos}/${mods.length} módulos (${progress}%)</span>
+                </div>
+            `;
+        });
+
+        let html = `
+            <div class="card" style="margin-bottom:var(--space-xl);">
+                <h3>📊 Estatísticas Gerais</h3>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-md);margin-top:var(--space-lg);">
+                    <div><strong>Módulos concluídos:</strong> ${MODULOS.filter(m => isModuloConcluido(m.id)).length}/${MODULOS.length}</div>
+                    <div><strong>XP total:</strong> ${state.xp}</div>
+                    <div><strong>Nível:</strong> ${state.level}</div>
+                    <div><strong>Sequência:</strong> ${state.streak} dias</div>
+                </div>
+            </div>
+            <div class="card" style="margin-bottom:var(--space-xl);">
+                <h3>📚 Progresso por Disciplina</h3>
+                <div style="margin-top: var(--space-lg);">${disciplinasHtml}</div>
+            </div>
+            <div class="card">
+                <h3>🏅 Conquistas</h3>
+                <div class="achievements-grid" style="margin-top:var(--space-lg);">
+                    ${state.conquistas.length === 0 ? '<p>Nenhuma conquista ainda. Continue estudando!</p>' : 
+                        state.conquistas.map(c => `
+                            <div class="achievement achievement--unlocked">
+                                <div class="achievement__icon">${c.icone || '🏆'}</div>
+                                <div class="achievement__title">${c.nome}</div>
+                            </div>
+                        `).join('')
+                    }
+                </div>
+            </div>
+        `;
+        container.innerHTML = html;
+    }
+
+    // ======================================================================
+    // 11. CARREGAMENTO DOS MÓDULOS
+    // ======================================================================
+    async function carregarTodosModulos() {
+        const moduloIds = [
+            'progressoes',
+            'razoes-proporcoes',
+            'analise-combinatoria',
+            'logica-proposicional',
+            'funcoes',
+            'sequencias',
+            'sistemas-lineares',
+            'conjuntos',
+            'numeros',
+            'medidas',
+            'matrizes',
+            'mf-1', 'mf-2', 'mf-3', 'mf-4', 'mf-5',
+            'mf-6', 'mf-7', 'mf-8', 'mf-9', 'mf-10',
+            'mf-11', 'mf-12', 'mf-13', 'mf-14', 'mf-15',
+            'mf-16', 'mf-17'
+        ];
+
+        const carregados = [];
+        for (const id of moduloIds) {
+            try {
+                const { modulo } = await import(`./modulos/${id}.js`);
+                if (validateModulo(modulo)) {
+                    carregados.push(modulo);
+                    console.log(`✅ Módulo "${modulo.nome}" carregado.`);
+                } else {
+                    console.warn(`⚠️ Módulo "${id}" não passou na validação.`);
+                }
+            } catch (e) {
+                console.warn(`⚠️ Módulo "${id}" não encontrado.`, e);
+            }
+        }
+
+        carregados.sort((a, b) => {
+            if (a.disciplina === b.disciplina) return a.ordem - b.ordem;
+            return a.disciplina.localeCompare(b.disciplina);
+        });
+
+        MODULOS = carregados;
+
+        MODULOS.forEach(m => {
+            if (!state.progresso[m.id]) {
+                const totalEtapas = (m.introducao ? 1 : 0) + (m.teoria?.length || 0) + (m.exemplos?.length || 0) + (m.etapasAprendizagem?.length || 0);
+                state.progresso[m.id] = {
+                    concluido: false,
+                    acertos: 0,
+                    tentativas: 0,
+                    xpGanho: 0,
+                    topicos: new Array(totalEtapas).fill(false),
+                    questoesFeitas: []
+                };
+            }
+        });
+        saveState();
+
+        init();
+    }
+
+    function validateModulo(mod) {
+        const required = ['id', 'nome', 'disciplina', 'ordem'];
+        for (const field of required) {
+            if (!mod[field]) {
+                console.error(`Módulo ${mod.id || 'desconhecido'} falta campo ${field}`);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // ======================================================================
+    // 12. INICIALIZAÇÃO
+    // ======================================================================
+    function init() {
+        document.querySelector('.logo').addEventListener('click', () => App.navigate('dashboard'));
+
+        const hoje = new Date().toDateString();
+        if (state.ultimaAtividade) {
+            const ultima = new Date(state.ultimaAtividade).toDateString();
+            if (ultima === hoje) {
+                // já contou hoje
+            } else {
+                const ontem = new Date();
+                ontem.setDate(ontem.getDate() - 1);
+                if (ultima === ontem.toDateString()) {
+                    state.streak += 1;
+                } else {
+                    state.streak = 1;
+                }
+            }
+        } else {
+            state.streak = 1;
+        }
+        state.ultimaAtividade = new Date().toISOString();
+        saveState();
+
+        renderDashboard();
+        renderHeader();
+        document.getElementById('userName').textContent = 'Estudante';
+    }
+
+    document.addEventListener('DOMContentLoaded', carregarTodosModulos);
+</script>
+</body>
+</html>
