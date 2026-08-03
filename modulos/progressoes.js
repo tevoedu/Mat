@@ -12,9 +12,10 @@ export const modulo = {
       <p>Na PA, os números crescem ou decrescem de forma <strong>linear</strong>, somando sempre a mesma quantidade (a razão). Exemplo: se você economiza R$ 50 por mês, seu saldo mês a mês forma uma PA: 50, 100, 150, 200…</p>
       <p>Já na PG, o crescimento é <strong>exponencial</strong>, multiplicando sempre pelo mesmo fator (a razão). Exemplo: uma população de bactérias que dobra a cada hora: 100, 200, 400, 800…</p>
       <p>Este módulo foi desenvolvido para você dominar esses dois tipos de progressões, desde os conceitos básicos até as aplicações mais sofisticadas, com foco em concursos da CESGRANRIO. Vamos explorar fórmulas, propriedades, truques de resolução e muitos exercícios práticos, sempre com exemplos do dia a dia para fixar o aprendizado.</p>
+      <p>Além disso, abordaremos tópicos como <strong>interpolação de meios</strong>, <strong>soma de PG infinita</strong> e <strong>produto dos termos</strong>, que são cobrados em questões de nível avançado.</p>
     `,
-    imagem: `<svg viewBox="0 0 600 220" xmlns="http://www.w3.org/2000/svg" style="background:#f7f9fc;border-radius:12px;">
-      <rect width="600" height="220" fill="#f7f9fc" rx="12"/>
+    imagem: `<svg viewBox="0 0 600 240" xmlns="http://www.w3.org/2000/svg" style="background:#f7f9fc;border-radius:12px;">
+      <rect width="600" height="240" fill="#f7f9fc" rx="12"/>
       <text x="30" y="30" font-family="'Segoe UI', Arial, sans-serif" font-size="16" fill="#2c3e50" font-weight="bold">Sequências no cotidiano</text>
       
       <!-- Ilustração PA -->
@@ -29,23 +30,24 @@ export const modulo = {
       <path d="M80,120 L80,130 L200,130 L200,120" stroke="#e67e22" stroke-width="2" fill="none"/>
 
       <!-- Ilustração PG -->
-      <text x="40" y="160" font-family="'Segoe UI', sans-serif" font-size="13" fill="#27ae60">PG (crescimento exponencial)</text>
-      <rect x="40" y="180" width="30" height="20" fill="#2ecc71" rx="4"/>
-      <rect x="90" y="160" width="30" height="40" fill="#2ecc71" rx="4"/>
-      <rect x="140" y="130" width="30" height="70" fill="#2ecc71" rx="4"/>
-      <rect x="190" y="90" width="30" height="110" fill="#2ecc71" rx="4"/>
-      <rect x="240" y="30" width="30" height="170" fill="#2ecc71" rx="4"/>
-      <line x1="55" y1="200" x2="270" y2="200" stroke="#27ae60" stroke-width="2" stroke-dasharray="4,4"/>
-      <text x="310" y="130" font-family="'Segoe UI', sans-serif" font-size="12" fill="#2c3e50">× q</text>
-      <path d="M80,200 L80,210 L255,210 L255,200" stroke="#e67e22" stroke-width="2" fill="none"/>
+      <text x="40" y="165" font-family="'Segoe UI', sans-serif" font-size="13" fill="#27ae60">PG (crescimento exponencial)</text>
+      <rect x="40" y="185" width="30" height="20" fill="#2ecc71" rx="4"/>
+      <rect x="90" y="165" width="30" height="40" fill="#2ecc71" rx="4"/>
+      <rect x="140" y="135" width="30" height="70" fill="#2ecc71" rx="4"/>
+      <rect x="190" y="95" width="30" height="110" fill="#2ecc71" rx="4"/>
+      <rect x="240" y="35" width="30" height="170" fill="#2ecc71" rx="4"/>
+      <line x1="55" y1="205" x2="270" y2="205" stroke="#27ae60" stroke-width="2" stroke-dasharray="4,4"/>
+      <text x="310" y="135" font-family="'Segoe UI', sans-serif" font-size="12" fill="#2c3e50">× q</text>
+      <path d="M80,205 L80,215 L255,215 L255,205" stroke="#e67e22" stroke-width="2" fill="none"/>
 
       <!-- Destaque -->
-      <rect x="380" y="60" width="190" height="120" fill="#fef9e7" rx="8" stroke="#f1c40f" stroke-width="2"/>
-      <text x="400" y="85" font-family="'Segoe UI', sans-serif" font-size="13" fill="#2c3e50" font-weight="bold">📈 Por que estudar?</text>
-      <text x="400" y="110" font-family="'Segoe UI', sans-serif" font-size="11" fill="#555">• Juros compostos</text>
-      <text x="400" y="130" font-family="'Segoe UI', sans-serif" font-size="11" fill="#555">• Planejamento financeiro</text>
-      <text x="400" y="150" font-family="'Segoe UI', sans-serif" font-size="11" fill="#555">• Demografia e biologia</text>
-      <text x="400" y="170" font-family="'Segoe UI', sans-serif" font-size="11" fill="#555">• Física e engenharia</text>
+      <rect x="380" y="45" width="190" height="155" fill="#fef9e7" rx="8" stroke="#f1c40f" stroke-width="2"/>
+      <text x="400" y="70" font-family="'Segoe UI', sans-serif" font-size="13" fill="#2c3e50" font-weight="bold">📈 Por que estudar?</text>
+      <text x="400" y="95" font-family="'Segoe UI', sans-serif" font-size="11" fill="#555">• Juros compostos</text>
+      <text x="400" y="115" font-family="'Segoe UI', sans-serif" font-size="11" fill="#555">• Planejamento financeiro</text>
+      <text x="400" y="135" font-family="'Segoe UI', sans-serif" font-size="11" fill="#555">• Demografia e biologia</text>
+      <text x="400" y="155" font-family="'Segoe UI', sans-serif" font-size="11" fill="#555">• Física e engenharia</text>
+      <text x="400" y="175" font-family="'Segoe UI', sans-serif" font-size="11" fill="#555">• Computação e algoritmos</text>
     </svg>`
   },
 
@@ -59,7 +61,9 @@ export const modulo = {
     "Resolver problemas de interpolação de meios aritméticos e geométricos.",
     "Aplicar progressões em matemática financeira (juros, depreciação, valor presente).",
     "Utilizar propriedades como média aritmética, média geométrica e termo central.",
-    "Desenvolver raciocínio lógico para resolver questões de concursos com sequências mistas."
+    "Desenvolver raciocínio lógico para resolver questões de concursos com sequências mistas.",
+    "Calcular o produto dos termos de uma PG finita e identificar o sinal do resultado.",
+    "Classificar PA e PG quanto ao comportamento (crescente, decrescente, constante, oscilante)."
   ],
 
   teoria: [
@@ -98,20 +102,21 @@ export const modulo = {
       </svg>`
     },
     {
-      titulo: "2. Progressão Aritmética (PA) – Definição, Termo Geral e Propriedades",
+      titulo: "2. Progressão Aritmética (PA) – Definição, Razão e Termo Geral",
       conteudo: `
         <p>Uma <strong>Progressão Aritmética</strong> é uma sequência onde a diferença entre um termo e seu antecessor é constante. Essa diferença é chamada de <strong>razão</strong> e representada por r.</p>
         <p>Formalmente: se (a₁, a₂, a₃, ...) é PA, então a₂ - a₁ = a₃ - a₂ = ... = r.</p>
+        <p><strong>Cálculo da razão:</strong> r = aₙ - aₙ₋₁. Ou seja, subtrai-se qualquer termo do seu anterior.</p>
         <p><strong>Termo geral:</strong></p>
         <p style="text-align:center; font-size:1.2em; background:#f0f8ff; padding:10px; border-radius:8px; display:inline-block;">aₙ = a₁ + (n - 1) · r</p>
         <p>Exemplo: na PA (3, 7, 11, 15, ...), temos a₁ = 3 e r = 4. O 10º termo é a₁₀ = 3 + 9·4 = 39.</p>
-        <p><strong>Propriedades importantes:</strong></p>
+        <p><strong>Classificação da PA:</strong></p>
         <ul>
-          <li><strong>Média aritmética:</strong> em uma PA finita, a média dos extremos é igual ao termo central (se número de termos for ímpar) ou à média dos dois termos centrais (se par). Isso é útil para interpolação.</li>
-          <li><strong>Termos equidistantes:</strong> aᵢ + aₖ = aₚ + a_q quando i + k = p + q.</li>
-          <li><strong>Classificação:</strong> PA crescente (r > 0), decrescente (r < 0) ou constante (r = 0).</li>
+          <li><strong>Crescente:</strong> r > 0 (ex: 2, 4, 6, 8, ...)</li>
+          <li><strong>Decrescente:</strong> r < 0 (ex: 10, 7, 4, 1, ...)</li>
+          <li><strong>Constante:</strong> r = 0 (ex: 5, 5, 5, 5, ...)</li>
         </ul>
-        <p><strong>Dica para concursos:</strong> muitas questões fornecem a soma de termos para descobrir a razão. Monte sistemas usando a fórmula do termo geral.</p>
+        <p><strong>Dica para concursos:</strong> para verificar se uma sequência é PA, calcule a diferença entre termos consecutivos. Se o valor for constante, é PA.</p>
       `,
       imagem: `<svg viewBox="0 0 500 180" xmlns="http://www.w3.org/2000/svg" style="background:#fef9e7;border-radius:8px;">
         <rect width="500" height="180" fill="#fef9e7" rx="8"/>
@@ -139,7 +144,32 @@ export const modulo = {
       </svg>`
     },
     {
-      titulo: "3. Soma dos Termos de uma PA Finita",
+      titulo: "3. Propriedades Importantes da PA",
+      conteudo: `
+        <p>As progressões aritméticas possuem propriedades que facilitam a resolução de problemas:</p>
+        <ul>
+          <li><strong>1ª propriedade (termos equidistantes):</strong> em uma PA finita, a soma de dois termos equidistantes dos extremos é igual à soma dos extremos. Ou seja, aᵢ + aₖ = a₁ + aₙ quando i + k = 1 + n.</li>
+          <li><strong>2ª propriedade (média aritmética):</strong> em três termos consecutivos (a, b, c) de uma PA, o termo do meio é a média aritmética dos outros dois: b = (a + c) / 2.</li>
+          <li><strong>3ª propriedade (termo central):</strong> se a PA tem número ímpar de termos, o termo central é a média aritmética dos extremos.</li>
+          <li><strong>4ª propriedade (soma de três consecutivos):</strong> a soma de três termos consecutivos de uma PA é igual ao triplo do termo do meio.</li>
+        </ul>
+        <p>Essas propriedades são frequentemente cobradas em questões de concursos e ajudam a economizar tempo.</p>
+        <p><strong>Exemplo prático:</strong> na PA (2, 6, 10, 14, 18, 22, 26), os extremos são 2 e 26 (soma 28). Os termos equidistantes 10 e 18 também somam 28.</p>
+      `,
+      imagem: `<svg viewBox="0 0 500 150" xmlns="http://www.w3.org/2000/svg" style="background:#eaf2f8;border-radius:8px;">
+        <rect width="500" height="150" fill="#eaf2f8" rx="8"/>
+        <text x="20" y="30" font-family="'Segoe UI', Arial" font-size="14" fill="#2c3e50" font-weight="bold">Propriedade dos termos equidistantes</text>
+        <circle cx="60" cy="80" r="15" fill="#3498db"/><text x="54" y="85" font-family="Arial" font-size="10" fill="white">a₁</text>
+        <circle cx="140" cy="80" r="15" fill="#3498db"/><text x="134" y="85" font-family="Arial" font-size="10" fill="white">a₂</text>
+        <circle cx="220" cy="80" r="15" fill="#3498db"/><text x="214" y="85" font-family="Arial" font-size="10" fill="white">a₃</text>
+        <circle cx="300" cy="80" r="15" fill="#3498db"/><text x="294" y="85" font-family="Arial" font-size="10" fill="white">a₄</text>
+        <circle cx="380" cy="80" r="15" fill="#3498db"/><text x="374" y="85" font-family="Arial" font-size="10" fill="white">a₅</text>
+        <circle cx="460" cy="80" r="15" fill="#e74c3c"/><text x="454" y="85" font-family="Arial" font-size="10" fill="white">aₙ</text>
+        <text x="60" y="130" font-family="'Segoe UI', Arial" font-size="11" fill="#2c3e50">a₁ + aₙ = a₂ + aₙ₋₁ = a₃ + aₙ₋₂ = ...</text>
+      </svg>`
+    },
+    {
+      titulo: "4. Soma dos Termos de uma PA Finita",
       conteudo: `
         <p>A soma dos n primeiros termos de uma PA é calculada pela fórmula:</p>
         <p style="text-align:center; font-size:1.2em; background:#f0f8ff; padding:10px; border-radius:8px; display:inline-block;">Sₙ = (a₁ + aₙ) · n / 2</p>
@@ -170,19 +200,22 @@ export const modulo = {
       </svg>`
     },
     {
-      titulo: "4. Progressão Geométrica (PG) – Definição, Termo Geral e Propriedades",
+      titulo: "5. Progressão Geométrica (PG) – Definição, Razão e Termo Geral",
       conteudo: `
         <p>Uma <strong>Progressão Geométrica</strong> é uma sequência onde a razão entre um termo e seu antecessor é constante. Essa razão é chamada de <strong>razão da PG</strong> e denotada por q.</p>
         <p>Se (b₁, b₂, b₃, ...) é PG, então b₂/b₁ = b₃/b₂ = ... = q.</p>
+        <p><strong>Cálculo da razão:</strong> q = bₙ / bₙ₋₁. Ou seja, divide-se qualquer termo pelo seu anterior.</p>
         <p><strong>Termo geral:</strong></p>
         <p style="text-align:center; font-size:1.2em; background:#f0f8ff; padding:10px; border-radius:8px; display:inline-block;">bₙ = b₁ · q^(n-1)</p>
-        <p><strong>Propriedades:</strong></p>
+        <p><strong>Classificação da PG:</strong></p>
         <ul>
-          <li><strong>Média geométrica:</strong> o quadrado de qualquer termo (exceto extremos) é igual ao produto do anterior pelo posterior: bₖ² = bₖ₋₁ · bₖ₊₁.</li>
-          <li><strong>Produto dos extremos:</strong> em uma PG finita, o produto de dois termos equidistantes dos extremos é constante e igual ao produto do primeiro pelo último.</li>
-          <li><strong>Classificação:</strong> PG crescente (q > 1, com termos positivos), decrescente (0 < q < 1), alternante (q < 0) ou constante (q = 1).</li>
+          <li><strong>Crescente:</strong> q > 1 (com termos positivos) ou 0 < q < 1 (com termos negativos).</li>
+          <li><strong>Decrescente:</strong> 0 < q < 1 (com termos positivos) ou q > 1 (com termos negativos).</li>
+          <li><strong>Constante:</strong> q = 1 (todos os termos iguais).</li>
+          <li><strong>Oscilante/Alternante:</strong> q < 0 (termos alternam sinais).</li>
+          <li><strong>Quase nula:</strong> quando um termo é zero e os demais não.</li>
         </ul>
-        <p><strong>Aplicações no dia a dia:</strong> juros compostos, depreciação de bens, crescimento populacional, propagação de vírus, séries de pagamentos, etc.</p>
+        <p><strong>Dica:</strong> a classificação depende do sinal dos termos e do valor de q.</p>
       `,
       imagem: `<svg viewBox="0 0 500 180" xmlns="http://www.w3.org/2000/svg" style="background:#fef9e7;border-radius:8px;">
         <rect width="500" height="180" fill="#fef9e7" rx="8"/>
@@ -209,7 +242,29 @@ export const modulo = {
       </svg>`
     },
     {
-      titulo: "5. Soma dos Termos de uma PG Finita e Infinita",
+      titulo: "6. Propriedades da PG",
+      conteudo: `
+        <p>Assim como na PA, a PG possui propriedades que facilitam a resolução:</p>
+        <ul>
+          <li><strong>1ª propriedade (média geométrica):</strong> em três termos consecutivos (a, b, c) de uma PG, o quadrado do termo médio é igual ao produto dos extremos: b² = a · c.</li>
+          <li><strong>2ª propriedade (produto de equidistantes):</strong> em uma PG finita, o produto de dois termos equidistantes dos extremos é igual ao produto dos extremos: bᵢ · bₖ = b₁ · bₙ quando i + k = 1 + n.</li>
+          <li><strong>3ª propriedade (termo central):</strong> se a PG tem número ímpar de termos, o termo central é a média geométrica dos extremos.</li>
+        </ul>
+        <p><strong>Exemplo:</strong> na PG (2, 6, 18, 54, 162), temos 6² = 2·18 = 36 e 18² = 6·54 = 324.</p>
+      `,
+      imagem: `<svg viewBox="0 0 500 150" xmlns="http://www.w3.org/2000/svg" style="background:#eaf2f8;border-radius:8px;">
+        <rect width="500" height="150" fill="#eaf2f8" rx="8"/>
+        <text x="20" y="30" font-family="'Segoe UI', Arial" font-size="14" fill="#2c3e50" font-weight="bold">Propriedade da média geométrica</text>
+        <circle cx="100" cy="80" r="20" fill="#27ae60"/><text x="92" y="86" font-family="Arial" font-size="12" fill="white">a</text>
+        <circle cx="250" cy="80" r="20" fill="#e67e22"/><text x="242" y="86" font-family="Arial" font-size="12" fill="white">b</text>
+        <circle cx="400" cy="80" r="20" fill="#27ae60"/><text x="392" y="86" font-family="Arial" font-size="12" fill="white">c</text>
+        <text x="100" y="130" font-family="'Segoe UI', Arial" font-size="13" fill="#2c3e50">b² = a · c</text>
+        <line x1="120" y1="105" x2="230" y2="105" stroke="#e74c3c" stroke-width="2"/>
+        <line x1="270" y1="105" x2="380" y2="105" stroke="#e74c3c" stroke-width="2"/>
+      </svg>`
+    },
+    {
+      titulo: "7. Soma dos Termos de uma PG Finita e Infinita",
       conteudo: `
         <p>A soma dos n primeiros termos de uma PG finita é dada por:</p>
         <p style="text-align:center; font-size:1.2em; background:#f0f8ff; padding:10px; border-radius:8px; display:inline-block;">Sₙ = b₁ · (qⁿ - 1) / (q - 1) &nbsp; (para q ≠ 1)</p>
@@ -219,6 +274,7 @@ export const modulo = {
         <p style="text-align:center; font-size:1.2em; background:#f0f8ff; padding:10px; border-radius:8px; display:inline-block;">S∞ = b₁ / (1 - q)</p>
         <p><strong>Exemplo 2:</strong> a soma da PG infinita (1, 1/3, 1/9, 1/27, ...) é S∞ = 1 / (1 - 1/3) = 1 / (2/3) = 3/2.</p>
         <p>Essa fórmula é muito utilizada para converter dízimas periódicas em frações (ex: 0,333... = 1/3).</p>
+        <p><strong>Produto dos termos de uma PG:</strong> o produto dos n primeiros termos é dado por Pₙ = ± √(b₁ · bₙ)ⁿ, com o sinal determinado pelo número de termos negativos.</p>
       `,
       imagem: `<svg viewBox="0 0 500 160" xmlns="http://www.w3.org/2000/svg" style="background:#eaf2f8;border-radius:8px;">
         <rect width="500" height="160" fill="#eaf2f8" rx="8"/>
@@ -236,7 +292,7 @@ export const modulo = {
       </svg>`
     },
     {
-      titulo: "6. Interpolação de Meios Aritméticos e Geométricos",
+      titulo: "8. Interpolação de Meios Aritméticos e Geométricos",
       conteudo: `
         <p><strong>Interpolar meios aritméticos</strong> significa inserir termos entre dois números dados de modo que todos formem uma PA. Se temos os extremos a₁ e aₙ e queremos inserir k meios, então o número total de termos será n = k + 2. A razão é calculada por r = (aₙ - a₁) / (n - 1).</p>
         <p><strong>Exemplo:</strong> interpolar 5 meios aritméticos entre 3 e 21. Temos a₁ = 3, a₇ = 21, n = 7. r = (21 - 3) / 6 = 3. A PA é (3, 6, 9, 12, 15, 18, 21).</p>
@@ -396,6 +452,91 @@ export const modulo = {
         <circle cx="450" cy="50" r="14" fill="#e74c3c"/><text x="444" y="55" font-family="Arial" font-size="10" fill="white">25</text>
         <text x="50" y="90" font-family="'Segoe UI', Arial" font-size="11" fill="#555">r = 4</text>
       </svg>`
+    },
+    {
+      titulo: "Exemplo 6 – Identificação de PA com razão negativa",
+      enunciado: "A sequência (20, 17, 14, 11, ...) é uma PA? Se sim, qual é a razão?",
+      resolucao: `
+        <p>Para verificar se é PA, calculamos a diferença entre termos consecutivos:</p>
+        <p>17 - 20 = -3</p>
+        <p>14 - 17 = -3</p>
+        <p>11 - 14 = -3</p>
+        <p>Como a diferença é constante e igual a -3, a sequência é uma PA decrescente com razão r = -3.</p>
+        <p><strong>Resposta:</strong> Sim, é uma PA com razão -3.</p>
+      `,
+      observacao: "A razão pode ser negativa. Isso indica que a PA é decrescente.",
+      imagem: `<svg viewBox="0 0 400 100" xmlns="http://www.w3.org/2000/svg" style="background:#f4f9fc;border-radius:8px;">
+        <rect width="400" height="100" fill="#f4f9fc" rx="8"/>
+        <text x="20" y="30" font-family="'Segoe UI', Arial" font-size="13" fill="#2c3e50">PA decrescente: (20, 17, 14, 11, ...)</text>
+        <text x="20" y="65" font-family="'Segoe UI', Arial" font-size="15" fill="#e74c3c">r = -3</text>
+      </svg>`
+    },
+    {
+      titulo: "Exemplo 7 – Soma de PA com número ímpar de termos",
+      enunciado: "Calcule a soma dos 7 primeiros termos da PA (2, 5, 8, 11, 14, 17, 20).",
+      resolucao: `
+        <p>Nessa PA, a₁ = 2, r = 3, n = 7 (ímpar).</p>
+        <p>O termo central é o 4º termo: a₄ = 2 + 3·3 = 11.</p>
+        <p>A soma pode ser calculada como S₇ = 7 · a₄ = 7 · 11 = 77.</p>
+        <p>Usando a fórmula geral: S₇ = (2 + 20)·7/2 = 22·3,5 = 77.</p>
+        <p><strong>Resposta:</strong> 77.</p>
+      `,
+      observacao: "Quando o número de termos é ímpar, a soma é o produto do termo central pelo número de termos.",
+      imagem: `<svg viewBox="0 0 400 100" xmlns="http://www.w3.org/2000/svg" style="background:#f4f9fc;border-radius:8px;">
+        <rect width="400" height="100" fill="#f4f9fc" rx="8"/>
+        <text x="20" y="30" font-family="'Segoe UI', Arial" font-size="13" fill="#2c3e50">PA: (2, 5, 8, 11, 14, 17, 20)</text>
+        <text x="20" y="65" font-family="'Segoe UI', Arial" font-size="15" fill="#2c3e50">S₇ = 7 · 11 = 77</text>
+      </svg>`
+    },
+    {
+      titulo: "Exemplo 8 – Soma de PG finita com razão negativa",
+      enunciado: "Calcule a soma dos 5 primeiros termos da PG (2, -4, 8, -16, 32).",
+      resolucao: `
+        <p>Temos b₁ = 2, q = -2, n = 5.</p>
+        <p>Usando a fórmula: S₅ = 2 · ((-2)⁵ - 1) / (-2 - 1) = 2 · (-32 - 1) / (-3) = 2 · (-33) / (-3) = 22.</p>
+        <p><strong>Resposta:</strong> A soma é 22.</p>
+        <p><strong>Verificação:</strong> 2 - 4 + 8 - 16 + 32 = 22.</p>
+      `,
+      observacao: "A fórmula da soma de PG funciona com razão negativa. O sinal pode ser positivo ou negativo dependendo do número de termos.",
+      imagem: `<svg viewBox="0 0 400 100" xmlns="http://www.w3.org/2000/svg" style="background:#f4f9fc;border-radius:8px;">
+        <rect width="400" height="100" fill="#f4f9fc" rx="8"/>
+        <text x="20" y="30" font-family="'Segoe UI', Arial" font-size="13" fill="#2c3e50">PG: (2, -4, 8, -16, 32)</text>
+        <text x="20" y="65" font-family="'Segoe UI', Arial" font-size="15" fill="#2c3e50">S₅ = 22</text>
+      </svg>`
+    },
+    {
+      titulo: "Exemplo 9 – Produto dos termos de uma PG",
+      enunciado: "Calcule o produto dos 4 primeiros termos da PG (2, 4, 8, 16).",
+      resolucao: `
+        <p>Usando a fórmula do produto: Pₙ = ± √(b₁ · bₙ)ⁿ.</p>
+        <p>Temos b₁ = 2, b₄ = 16, n = 4.</p>
+        <p>P₄ = √(2 · 16)⁴ = √(32)⁴ = 32² = 1024.</p>
+        <p>Como todos os termos são positivos, o sinal é positivo.</p>
+        <p><strong>Resposta:</strong> O produto é 1024.</p>
+      `,
+      observacao: "O produto dos termos de uma PG é útil em problemas que envolvem multiplicação de termos.",
+      imagem: `<svg viewBox="0 0 400 100" xmlns="http://www.w3.org/2000/svg" style="background:#f4f9fc;border-radius:8px;">
+        <rect width="400" height="100" fill="#f4f9fc" rx="8"/>
+        <text x="20" y="30" font-family="'Segoe UI', Arial" font-size="13" fill="#2c3e50">PG: (2, 4, 8, 16)</text>
+        <text x="20" y="65" font-family="'Segoe UI', Arial" font-size="15" fill="#2c3e50">P₄ = 1024</text>
+      </svg>`
+    },
+    {
+      titulo: "Exemplo 10 – Problema contextualizado (concurso)",
+      enunciado: "Uma quitandeira vendeu 300 salgados em maio, 500 em junho e 700 em julho. Se o padrão de crescimento for mantido, quantos centos ela terá vendido de maio a dezembro?",
+      resolucao: `
+        <p>Os valores em centos formam a PA: (3, 5, 7, 9, 11, 13, 15, 17) para maio a dezembro.</p>
+        <p>a₁ = 3, r = 2, n = 8 (maio a dezembro).</p>
+        <p>O último termo é a₈ = 3 + 7·2 = 17.</p>
+        <p>A soma é S₈ = (3 + 17)·8/2 = 20·4 = 80.</p>
+        <p><strong>Resposta:</strong> Ela terá vendido 80 centos de maio a dezembro.</p>
+      `,
+      observacao: "Esse é um problema clássico de PA que exige a identificação da sequência e o cálculo da soma.",
+      imagem: `<svg viewBox="0 0 400 100" xmlns="http://www.w3.org/2000/svg" style="background:#f4f9fc;border-radius:8px;">
+        <rect width="400" height="100" fill="#f4f9fc" rx="8"/>
+        <text x="20" y="30" font-family="'Segoe UI', Arial" font-size="13" fill="#2c3e50">Vendas: (3, 5, 7, 9, 11, 13, 15, 17)</text>
+        <text x="20" y="65" font-family="'Segoe UI', Arial" font-size="15" fill="#2c3e50">S₈ = 80 centos</text>
+      </svg>`
     }
   ],
 
@@ -458,6 +599,28 @@ export const modulo = {
           <path d="M0,0 L8,4 L0,8 Z" fill="#e67e22"/>
         </marker>
       </defs>
+    </svg>`,
+    `<svg viewBox="0 0 500 140" xmlns="http://www.w3.org/2000/svg" style="background:#f0f8ff;border-radius:10px;">
+      <rect width="500" height="140" fill="#f0f8ff" rx="10"/>
+      <text x="20" y="30" font-family="'Segoe UI', Arial" font-size="14" fill="#2c3e50" font-weight="bold">Classificação da PA</text>
+      <rect x="40" y="50" width="120" height="30" fill="#3498db" rx="5"/>
+      <text x="55" y="70" font-family="'Segoe UI', Arial" font-size="12" fill="white">Crescente (r > 0)</text>
+      <rect x="180" y="50" width="130" height="30" fill="#e67e22" rx="5"/>
+      <text x="195" y="70" font-family="'Segoe UI', Arial" font-size="12" fill="white">Decrescente (r < 0)</text>
+      <rect x="330" y="50" width="130" height="30" fill="#27ae60" rx="5"/>
+      <text x="345" y="70" font-family="'Segoe UI', Arial" font-size="12" fill="white">Constante (r = 0)</text>
+      <text x="20" y="115" font-family="'Segoe UI', Arial" font-size="12" fill="#555">Ex: (2, 4, 6, 8)  |  Ex: (10, 7, 4, 1)  |  Ex: (5, 5, 5, 5)</text>
+    </svg>`,
+    `<svg viewBox="0 0 500 140" xmlns="http://www.w3.org/2000/svg" style="background:#fef9e7;border-radius:10px;">
+      <rect width="500" height="140" fill="#fef9e7" rx="10"/>
+      <text x="20" y="30" font-family="'Segoe UI', Arial" font-size="14" fill="#2c3e50" font-weight="bold">Classificação da PG</text>
+      <rect x="40" y="50" width="120" height="30" fill="#27ae60" rx="5"/>
+      <text x="55" y="70" font-family="'Segoe UI', Arial" font-size="12" fill="white">Crescente</text>
+      <rect x="180" y="50" width="130" height="30" fill="#e67e22" rx="5"/>
+      <text x="195" y="70" font-family="'Segoe UI', Arial" font-size="12" fill="white">Decrescente</text>
+      <rect x="330" y="50" width="130" height="30" fill="#8e44ad" rx="5"/>
+      <text x="345" y="70" font-family="'Segoe UI', Arial" font-size="12" fill="white">Oscilante</text>
+      <text x="40" y="115" font-family="'Segoe UI', Arial" font-size="12" fill="#555">q > 1 (termos positivos)  |  0 < q < 1  |  q < 0</text>
     </svg>`
   ],
 
@@ -551,6 +714,36 @@ export const modulo = {
       correta: 0,
       explicacaoAcerto: "Temos b₂ = b₁·q = 6 e b₅ = b₁·q⁴ = 48. Dividindo: q³ = 48/6 = 8 → q = 2.",
       explicacaoErro: "Cuidado: b₅ / b₂ = q³, e não q². A diferença de índices é 3."
+    },
+    {
+      tipo: "exercicio",
+      titulo: "Etapa 6 – Identificação de PA com razão negativa",
+      conteudo: "A sequência (20, 17, 14, 11, ...) é uma PA? Se sim, qual é a razão?",
+      pergunta: "Qual é a razão?",
+      alternativas: ["-3", "-2", "3", "2", "Não é PA"],
+      correta: 0,
+      explicacaoAcerto: "Correto! 17-20 = -3, 14-17 = -3, 11-14 = -3. A razão é -3.",
+      explicacaoErro: "A diferença é constante, então é PA. O valor é -3, não 3."
+    },
+    {
+      tipo: "exercicio",
+      titulo: "Etapa 7 – Soma de PA com número ímpar de termos",
+      conteudo: "Calcule a soma dos 7 primeiros termos da PA (2, 5, 8, 11, 14, 17, 20).",
+      pergunta: "Qual é a soma?",
+      alternativas: ["77", "70", "84", "91", "98"],
+      correta: 0,
+      explicacaoAcerto: "S₇ = 7 · 11 = 77 (termo central é 11).",
+      explicacaoErro: "O termo central é o 4º termo (11). A soma é 7 · 11 = 77."
+    },
+    {
+      tipo: "exercicio",
+      titulo: "Etapa 8 – Soma de PG finita com razão negativa",
+      conteudo: "Calcule a soma dos 5 primeiros termos da PG (2, -4, 8, -16, 32).",
+      pergunta: "Qual é a soma?",
+      alternativas: ["22", "20", "18", "16", "14"],
+      correta: 0,
+      explicacaoAcerto: "S₅ = 2((-2)⁵-1)/(-2-1) = 22.",
+      explicacaoErro: "A fórmula funciona com q negativo. Substitua corretamente."
     }
   ],
 
@@ -722,6 +915,70 @@ export const modulo = {
       correta: 0,
       explicacaoAcerto: "S₆ = (2a₁ + 5r)·6/2 = 3(2a₁+5r)=54 → 2a₁+5r=18. S₁₀ = (2a₁+9r)·10/2 = 5(2a₁+9r)=130 → 2a₁+9r=26. Subtraindo: 4r = 8 → r=2.",
       explicacaoErro: "Use a fórmula Sₙ = n/2 (2a₁ + (n-1)r). Monte o sistema."
+    },
+    {
+      dificuldade: "Fácil",
+      pergunta: "Qual é a razão da PG (3, 9, 27, 81, ...)?",
+      alternativas: ["2", "3", "4", "6", "9"],
+      correta: 1,
+      explicacaoAcerto: "9/3 = 3.",
+      explicacaoErro: "Razão de PG é divisão."
+    },
+    {
+      dificuldade: "Médio",
+      pergunta: "Em uma PG, o 1º termo é 2 e a razão é 5. Qual é o 5º termo?",
+      alternativas: ["250", "500", "750", "1250", "2500"],
+      correta: 3,
+      explicacaoAcerto: "b₅ = 2·5⁴ = 2·625 = 1250.",
+      explicacaoErro: "Expoente é n-1 = 4."
+    },
+    {
+      dificuldade: "Médio",
+      pergunta: "A soma dos 6 primeiros termos da PG (3, 6, 12, 24, ...) é?",
+      alternativas: ["189", "192", "195", "198", "201"],
+      correta: 0,
+      explicacaoAcerto: "b₁=3, q=2. S₆ = 3(2⁶-1)/(2-1) = 3(64-1) = 189.",
+      explicacaoErro: "Fórmula da soma."
+    },
+    {
+      dificuldade: "Difícil",
+      pergunta: "Calcule o produto dos 6 primeiros termos da PG (2, 4, 8, 16, 32, 64).",
+      alternativas: ["2^15", "2^20", "2^21", "2^22", "2^25"],
+      correta: 2,
+      explicacaoAcerto: "P₆ = √(2·64)⁶ = √128⁶ = (2^7)^3 = 2^21.",
+      explicacaoErro: "Use a fórmula Pₙ = ± √(b₁·bₙ)ⁿ."
+    },
+    {
+      dificuldade: "Difícil",
+      pergunta: "Em uma PA, a soma dos 4 primeiros termos é 20 e a soma dos 8 primeiros é 72. Qual é a razão?",
+      alternativas: ["2", "3", "4", "5", "6"],
+      correta: 0,
+      explicacaoAcerto: "S₄ = 2(2a₁+3r)=20 → 2a₁+3r=10. S₈ = 4(2a₁+7r)=72 → 2a₁+7r=18. Subtraindo: 4r=8 → r=2.",
+      explicacaoErro: "Monte o sistema corretamente."
+    },
+    {
+      dificuldade: "Médio",
+      pergunta: "Qual é o 10º termo da PA (5, 8, 11, 14, ...)?",
+      alternativas: ["29", "30", "31", "32", "33"],
+      correta: 3,
+      explicacaoAcerto: "a₁=5, r=3, a₁₀ = 5 + 9·3 = 32.",
+      explicacaoErro: "aₙ = a₁ + (n-1)r."
+    },
+    {
+      dificuldade: "Médio",
+      pergunta: "A soma dos 15 primeiros termos da PA (2, 6, 10, 14, ...) é?",
+      alternativas: ["450", "470", "490", "510", "530"],
+      correta: 1,
+      explicacaoAcerto: "a₁=2, r=4, a₁₅=2+14·4=58. S₁₅ = (2+58)·15/2 = 60·7,5 = 450.",
+      explicacaoErro: "Cuidado com as contas."
+    },
+    {
+      dificuldade: "Difícil",
+      pergunta: "Em uma PG, a soma dos 3 primeiros termos é 21 e a soma dos 6 primeiros é 189. Qual é a razão?",
+      alternativas: ["2", "3", "4", "5", "6"],
+      correta: 0,
+      explicacaoAcerto: "S₃ = b₁(q³-1)/(q-1) = 21. S₆ = b₁(q⁶-1)/(q-1) = 189. Dividindo: (q⁶-1)/(q³-1) = 9 → q³+1 = 9 → q³=8 → q=2.",
+      explicacaoErro: "Use a relação entre as somas."
     }
   ],
 
