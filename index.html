@@ -27,6 +27,10 @@
             --error: #ef4444;
             --warning: #f59e0b;
             --info: #3b82f6;
+            --again-color: #ef4444;
+            --hard-color: #f59e0b;
+            --good-color: #22c55e;
+            --easy-color: #3b82f6;
             --font-sans: 'Segoe UI', system-ui, -apple-system, sans-serif;
             --font-mono: 'SF Mono', monospace;
             --space-xs: 0.25rem;
@@ -60,7 +64,6 @@
             overflow-x: hidden;
         }
 
-        /* Animações (mantidas) */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(12px); }
             to { opacity: 1; transform: translateY(0); }
@@ -80,9 +83,6 @@
         @keyframes shimmer {
             0% { background-position: -200% 0; }
             100% { background-position: 200% 0; }
-        }
-        @keyframes progressFill {
-            from { width: 0%; }
         }
         .animate-fade-in { animation: fadeIn var(--transition-slow) forwards; }
         .animate-slide-right { animation: slideInRight var(--transition-slow) forwards; }
@@ -105,7 +105,6 @@
         .text-center { text-align: center; }
         .w-full { width: 100%; }
 
-        /* Botões, cards, badges, progress (mantidos) */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -143,7 +142,19 @@
             color: var(--primary);
         }
         .btn--success {
-            background: linear-gradient(135deg, var(--success), var(--secondary-dark));
+            background: var(--good-color);
+            color: white;
+        }
+        .btn--again {
+            background: var(--again-color);
+            color: white;
+        }
+        .btn--hard {
+            background: var(--hard-color);
+            color: white;
+        }
+        .btn--easy {
+            background: var(--easy-color);
             color: white;
         }
         .btn--ghost {
@@ -155,6 +166,15 @@
         .btn--small {
             padding: var(--space-sm) var(--space-lg);
             font-size: 0.875rem;
+        }
+        .btn--danger {
+            background: var(--error);
+            color: white;
+        }
+        .btn--danger:hover:not(:disabled) {
+            background: #dc2626;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px 0 rgba(239, 68, 68, 0.4);
         }
 
         .card {
@@ -223,7 +243,6 @@
         .icon--lg { width: 32px; height: 32px; }
         .icon--xl { width: 48px; height: 48px; }
 
-        /* Layout principal (mantido) */
         .app { min-height: 100vh; display: flex; flex-direction: column; }
         .header {
             background: var(--surface);
@@ -295,7 +314,6 @@
             font-size: 0.875rem;
         }
 
-        /* Telas */
         .screen { display: none; animation: fadeIn var(--transition-slow); }
         .screen.active { display: block; }
         .screen-header { margin-bottom: var(--space-2xl); }
@@ -320,7 +338,6 @@
         }
         .back-btn:hover { color: var(--primary); }
 
-        /* Dashboard (mantido) */
         .dashboard__hero {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             border-radius: var(--radius-xl);
@@ -447,7 +464,6 @@
             border-color: rgba(99, 102, 241, 0.2);
         }
 
-        /* Tela de disciplina (módulos) - mantido */
         .modules-list { display: flex; flex-direction: column; gap: var(--space-lg); }
         .module-card {
             display: grid;
@@ -486,7 +502,6 @@
             color: var(--text-secondary);
         }
 
-        /* Tela de tópicos (etapas do módulo) */
         .topics-list { display: flex; flex-direction: column; gap: var(--space-md); }
         .topic-item {
             display: flex;
@@ -524,7 +539,6 @@
         .topic-item__stats { display: flex; align-items: center; gap: var(--space-md); font-size: 0.875rem; color: var(--text-muted); }
         .topic-item--locked { opacity: 0.6; cursor: not-allowed; }
 
-        /* Tela de estudo (fluxo em etapas) */
         .study-container { max-width: 800px; margin: 0 auto; }
         .study-stepper {
             display: flex;
@@ -581,9 +595,9 @@
         }
         .study-actions { display: flex; justify-content: center; gap: var(--space-md); margin-top: var(--space-2xl); flex-wrap: wrap; }
 
-        .feedback-box { 
-            margin-top: 16px; 
-            padding: 16px; 
+        .feedback-box {
+            margin-top: 16px;
+            padding: 16px;
             border-radius: 12px;
             clear: both;
         }
@@ -593,7 +607,6 @@
         .alternatives .btn--success { background: #22c55e; color: white; border-color: #22c55e; }
         .alternatives .btn--error { background: #ef4444; color: white; border-color: #ef4444; }
 
-        /* Conquistas */
         .achievements-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
@@ -628,7 +641,6 @@
         .achievement__title { font-size: 0.875rem; font-weight: 700; margin-bottom: var(--space-xs); }
         .achievement__desc { font-size: 0.75rem; color: var(--text-muted); }
 
-        /* Toast */
         .toast-container {
             position: fixed;
             top: 80px;
@@ -659,42 +671,29 @@
         .toast__content h4 { font-weight: 700; margin-bottom: var(--space-xs); }
         .toast__content p { font-size: 0.875rem; color: var(--text-secondary); }
 
-        /* Responsividade */
-        @media (max-width: 768px) {
-            .main { padding: var(--space-md); }
-            .header__inner { padding: 0 var(--space-md); }
-            .header__stats { gap: var(--space-sm); }
-            .stat-pill span:not(.stat-pill__icon) { display: none; }
-            .dashboard__hero h1 { font-size: 1.75rem; }
-            .dashboard__hero { padding: var(--space-xl); }
-            .disciplines-grid { grid-template-columns: 1fr; }
-            .module-card { grid-template-columns: 1fr; text-align: center; gap: var(--space-md); }
-            .module-card__number { margin: 0 auto; }
-            .study-stepper { overflow-x: auto; padding: var(--space-md); }
-            .stepper__line { width: 12px; }
-            .toast-container { right: var(--space-md); left: var(--space-md); }
-            .toast { min-width: auto; width: 100%; }
-        }
-        @media (max-width: 480px) {
-            .screen-header__title { font-size: 1.5rem; }
-            .study-content { padding: var(--space-lg); }
-            .btn { padding: var(--space-md) var(--space-lg); width: 100%; }
-            .study-actions { flex-direction: column; }
-        }
-
-        /* ===== NOVOS ESTILOS PARA REVISÃO ===== */
+        /* ===== NOVOS ESTILOS PARA REVISÃO ANKI-LIKE ===== */
         .review-card {
             background: var(--surface);
             border-radius: var(--radius-xl);
             padding: var(--space-2xl);
             box-shadow: var(--shadow-lg);
             border: 1px solid var(--border);
-            min-height: 300px;
+            min-height: 350px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
+        }
+        .review-card__meta {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-bottom: var(--space-md);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: var(--space-sm);
         }
         .review-card__question {
             font-size: 1.5rem;
@@ -713,14 +712,23 @@
         }
         .review-card__actions {
             display: flex;
-            gap: var(--space-md);
+            gap: var(--space-sm);
             flex-wrap: wrap;
             justify-content: center;
+            width: 100%;
+        }
+        .review-card__actions .btn {
+            flex: 1;
+            min-width: 80px;
+            font-size: 0.9rem;
         }
         .review-progress {
             margin-bottom: var(--space-lg);
             font-size: 0.875rem;
             color: var(--text-secondary);
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
         }
         .review-summary {
             text-align: center;
@@ -745,8 +753,181 @@
             font-size: 0.75rem;
             color: var(--text-muted);
         }
-        .review-summary .btn {
+
+        /* perfil - meta diária */
+        .meta-config {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            margin-top: var(--space-md);
+            flex-wrap: wrap;
+        }
+        .meta-config input[type="number"] {
+            width: 80px;
+            padding: var(--space-sm);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        /* ===== BACKUP ===== */
+        .backup-section {
+            margin-top: var(--space-xl);
+        }
+        .backup-section .btn--danger {
+            background: var(--error);
+            color: white;
+        }
+        .backup-section .btn--danger:hover {
+            background: #dc2626;
+        }
+        .upload-area {
+            border: 2px dashed var(--border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+            text-align: center;
+            cursor: pointer;
+            transition: border-color var(--transition-fast), background var(--transition-fast);
+            background: var(--bg);
+        }
+        .upload-area:hover {
+            border-color: var(--primary-light);
+            background: var(--surface-hover);
+        }
+        .upload-area.dragover {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.05);
+        }
+        .upload-area__icon {
+            font-size: 2.5rem;
+            margin-bottom: var(--space-sm);
+        }
+        .upload-area__text {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        .upload-area__hint {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-top: var(--space-xs);
+        }
+        .backup-list {
             margin-top: var(--space-lg);
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .backup-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--space-md) var(--space-lg);
+            background: var(--bg);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+            margin-bottom: var(--space-sm);
+            transition: background var(--transition-fast);
+        }
+        .backup-item:hover {
+            background: var(--surface-hover);
+        }
+        .backup-item__info {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+        }
+        .backup-item__date {
+            font-weight: 600;
+            font-size: 0.9375rem;
+        }
+        .backup-item__size {
+            font-size: 0.8125rem;
+            color: var(--text-muted);
+        }
+        .backup-item__actions {
+            display: flex;
+            gap: var(--space-sm);
+        }
+        .backup-item__actions .btn {
+            padding: var(--space-sm) var(--space-md);
+            font-size: 0.8125rem;
+        }
+
+        /* Modal customizado */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            animation: fadeIn var(--transition-base);
+        }
+        .modal {
+            background: var(--surface);
+            border-radius: var(--radius-xl);
+            padding: var(--space-2xl);
+            max-width: 520px;
+            width: 90%;
+            box-shadow: var(--shadow-xl);
+            border: 1px solid var(--border);
+            animation: slideInRight var(--transition-base);
+        }
+        .modal__title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: var(--space-md);
+        }
+        .modal__body {
+            color: var(--text-secondary);
+            margin-bottom: var(--space-lg);
+            line-height: 1.6;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .modal__body pre {
+            background: var(--bg);
+            padding: var(--space-md);
+            border-radius: var(--radius-sm);
+            font-size: 0.875rem;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+        .modal__actions {
+            display: flex;
+            gap: var(--space-md);
+            justify-content: flex-end;
+        }
+
+        @media (max-width: 768px) {
+            .main { padding: var(--space-md); }
+            .header__inner { padding: 0 var(--space-md); }
+            .header__stats { gap: var(--space-sm); }
+            .stat-pill span:not(.stat-pill__icon) { display: none; }
+            .dashboard__hero h1 { font-size: 1.75rem; }
+            .dashboard__hero { padding: var(--space-xl); }
+            .disciplines-grid { grid-template-columns: 1fr; }
+            .module-card { grid-template-columns: 1fr; text-align: center; gap: var(--space-md); }
+            .module-card__number { margin: 0 auto; }
+            .study-stepper { overflow-x: auto; padding: var(--space-md); }
+            .stepper__line { width: 12px; }
+            .toast-container { right: var(--space-md); left: var(--space-md); }
+            .toast { min-width: auto; width: 100%; }
+            .review-card__actions .btn { flex: 1 1 40%; }
+            .modal { padding: var(--space-lg); }
+            .backup-item { flex-wrap: wrap; gap: var(--space-sm); }
+            .backup-item__actions { width: 100%; justify-content: flex-end; }
+        }
+        @media (max-width: 480px) {
+            .screen-header__title { font-size: 1.5rem; }
+            .study-content { padding: var(--space-lg); }
+            .btn { padding: var(--space-md) var(--space-lg); width: 100%; }
+            .study-actions { flex-direction: column; }
+            .review-card__actions .btn { flex: 1 1 100%; }
+            .modal__actions { flex-direction: column; }
+            .modal__actions .btn { width: 100%; }
         }
     </style>
 </head>
@@ -775,14 +956,18 @@
             </div>
             <div class="dashboard__stats-grid" id="dashboardStats"></div>
 
-            <!-- NOVO: Card de Revisão no Dashboard -->
+            <!-- NOVO: Card de Revisão no Dashboard (Anki style) -->
             <div id="dashboardReviewCard" class="card animate-fade-in stagger-3" style="margin-bottom: var(--space-2xl); background: linear-gradient(135deg, #f0f4ff, #e8ecff); border-color: var(--primary-light);">
                 <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-md);">
                     <div>
                         <h3 style="display: flex; align-items: center; gap: var(--space-sm);">
-                            <span style="font-size: 1.5rem;">📚</span> Revisão por Flashcards
+                            <span style="font-size: 1.5rem;">📚</span> Revisão com Flashcards
                         </h3>
-                        <p style="color: var(--text-secondary);" id="reviewSummaryText">Carregando flashcards disponíveis...</p>
+                        <p style="color: var(--text-secondary);" id="reviewSummaryText">Carregando...</p>
+                        <div style="margin-top: var(--space-sm); font-size: 0.875rem;">
+                            <span id="reviewDailyProgress">0</span> de <span id="reviewDailyMeta">20</span> revisados hoje
+                            <span style="margin-left: var(--space-md);" id="reviewRemainingText">restam 0</span>
+                        </div>
                     </div>
                     <button class="btn btn--primary" id="btnIniciarRevisaoDashboard" onclick="App.iniciarRevisao()">
                         🔄 Iniciar Revisão
@@ -816,7 +1001,7 @@
             </div>
             <div class="topics-list" id="topicsList"></div>
             <div id="finalExamButton" class="text-center" style="margin-top: var(--space-2xl);"></div>
-            <!-- NOVO: Botão de Revisão na tela do módulo -->
+            <!-- Botão de Revisão específica do módulo -->
             <div id="moduleReviewButton" class="text-center" style="margin-top: var(--space-lg);"></div>
         </section>
 
@@ -839,7 +1024,7 @@
             </div>
         </section>
 
-        <!-- Tela: Perfil -->
+        <!-- Tela: Perfil (com meta diária e backup) -->
         <section class="screen" id="screen-profile">
             <div class="back-btn" onclick="App.navigate('dashboard')">← Voltar ao Dashboard</div>
             <div class="screen-header">
@@ -849,7 +1034,7 @@
             <div id="profileContent"></div>
         </section>
 
-        <!-- ===== NOVA TELA: REVISÃO ===== -->
+        <!-- Tela: REVISÃO (Anki style) -->
         <section class="screen" id="screen-review">
             <div class="back-btn" onclick="App.sairRevisao()">← Sair da Revisão</div>
             <div class="study-container">
@@ -863,6 +1048,9 @@
     </footer>
 
     <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Modal de confirmação (backup) -->
+    <div id="modalContainer" style="display:none;"></div>
 </div>
 
 <script>
@@ -872,6 +1060,7 @@
     let MODULOS = [];
     const STATE_KEY = 'bb_inteligente_state';
     const FLASHCARD_STATE_KEY = 'bb_inteligente_flashcard_state';
+    const BACKUP_LIST_KEY = 'bb_inteligente_backups';
 
     const defaultState = {
         xp: 0,
@@ -893,7 +1082,10 @@
         examAnswered: false,
         lastWrongTopic: null,
         adaptAttempts: 0,
-        // Novos campos para revisão
+        // Novos campos para revisão estilo Anki
+        metaDiaria: 20,          // meta diária configurável
+        revisoesHoje: 0,         // contador de revisões feitas hoje
+        ultimoDiaRevisao: null,  // data (string) para resetar o contador
         reviewQueue: [],
         reviewIndex: 0,
         reviewModuleId: null,
@@ -1094,7 +1286,7 @@
             grid.appendChild(card);
         });
 
-        // Atualizar o card de revisão no dashboard
+        // Atualizar card de revisão
         atualizarCardRevisao();
     }
 
@@ -1102,16 +1294,44 @@
     // 4.1 CARD DE REVISÃO NO DASHBOARD
     // ======================================================================
     function atualizarCardRevisao() {
-        const total = contarFlashcardsDisponiveis();
-        const text = document.getElementById('reviewSummaryText');
+        // Resetar contagem diária se for um novo dia
+        const hoje = new Date().toDateString();
+        if (state.ultimoDiaRevisao !== hoje) {
+            state.revisoesHoje = 0;
+            state.ultimoDiaRevisao = hoje;
+            saveState();
+        }
+
+        const pendentes = contarFlashcardsDisponiveis(); // total de cards disponíveis hoje (até a meta)
+        const meta = state.metaDiaria || 20;
+        const revisados = state.revisoesHoje || 0;
+        const restam = Math.max(0, meta - revisados);
+        const disponiveis = Math.min(pendentes, restam); // quantos realmente podemos revisar hoje
+
+        const summaryText = document.getElementById('reviewSummaryText');
+        const dailyProgress = document.getElementById('reviewDailyProgress');
+        const dailyMeta = document.getElementById('reviewDailyMeta');
+        const remainingText = document.getElementById('reviewRemainingText');
         const btn = document.getElementById('btnIniciarRevisaoDashboard');
-        if (total === 0) {
-            text.textContent = 'Nenhum flashcard disponível para revisão no momento.';
+
+        dailyProgress.textContent = revisados;
+        dailyMeta.textContent = meta;
+
+        if (disponiveis === 0 && revisados >= meta) {
+            summaryText.textContent = '✅ Você já revisou sua meta diária! Volte amanhã.';
+            remainingText.textContent = 'meta atingida';
+            btn.disabled = true;
+            btn.style.opacity = '0.5';
+            btn.style.cursor = 'not-allowed';
+        } else if (pendentes === 0) {
+            summaryText.textContent = 'Nenhum flashcard pendente para revisão.';
+            remainingText.textContent = '0 pendentes';
             btn.disabled = true;
             btn.style.opacity = '0.5';
             btn.style.cursor = 'not-allowed';
         } else {
-            text.textContent = `Você tem ${total} flashcard${total > 1 ? 's' : ''} disponível${total > 1 ? 's' : ''} para revisar.`;
+            summaryText.textContent = `Você tem ${disponiveis} flashcard${disponiveis > 1 ? 's' : ''} para revisar hoje.`;
+            remainingText.textContent = `restam ${restam} da meta`;
             btn.disabled = false;
             btn.style.opacity = '1';
             btn.style.cursor = 'pointer';
@@ -1119,7 +1339,7 @@
     }
 
     // ======================================================================
-    // 5. RENDERIZAÇÃO DE DISCIPLINA E MÓDULO (com revisão)
+    // 5. RENDERIZAÇÃO DE DISCIPLINA E MÓDULO
     // ======================================================================
     function renderDiscipline(disciplina) {
         document.getElementById('disciplineTitle').textContent = disciplina;
@@ -1198,7 +1418,6 @@
             etapas.push({ tipo: 'avaliacao', titulo: 'Avaliação Final', descricao: 'Prova com 20 questões (≥80% para aprovação)' });
         }
 
-        // Renderizar cada etapa
         etapas.forEach((etapa, idx) => {
             const status = getEtapaStatus(moduloId, idx);
             const isCompleted = status === 'completed';
@@ -1246,10 +1465,9 @@
             }
         }
 
-        // ===== NOVO: Botão de revisão específico do módulo =====
+        // Botão de revisão específica do módulo
         const reviewBtnContainer = document.getElementById('moduleReviewButton');
         reviewBtnContainer.innerHTML = '';
-        // Verifica se há flashcards disponíveis para este módulo
         const totalMod = contarFlashcardsDisponiveis(moduloId);
         if (totalMod > 0) {
             const btn = document.createElement('button');
@@ -1263,13 +1481,12 @@
     }
 
     // ======================================================================
-    // 6. ESTUDO – RENDERIZAÇÃO DE ETAPA (com suporte a readonly)
+    // 6. ESTUDO (mantido igual, sem alterações)
     // ======================================================================
     function renderStudy(moduloId, stepIndex, readonly = false) {
         const modulo = getModulo(moduloId);
         if (!modulo) return;
 
-        // Construir array de etapas (mesmo usado em renderModuleTopics)
         const etapas = [];
         if (modulo.introducao) etapas.push({ tipo: 'introducao', data: modulo.introducao });
         if (modulo.teoria) {
@@ -1297,7 +1514,6 @@
         const tipo = etapa.tipo;
         const data = etapa.data;
 
-        // Atualizar stepper
         const stepper = document.getElementById('studyStepper');
         stepper.innerHTML = etapas.map((_, i) => {
             const isActive = i === stepIndex;
@@ -1321,7 +1537,6 @@
             <div class="study-content__body">
         `;
 
-        // Conteúdo conforme o tipo
         if (tipo === 'introducao') {
             html += `<p>${data.descricao || ''}</p>`;
             if (data.imagem) {
@@ -1363,7 +1578,6 @@
             }
             html += `</div>`;
         } else if (tipo.startsWith('etapa')) {
-            // Exercício ou Questão
             const isExercise = data.tipo === 'exercicio';
             html += `<div>${data.conteudo || ''}</div>`;
             if (data.pergunta) {
@@ -1403,7 +1617,6 @@
         html += `</div>`;
         content.innerHTML = html;
 
-        // Se não for readonly e for introdução/teoria/exemplo, marcar como concluído automaticamente
         if (!readonly && (tipo === 'introducao' || tipo.startsWith('teoria') || tipo.startsWith('exemplo'))) {
             const p = state.progresso[moduloId];
             if (!p.topicos[stepIndex]) {
@@ -1524,7 +1737,7 @@
     }
 
     // ======================================================================
-    // 9. APP - NAVEGAÇÃO E AÇÕES
+    // 9. APP - NAVEGAÇÃO E AÇÕES (com revisão Anki e backup)
     // ======================================================================
     const App = {
         navigate(screen, data) {
@@ -1812,43 +2025,59 @@
         },
 
         // ==================================================================
-        // NOVOS MÉTODOS PARA REVISÃO
+        // MÉTODOS DE REVISÃO ESTILO ANKI
         // ==================================================================
 
         /**
-         * Inicia a revisão para um módulo específico ou para todos os módulos.
-         * @param {string|null} moduloId - Se fornecido, revisa apenas esse módulo; senão, todos.
+         * Inicia a revisão para um módulo específico ou todos.
+         * Respeita a meta diária.
          */
         iniciarRevisao(moduloId = null) {
-            const queue = [];
-            const modulosAlvo = moduloId ? [getModulo(moduloId)] : MODULOS;
+            // Resetar contagem diária se necessário
+            const hoje = new Date().toDateString();
+            if (state.ultimoDiaRevisao !== hoje) {
+                state.revisoesHoje = 0;
+                state.ultimoDiaRevisao = hoje;
+                saveState();
+            }
 
-            for (const modulo of modulosAlvo) {
+            const meta = state.metaDiaria || 20;
+            const jaRevisados = state.revisoesHoje || 0;
+            const limite = Math.max(0, meta - jaRevisados);
+            if (limite <= 0) {
+                showToast('Você já revisou sua meta diária! Volte amanhã.', 'info', 'Meta atingida');
+                return;
+            }
+
+            // Coletar todos os flashcards disponíveis (de etapas concluídas)
+            const todos = [];
+            const modulos = moduloId ? [getModulo(moduloId)] : MODULOS;
+            for (const modulo of modulos) {
                 if (!modulo) continue;
                 const deck = DECKS[modulo.id];
                 if (!deck) continue;
-
-                // Obter índices de etapas concluídas
                 const progresso = state.progresso[modulo.id];
                 if (!progresso || !progresso.topicos) continue;
                 const etapasConcluidas = progresso.topicos
-                    .map((concluida, idx) => concluida ? idx : -1)
+                    .map((c, idx) => c ? idx : -1)
                     .filter(idx => idx !== -1);
 
                 for (const etapaIndex of etapasConcluidas) {
-                    const flashcardsEtapa = deck.etapas[etapaIndex]?.flashcards || [];
-                    for (let fcIndex = 0; fcIndex < flashcardsEtapa.length; fcIndex++) {
-                        const flashcard = flashcardsEtapa[fcIndex];
-                        const estado = getFlashcardState(modulo.id, etapaIndex, fcIndex);
+                    const flashcards = deck.etapas[etapaIndex]?.flashcards || [];
+                    for (let i = 0; i < flashcards.length; i++) {
+                        const card = flashcards[i];
+                        const estado = getFlashcardState(modulo.id, etapaIndex, i);
                         const now = new Date();
                         const proxima = estado.proximaRevisao ? new Date(estado.proximaRevisao) : null;
                         // Seleciona se for nova ou se a data de revisão já passou
                         if (estado.estado === 'nova' || (proxima && proxima <= now)) {
-                            queue.push({
+                            todos.push({
                                 moduloId: modulo.id,
+                                moduloNome: modulo.nome,
+                                disciplina: modulo.disciplina,
                                 etapaIndex,
-                                flashcardIndex: fcIndex,
-                                flashcard,
+                                flashcardIndex: i,
+                                flashcard: card,
                                 estado
                             });
                         }
@@ -1856,15 +2085,22 @@
                 }
             }
 
-            // Ordenar por prioridade: vencidos primeiro, depois novos, depois próximos
-            queue.sort((a, b) => {
-                const prioridade = (item) => {
-                    if (item.estado.estado === 'vencida') return 0;
-                    if (item.estado.estado === 'nova') return 1;
-                    return 2;
-                };
-                return prioridade(a) - prioridade(b);
+            // Ordenar: vencidos primeiro, depois por data de revisão (mais antiga primeiro), depois novos
+            todos.sort((a, b) => {
+                const aVencido = a.estado.estado === 'vencida';
+                const bVencido = b.estado.estado === 'vencida';
+                if (aVencido && !bVencido) return -1;
+                if (!aVencido && bVencido) return 1;
+                if (a.estado.proximaRevisao && b.estado.proximaRevisao) {
+                    return new Date(a.estado.proximaRevisao) - new Date(b.estado.proximaRevisao);
+                }
+                if (a.estado.estado === 'nova' && b.estado.estado !== 'nova') return -1;
+                if (a.estado.estado !== 'nova' && b.estado.estado === 'nova') return 1;
+                return 0;
             });
+
+            // Pegar apenas o limite da meta diária
+            const queue = todos.slice(0, limite);
 
             if (queue.length === 0) {
                 showToast('Nenhum flashcard disponível para revisão agora.', 'info', 'Revisão');
@@ -1880,21 +2116,15 @@
             App.navigate('review');
         },
 
-        /** Sai da revisão, limpando a fila. */
         sairRevisao() {
             state.reviewQueue = [];
             state.reviewIndex = 0;
             state.reviewModuleId = null;
             saveState();
-            // Volta para a tela anterior (dashboard ou módulo)
-            if (state.currentScreen === 'review') {
-                App.goBack();
-            } else {
-                App.navigate('dashboard');
-            }
+            App.goBack();
         },
 
-        /** Avança para o próximo flashcard na fila ou mostra resumo. */
+        /** Avança para o próximo flashcard ou mostra resumo */
         proximoFlashcard() {
             state.reviewIndex++;
             if (state.reviewIndex >= state.reviewQueue.length) {
@@ -1904,29 +2134,228 @@
             }
         },
 
-        /** Marca o flashcard atual como acertado. */
-        acertouFlashcard() {
+        /** Processa a resposta do flashcard (dificuldade: 0=Again, 1=Hard, 2=Good, 3=Easy) */
+        responderFlashcard(dificuldade) {
             const item = state.reviewQueue[state.reviewIndex];
             if (!item) return;
-            updateFlashcardState(item.moduloId, item.etapaIndex, item.flashcardIndex, true);
-            state.reviewStats.acertos++;
+
+            // Atualiza o estado do flashcard conforme a dificuldade
+            updateFlashcardStateAnki(item.moduloId, item.etapaIndex, item.flashcardIndex, dificuldade);
+
+            // Incrementa contador de revisões do dia
+            state.revisoesHoje = (state.revisoesHoje || 0) + 1;
+            state.ultimoDiaRevisao = new Date().toDateString();
+
+            // Estatísticas
+            if (dificuldade === 0) {
+                state.reviewStats.erros++;
+            } else {
+                state.reviewStats.acertos++;
+            }
             saveState();
+
+            // Atualiza card do dashboard
+            atualizarCardRevisao();
+
             this.proximoFlashcard();
         },
 
-        /** Marca o flashcard atual como errado. */
-        errouFlashcard() {
-            const item = state.reviewQueue[state.reviewIndex];
-            if (!item) return;
-            updateFlashcardState(item.moduloId, item.etapaIndex, item.flashcardIndex, false);
-            state.reviewStats.erros++;
-            saveState();
-            this.proximoFlashcard();
+        // ==================================================================
+        // MÉTODOS DE BACKUP E RESTAURAÇÃO
+        // ==================================================================
+
+        /** Exporta todos os dados para um arquivo JSON e salva internamente */
+        fazerBackup() {
+            try {
+                const stateData = loadState();
+                const flashcardState = loadFlashcardState();
+
+                const backupObj = {
+                    versao: '1.0',
+                    dataExportacao: new Date().toISOString(),
+                    nomeUsuario: 'Estudante',
+                    dados: {
+                        state: JSON.parse(JSON.stringify(stateData)),
+                        flashcardState: JSON.parse(JSON.stringify(flashcardState))
+                    }
+                };
+
+                // Salvar na lista interna
+                const backupSalvo = adicionarBackup(backupObj);
+
+                // Download do arquivo
+                const jsonStr = JSON.stringify(backupObj, null, 2);
+                const blob = new Blob([jsonStr], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                const nomeArquivo = `backup_bb_inteligente_${new Date().toISOString().slice(0,10)}_${new Date().toTimeString().slice(0,8).replace(/:/g, '-')}.json`;
+                a.href = url;
+                a.download = nomeArquivo;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+                showToast('Backup criado com sucesso!', 'success', 'Download iniciado');
+                // Atualizar a lista de backups na tela de perfil (se estiver visível)
+                if (state.currentScreen === 'profile') {
+                    renderProfile();
+                }
+            } catch (e) {
+                console.error('Erro ao fazer backup:', e);
+                showToast('Erro ao criar backup: ' + e.message, 'error', 'Erro');
+            }
+        },
+
+        /** Importa um arquivo de backup (via input file) */
+        importarBackup(file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const texto = e.target.result;
+                    const dados = JSON.parse(texto);
+                    // Validação
+                    if (!dados.versao || !dados.dados || !dados.dados.state || !dados.dados.flashcardState) {
+                        showToast('Arquivo inválido: estrutura não reconhecida.', 'warning', 'Erro na importação');
+                        return;
+                    }
+                    // Verificar se é objeto
+                    if (typeof dados.dados.state !== 'object' || typeof dados.dados.flashcardState !== 'object') {
+                        showToast('Arquivo inválido: dados.state ou dados.flashcardState não são objetos.', 'warning', 'Erro na importação');
+                        return;
+                    }
+
+                    // Exibir resumo e pedir confirmação
+                    const dataExport = dados.dataExportacao ? new Date(dados.dataExportacao).toLocaleString() : 'desconhecida';
+                    const nome = dados.nomeUsuario || 'Estudante';
+                    const totalModulos = dados.dados.state?.progresso ? Object.keys(dados.dados.state.progresso).length : 0;
+                    const totalFlashcards = dados.dados.flashcardState ? Object.keys(dados.dados.flashcardState).length : 0;
+
+                    const resumo = `
+                        <p><strong>Data:</strong> ${dataExport}</p>
+                        <p><strong>Usuário:</strong> ${nome}</p>
+                        <p><strong>Versão:</strong> ${dados.versao}</p>
+                        <p><strong>Módulos com progresso:</strong> ${totalModulos}</p>
+                        <p><strong>Flashcards com estado:</strong> ${totalFlashcards}</p>
+                        <p style="margin-top: var(--space-md); color: var(--warning);">⚠️ A restauração substituirá TODOS os dados atuais.</p>
+                    `;
+
+                    // Mostrar modal customizado
+                    mostrarModalConfirmacao(
+                        'Restaurar Backup',
+                        resumo,
+                        () => {
+                            // Restaurar
+                            App.restaurarBackup(dados.dados);
+                        },
+                        () => {
+                            showToast('Importação cancelada.', 'info', 'Cancelado');
+                        }
+                    );
+
+                } catch (err) {
+                    showToast('Erro ao ler o arquivo: ' + err.message, 'error', 'Erro');
+                }
+            };
+            reader.onerror = () => {
+                showToast('Erro ao ler o arquivo.', 'error', 'Erro');
+            };
+            reader.readAsText(file);
+        },
+
+        /** Restaura os dados no localStorage e recarrega a página */
+        restaurarBackup(dados) {
+            try {
+                // Salva um backup automático do estado atual antes de restaurar
+                try {
+                    const stateAtual = loadState();
+                    const flashcardAtual = loadFlashcardState();
+                    const autoBackup = {
+                        versao: '1.0',
+                        dataExportacao: new Date().toISOString(),
+                        nomeUsuario: 'Estudante',
+                        dados: {
+                            state: JSON.parse(JSON.stringify(stateAtual)),
+                            flashcardState: JSON.parse(JSON.stringify(flashcardAtual))
+                        }
+                    };
+                    // Adiciona como backup automático (prefixo)
+                    const lista = listarBackups();
+                    const novo = {
+                        id: 'auto_' + Date.now().toString(36) + Math.random().toString(36).substr(2, 5),
+                        data: new Date().toISOString(),
+                        nomeArquivo: `backup_auto_antes_restauracao_${new Date().toISOString().slice(0,10)}.json`,
+                        dados: autoBackup
+                    };
+                    lista.push(novo);
+                    if (lista.length > 10) lista.shift();
+                    salvarListaBackups(lista);
+                } catch (e) {
+                    console.warn('Não foi possível criar backup automático:', e);
+                }
+
+                // Substitui os dados
+                localStorage.setItem(STATE_KEY, JSON.stringify(dados.state));
+                localStorage.setItem(FLASHCARD_STATE_KEY, JSON.stringify(dados.flashcardState));
+
+                showToast('Dados restaurados com sucesso! A página será recarregada.', 'success', 'Restauração concluída');
+                setTimeout(() => {
+                    location.reload();
+                }, 1500);
+            } catch (e) {
+                showToast('Erro ao restaurar: ' + e.message, 'error', 'Erro');
+            }
+        },
+
+        /** Lista os backups salvos internamente */
+        listarBackups() {
+            return listarBackups();
+        },
+
+        /** Exclui um backup pelo ID */
+        excluirBackup(id) {
+            const lista = listarBackups();
+            const index = lista.findIndex(b => b.id === id);
+            if (index !== -1) {
+                lista.splice(index, 1);
+                salvarListaBackups(lista);
+                showToast('Backup removido.', 'info', 'Excluído');
+                if (state.currentScreen === 'profile') {
+                    renderProfile();
+                }
+            } else {
+                showToast('Backup não encontrado.', 'warning', 'Atenção');
+            }
+        },
+
+        /** Baixa um backup salvo internamente */
+        baixarBackup(id) {
+            const lista = listarBackups();
+            const item = lista.find(b => b.id === id);
+            if (!item) {
+                showToast('Backup não encontrado.', 'warning', 'Atenção');
+                return;
+            }
+            try {
+                const jsonStr = JSON.stringify(item.dados, null, 2);
+                const blob = new Blob([jsonStr], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = item.nomeArquivo || `backup_${item.data.slice(0,10)}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                showToast('Download iniciado.', 'success', 'Backup baixado');
+            } catch (e) {
+                showToast('Erro ao baixar: ' + e.message, 'error', 'Erro');
+            }
         }
     };
 
     // ======================================================================
-    // 10. PERFIL (mantido)
+    // 10. PERFIL (com configuração de meta diária e seção de backup)
     // ======================================================================
     function renderProfile() {
         const container = document.getElementById('profileContent');
@@ -1944,6 +2373,34 @@
             `;
         });
 
+        // Lista de backups
+        const backups = listarBackups();
+        let backupsHtml = '';
+        if (backups.length === 0) {
+            backupsHtml = '<p style="color: var(--text-muted);">Nenhum backup salvo internamente.</p>';
+        } else {
+            backupsHtml = `<div class="backup-list">`;
+            backups.slice().reverse().forEach(b => {
+                const data = new Date(b.data).toLocaleString();
+                const tamanho = b.dados ? JSON.stringify(b.dados).length : 0;
+                const tamanhoStr = tamanho > 1024 ? (tamanho / 1024).toFixed(1) + ' KB' : tamanho + ' B';
+                backupsHtml += `
+                    <div class="backup-item">
+                        <div class="backup-item__info">
+                            <span class="backup-item__date">${data}</span>
+                            <span class="backup-item__size">${tamanhoStr}</span>
+                            ${b.id && b.id.startsWith('auto_') ? '<span class="badge badge--warning">automático</span>' : ''}
+                        </div>
+                        <div class="backup-item__actions">
+                            <button class="btn btn--secondary btn--small" onclick="App.baixarBackup('${b.id}')">⬇️ Baixar</button>
+                            <button class="btn btn--danger btn--small" onclick="App.excluirBackup('${b.id}')">🗑️</button>
+                        </div>
+                    </div>
+                `;
+            });
+            backupsHtml += '</div>';
+        }
+
         let html = `
             <div class="card" style="margin-bottom:var(--space-xl);">
                 <h3>📊 Estatísticas Gerais</h3>
@@ -1955,13 +2412,24 @@
                 </div>
             </div>
             <div class="card" style="margin-bottom:var(--space-xl);">
+                <h3>⚙️ Configurações de Revisão</h3>
+                <div class="meta-config">
+                    <label for="metaDiariaInput">Meta diária de flashcards:</label>
+                    <input type="number" id="metaDiariaInput" value="${state.metaDiaria || 20}" min="1" max="200" />
+                    <button class="btn btn--primary btn--small" onclick="atualizarMetaDiaria()">Salvar</button>
+                </div>
+                <p style="color: var(--text-muted); font-size: 0.875rem; margin-top: var(--space-sm);">
+                    Você já revisou <strong>${state.revisoesHoje || 0}</strong> de ${state.metaDiaria || 20} hoje.
+                </p>
+            </div>
+            <div class="card" style="margin-bottom:var(--space-xl);">
                 <h3>📚 Progresso por Disciplina</h3>
                 <div style="margin-top: var(--space-lg);">${disciplinasHtml}</div>
             </div>
-            <div class="card">
+            <div class="card" style="margin-bottom:var(--space-xl);">
                 <h3>🏅 Conquistas</h3>
                 <div class="achievements-grid" style="margin-top:var(--space-lg);">
-                    ${state.conquistas.length === 0 ? '<p>Nenhuma conquista ainda. Continue estudando!</p>' : 
+                    ${state.conquistas.length === 0 ? '<p>Nenhuma conquista ainda. Continue estudando!</p>' :
                         state.conquistas.map(c => `
                             <div class="achievement achievement--unlocked">
                                 <div class="achievement__icon">${c.icone || '🏆'}</div>
@@ -1971,14 +2439,175 @@
                     }
                 </div>
             </div>
+
+            <!-- SEÇÃO DE BACKUP E RESTAURAÇÃO -->
+            <div class="card backup-section">
+                <h3>💾 Backup e Restauração</h3>
+                <p style="color: var(--text-secondary); margin-bottom: var(--space-lg);">
+                    Exporte seus dados para um arquivo JSON ou importe um backup previamente salvo.
+                </p>
+
+                <div style="display: flex; gap: var(--space-md); flex-wrap: wrap; margin-bottom: var(--space-lg);">
+                    <button class="btn btn--primary" onclick="App.fazerBackup()">💾 Fazer Backup Agora</button>
+                </div>
+
+                <!-- Área de upload -->
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-area__icon">📂</div>
+                    <div class="upload-area__text">Arraste ou clique para selecionar um arquivo de backup</div>
+                    <div class="upload-area__hint">Aceita arquivos .json</div>
+                    <input type="file" id="fileInput" accept=".json" style="display:none;" />
+                </div>
+
+                <div style="margin-top: var(--space-lg);">
+                    <h4 style="font-weight: 600; margin-bottom: var(--space-sm);">📋 Backups Salvos</h4>
+                    ${backupsHtml}
+                </div>
+            </div>
         `;
         container.innerHTML = html;
+
+        // Configurar upload
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        if (uploadArea && fileInput) {
+            uploadArea.addEventListener('click', () => fileInput.click());
+            fileInput.addEventListener('change', (e) => {
+                if (e.target.files.length > 0) {
+                    App.importarBackup(e.target.files[0]);
+                }
+                fileInput.value = ''; // reset
+            });
+
+            // Drag and drop
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.classList.add('dragover');
+            });
+            uploadArea.addEventListener('dragleave', (e) => {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+            });
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+                const files = e.dataTransfer.files;
+                if (files.length > 0 && files[0].type === 'application/json') {
+                    App.importarBackup(files[0]);
+                } else {
+                    showToast('Por favor, selecione um arquivo .json.', 'warning', 'Formato inválido');
+                }
+            });
+        }
+    }
+
+    function atualizarMetaDiaria() {
+        const input = document.getElementById('metaDiariaInput');
+        const val = parseInt(input.value, 10);
+        if (val > 0) {
+            state.metaDiaria = val;
+            saveState();
+            showToast(`Meta diária atualizada para ${val} flashcards.`, 'success', 'Configuração salva');
+            atualizarCardRevisao();
+        } else {
+            showToast('Digite um número válido (mínimo 1).', 'warning', 'Atenção');
+        }
     }
 
     // ======================================================================
-    // 11. CARREGAMENTO DOS MÓDULOS E DECKS
+    // 11. FUNÇÕES DE BACKUP (lista interna)
     // ======================================================================
-    const DECKS = {}; // global
+
+    function listarBackups() {
+        try {
+            const dados = localStorage.getItem(BACKUP_LIST_KEY);
+            if (dados) {
+                return JSON.parse(dados);
+            }
+        } catch (e) {}
+        return [];
+    }
+
+    function salvarListaBackups(lista) {
+        try {
+            localStorage.setItem(BACKUP_LIST_KEY, JSON.stringify(lista));
+        } catch (e) {
+            console.warn('Erro ao salvar lista de backups:', e);
+        }
+    }
+
+    function adicionarBackup(dados) {
+        const lista = listarBackups();
+        const novo = {
+            id: Date.now().toString(36) + Math.random().toString(36).substr(2, 5),
+            data: new Date().toISOString(),
+            nomeArquivo: `backup_${new Date().toISOString().slice(0,10)}.json`,
+            dados: JSON.parse(JSON.stringify(dados)) // deep copy
+        };
+        lista.push(novo);
+        if (lista.length > 10) {
+            // Remove o mais antigo (não automático se possível)
+            const naoAutomaticos = lista.filter(b => !b.id.startsWith('auto_'));
+            const automaticos = lista.filter(b => b.id.startsWith('auto_'));
+            // Remove o mais antigo dentre todos
+            lista.sort((a, b) => new Date(a.data) - new Date(b.data));
+            while (lista.length > 10) {
+                lista.shift();
+            }
+        }
+        salvarListaBackups(lista);
+        return novo;
+    }
+
+    // ======================================================================
+    // 12. MODAL DE CONFIRMAÇÃO CUSTOMIZADO
+    // ======================================================================
+
+    function mostrarModalConfirmacao(titulo, corpoHtml, onConfirm, onCancel) {
+        const container = document.getElementById('modalContainer');
+        container.style.display = 'flex';
+        container.innerHTML = `
+            <div class="modal-overlay" id="modalOverlay">
+                <div class="modal">
+                    <div class="modal__title">${titulo}</div>
+                    <div class="modal__body">${corpoHtml}</div>
+                    <div class="modal__actions">
+                        <button class="btn btn--secondary" id="modalCancelBtn">Cancelar</button>
+                        <button class="btn btn--primary" id="modalConfirmBtn">Restaurar</button>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        const overlay = document.getElementById('modalOverlay');
+        const confirmBtn = document.getElementById('modalConfirmBtn');
+        const cancelBtn = document.getElementById('modalCancelBtn');
+
+        function fechar() {
+            container.style.display = 'none';
+            container.innerHTML = '';
+        }
+
+        confirmBtn.addEventListener('click', () => {
+            fechar();
+            if (onConfirm) onConfirm();
+        });
+        cancelBtn.addEventListener('click', () => {
+            fechar();
+            if (onCancel) onCancel();
+        });
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) {
+                fechar();
+                if (onCancel) onCancel();
+            }
+        });
+    }
+
+    // ======================================================================
+    // 13. CARREGAMENTO DOS MÓDULOS E DECKS
+    // ======================================================================
+    const DECKS = {};
 
     async function carregarTodosModulos() {
         const moduloIds = [
@@ -2036,13 +2665,11 @@
         });
         saveState();
 
-        // Carregar decks após os módulos
         await carregarDecks();
 
         init();
     }
 
-    /** Carrega dinamicamente os decks da pasta decks/ */
     async function carregarDecks() {
         for (const modulo of MODULOS) {
             try {
@@ -2050,17 +2677,11 @@
                 if (module.deck && module.deck.moduloId === modulo.id) {
                     DECKS[modulo.id] = module.deck;
                     console.log(`✅ Deck carregado para "${modulo.nome}" (${module.deck.etapas?.length || 0} etapas).`);
-                    // Validação opcional: número de etapas
-                    const totalEtapas = (modulo.introducao ? 1 : 0) + (modulo.teoria?.length || 0) + (modulo.exemplos?.length || 0) + (modulo.etapasAprendizagem?.length || 0);
-                    if (module.deck.etapas && module.deck.etapas.length !== totalEtapas) {
-                        console.warn(`⚠️ Deck de "${modulo.nome}" tem ${module.deck.etapas.length} etapas, mas o módulo tem ${totalEtapas}.`);
-                    }
                 } else {
                     console.warn(`⚠️ Deck para "${modulo.id}" não corresponde ao módulo.`);
                 }
             } catch (e) {
-                // Silencioso – deck não existe
-                // console.debug(`ℹ️ Nenhum deck para "${modulo.id}".`);
+                // Silencioso
             }
         }
     }
@@ -2077,10 +2698,9 @@
     }
 
     // ======================================================================
-    // 12. SISTEMA DE REPETIÇÃO ESPAÇADA – PERSISTÊNCIA E ALGORITMO
+    // 14. SISTEMA DE REPETIÇÃO ESPAÇADA (ALGORITMO ANKI SIMPLIFICADO)
     // ======================================================================
 
-    /** Carrega o estado completo de todos os flashcards do localStorage */
     function loadFlashcardState() {
         try {
             const saved = localStorage.getItem(FLASHCARD_STATE_KEY);
@@ -2091,14 +2711,12 @@
         return {};
     }
 
-    /** Salva o estado completo dos flashcards no localStorage */
     function saveFlashcardState(flashcardState) {
         try {
             localStorage.setItem(FLASHCARD_STATE_KEY, JSON.stringify(flashcardState));
         } catch (e) {}
     }
 
-    /** Obtém o estado de um flashcard específico, criando um padrão se não existir */
     function getFlashcardState(moduloId, etapaIndex, flashcardIndex) {
         const allState = loadFlashcardState();
         const moduloState = allState[moduloId] || {};
@@ -2106,27 +2724,33 @@
         const flashcardId = `${etapaIndex}-${flashcardIndex}`;
         let cardState = etapaState.find(f => f.flashcardId === flashcardId);
         if (!cardState) {
-            // Cria estado inicial
+            // Estado inicial com parâmetros Anki
             cardState = {
                 flashcardId,
                 estado: 'nova',
                 ultimaRevisao: null,
                 proximaRevisao: null,
-                acertosConsecutivos: 0,
+                acertosConsecutivos: 0,  // não usado no novo algoritmo, mas mantido
                 totalAcertos: 0,
                 totalErros: 0,
-                intervalo: 0
+                intervalo: 0,
+                // Campos Anki
+                easeFactor: 2.5,
+                repetitions: 0,
+                previousInterval: 0
             };
             etapaState.push(cardState);
-            // Salvar imediatamente
             allState[moduloId] = moduloState;
             saveFlashcardState(allState);
         }
         return cardState;
     }
 
-    /** Atualiza o estado de um flashcard após uma resposta (acertou ou errou) */
-    function updateFlashcardState(moduloId, etapaIndex, flashcardIndex, acertou) {
+    /**
+     * Atualiza o estado do flashcard com base na dificuldade escolhida (0=Again, 1=Hard, 2=Good, 3=Easy)
+     * Implementa um algoritmo similar ao SM-2 do Anki.
+     */
+    function updateFlashcardStateAnki(moduloId, etapaIndex, flashcardIndex, dificuldade) {
         const allState = loadFlashcardState();
         const moduloState = allState[moduloId] || {};
         const etapaState = moduloState[etapaIndex] || [];
@@ -2141,43 +2765,67 @@
                 acertosConsecutivos: 0,
                 totalAcertos: 0,
                 totalErros: 0,
-                intervalo: 0
+                intervalo: 0,
+                easeFactor: 2.5,
+                repetitions: 0,
+                previousInterval: 0
             };
             etapaState.push(cardState);
         }
 
-        const now = new Date().toISOString();
-        if (acertou) {
-            cardState.totalAcertos++;
-            cardState.acertosConsecutivos++;
-            // Atualiza intervalo conforme tabela
-            const consec = cardState.acertosConsecutivos;
-            let dias;
-            if (consec === 1) dias = 1;
-            else if (consec === 2) dias = 3;
-            else if (consec === 3) dias = 7;
-            else if (consec === 4) dias = 14;
-            else if (consec === 5) dias = 30;
-            else dias = 60; // 6+ => dominada
+        const now = new Date();
+        const hoje = now.toISOString();
 
-            // Define estado
-            if (consec >= 6) {
-                cardState.estado = 'dominada';
-            } else if (consec >= 3) {
-                cardState.estado = 'revisao';
-            } else {
-                cardState.estado = 'aprendendo';
-            }
-            cardState.intervalo = dias;
-        } else {
+        // Atualiza estatísticas
+        if (dificuldade === 0) {
             cardState.totalErros++;
-            cardState.acertosConsecutivos = 0;
-            cardState.estado = 'nova';
+            // Again: reseta repetições, intervalo = 1 dia, ease factor pode diminuir
+            cardState.repetitions = 0;
             cardState.intervalo = 1;
+            cardState.easeFactor = Math.max(1.3, cardState.easeFactor - 0.2);
+            cardState.estado = 'nova';
+        } else {
+            cardState.totalAcertos++;
+            // Para Hard, Good, Easy
+            if (dificuldade === 1) { // Hard
+                // Intervalo = previousInterval * 1.2 (ou se for novo, 1 dia)
+                if (cardState.repetitions === 0) {
+                    cardState.intervalo = 1;
+                } else {
+                    cardState.intervalo = Math.max(1, Math.round(cardState.previousInterval * 1.2));
+                }
+                cardState.easeFactor = Math.max(1.3, cardState.easeFactor - 0.15);
+            } else if (dificuldade === 2) { // Good
+                cardState.repetitions++;
+                if (cardState.repetitions === 1) {
+                    cardState.intervalo = 1;
+                } else if (cardState.repetitions === 2) {
+                    cardState.intervalo = 3;
+                } else {
+                    // intervalo = intervalo anterior * easeFactor
+                    cardState.intervalo = Math.round(cardState.previousInterval * cardState.easeFactor);
+                    if (cardState.intervalo < 1) cardState.intervalo = 1;
+                }
+                cardState.easeFactor = Math.max(1.3, cardState.easeFactor + 0.1);
+                cardState.estado = 'revisao';
+            } else if (dificuldade === 3) { // Easy
+                cardState.repetitions++;
+                if (cardState.repetitions === 1) {
+                    cardState.intervalo = 4;
+                } else {
+                    cardState.intervalo = Math.round(cardState.previousInterval * cardState.easeFactor * 1.3);
+                    if (cardState.intervalo < 1) cardState.intervalo = 1;
+                }
+                cardState.easeFactor = Math.max(1.3, cardState.easeFactor + 0.15);
+                cardState.estado = 'dominada';
+            }
         }
 
-        cardState.ultimaRevisao = now;
-        const proxima = new Date();
+        cardState.previousInterval = cardState.intervalo;
+
+        // Atualiza datas
+        cardState.ultimaRevisao = hoje;
+        const proxima = new Date(now);
         proxima.setDate(proxima.getDate() + cardState.intervalo);
         cardState.proximaRevisao = proxima.toISOString();
 
@@ -2195,19 +2843,8 @@
         saveFlashcardState(allState);
     }
 
-    /** Calcula o intervalo (em dias) baseado nos acertos consecutivos (conforme tabela) */
-    function calcularIntervalo(acertosConsecutivos) {
-        if (acertosConsecutivos === 0) return 0;
-        if (acertosConsecutivos === 1) return 1;
-        if (acertosConsecutivos === 2) return 3;
-        if (acertosConsecutivos === 3) return 7;
-        if (acertosConsecutivos === 4) return 14;
-        if (acertosConsecutivos === 5) return 30;
-        return 60;
-    }
-
     // ======================================================================
-    // 13. RENDERIZAÇÃO DA REVISÃO
+    // 15. RENDERIZAÇÃO DA REVISÃO (com 4 botões)
     // ======================================================================
 
     function renderReview() {
@@ -2222,10 +2859,16 @@
         const flashcard = item.flashcard;
         const total = queue.length;
         const progresso = `${index + 1} de ${total}`;
+        const moduloNome = item.moduloNome || 'Módulo';
+        const disciplina = item.disciplina || 'Matéria';
 
         const container = document.getElementById('reviewContent');
         container.innerHTML = `
-            <div class="review-progress">📌 ${progresso}</div>
+            <div class="review-progress">
+                <span>📌 ${progresso}</span>
+                <span>${disciplina} · ${moduloNome}</span>
+                <span>${state.revisoesHoje || 0} revisados hoje</span>
+            </div>
             <div class="review-card">
                 <div class="review-card__question">${flashcard.pergunta || 'Pergunta não disponível'}</div>
                 <div id="reviewAnswer" class="hidden review-card__answer">${flashcard.resposta || 'Resposta não disponível'}</div>
@@ -2236,17 +2879,20 @@
             </div>
         `;
 
-        // Lógica de revelar
         document.getElementById('btnRevelar').addEventListener('click', () => {
             const answerDiv = document.getElementById('reviewAnswer');
             answerDiv.classList.remove('hidden');
             const actions = document.getElementById('reviewActions');
             actions.innerHTML = `
-                <button class="btn btn--success" id="btnAcertou">✅ Acertou</button>
-                <button class="btn btn--error" id="btnErrou">❌ Errou</button>
+                <button class="btn btn--again" id="btnAgain">🔄 Novamente</button>
+                <button class="btn btn--hard" id="btnHard">😓 Difícil</button>
+                <button class="btn btn--success" id="btnGood">😊 Bom</button>
+                <button class="btn btn--easy" id="btnEasy">😎 Fácil</button>
             `;
-            document.getElementById('btnAcertou').addEventListener('click', () => App.acertouFlashcard());
-            document.getElementById('btnErrou').addEventListener('click', () => App.errouFlashcard());
+            document.getElementById('btnAgain').addEventListener('click', () => App.responderFlashcard(0));
+            document.getElementById('btnHard').addEventListener('click', () => App.responderFlashcard(1));
+            document.getElementById('btnGood').addEventListener('click', () => App.responderFlashcard(2));
+            document.getElementById('btnEasy').addEventListener('click', () => App.responderFlashcard(3));
         });
     }
 
@@ -2256,7 +2902,7 @@
         container.innerHTML = `
             <div class="review-summary card">
                 <h2>🏁 Revisão Concluída!</h2>
-                <p style="color: var(--text-secondary); margin-bottom: var(--space-lg);">Você revisou todos os flashcards disponíveis.</p>
+                <p style="color: var(--text-secondary); margin-bottom: var(--space-lg);">Você revisou todos os flashcards disponíveis para hoje.</p>
                 <div class="review-summary__stats">
                     <div class="review-summary__stat">
                         <div class="review-summary__stat-value">${stats.total}</div>
@@ -2276,7 +2922,10 @@
         `;
     }
 
-    /** Conta quantos flashcards estão disponíveis para revisão em um módulo (ou todos) */
+    // ======================================================================
+    // 16. CONTAGEM DE FLASHCARDS DISPONÍVEIS
+    // ======================================================================
+
     function contarFlashcardsDisponiveis(moduloId = null) {
         let total = 0;
         const modulos = moduloId ? [getModulo(moduloId)] : MODULOS;
@@ -2287,7 +2936,7 @@
             const progresso = state.progresso[modulo.id];
             if (!progresso || !progresso.topicos) continue;
             const etapasConcluidas = progresso.topicos
-                .map((concluida, idx) => concluida ? idx : -1)
+                .map((c, idx) => c ? idx : -1)
                 .filter(idx => idx !== -1);
             for (const etapaIndex of etapasConcluidas) {
                 const flashcards = deck.etapas[etapaIndex]?.flashcards || [];
@@ -2305,8 +2954,9 @@
     }
 
     // ======================================================================
-    // 14. INICIALIZAÇÃO
+    // 17. INICIALIZAÇÃO
     // ======================================================================
+
     function init() {
         document.querySelector('.logo').addEventListener('click', () => App.navigate('dashboard'));
 
@@ -2333,6 +2983,7 @@
         renderDashboard();
         renderHeader();
         document.getElementById('userName').textContent = 'Estudante';
+
         // Atualiza card de revisão periodicamente
         setInterval(atualizarCardRevisao, 30000);
     }
