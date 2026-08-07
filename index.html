@@ -681,6 +681,73 @@
             .btn { padding: var(--space-md) var(--space-lg); width: 100%; }
             .study-actions { flex-direction: column; }
         }
+
+        /* ===== NOVOS ESTILOS PARA REVISÃO ===== */
+        .review-card {
+            background: var(--surface);
+            border-radius: var(--radius-xl);
+            padding: var(--space-2xl);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border);
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .review-card__question {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: var(--space-xl);
+            color: var(--text-primary);
+        }
+        .review-card__answer {
+            font-size: 1.25rem;
+            background: var(--bg);
+            padding: var(--space-lg);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+            margin-bottom: var(--space-xl);
+            width: 100%;
+        }
+        .review-card__actions {
+            display: flex;
+            gap: var(--space-md);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .review-progress {
+            margin-bottom: var(--space-lg);
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+        .review-summary {
+            text-align: center;
+        }
+        .review-summary__stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: var(--space-md);
+            margin: var(--space-lg) 0;
+        }
+        .review-summary__stat {
+            background: var(--bg);
+            border-radius: var(--radius-md);
+            padding: var(--space-md);
+            border: 1px solid var(--border);
+        }
+        .review-summary__stat-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+        .review-summary__stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        .review-summary .btn {
+            margin-top: var(--space-lg);
+        }
     </style>
 </head>
 <body>
@@ -707,6 +774,22 @@
                 </div>
             </div>
             <div class="dashboard__stats-grid" id="dashboardStats"></div>
+
+            <!-- NOVO: Card de Revisão no Dashboard -->
+            <div id="dashboardReviewCard" class="card animate-fade-in stagger-3" style="margin-bottom: var(--space-2xl); background: linear-gradient(135deg, #f0f4ff, #e8ecff); border-color: var(--primary-light);">
+                <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-md);">
+                    <div>
+                        <h3 style="display: flex; align-items: center; gap: var(--space-sm);">
+                            <span style="font-size: 1.5rem;">📚</span> Revisão por Flashcards
+                        </h3>
+                        <p style="color: var(--text-secondary);" id="reviewSummaryText">Carregando flashcards disponíveis...</p>
+                    </div>
+                    <button class="btn btn--primary" id="btnIniciarRevisaoDashboard" onclick="App.iniciarRevisao()">
+                        🔄 Iniciar Revisão
+                    </button>
+                </div>
+            </div>
+
             <div class="screen-header animate-fade-in stagger-2">
                 <h2 class="screen-header__title">Disciplinas</h2>
                 <p class="screen-header__subtitle">Escolha uma área de estudo para continuar</p>
@@ -733,6 +816,8 @@
             </div>
             <div class="topics-list" id="topicsList"></div>
             <div id="finalExamButton" class="text-center" style="margin-top: var(--space-2xl);"></div>
+            <!-- NOVO: Botão de Revisão na tela do módulo -->
+            <div id="moduleReviewButton" class="text-center" style="margin-top: var(--space-lg);"></div>
         </section>
 
         <!-- Tela: Estudo (conteúdo dinâmico) -->
@@ -763,6 +848,14 @@
             </div>
             <div id="profileContent"></div>
         </section>
+
+        <!-- ===== NOVA TELA: REVISÃO ===== -->
+        <section class="screen" id="screen-review">
+            <div class="back-btn" onclick="App.sairRevisao()">← Sair da Revisão</div>
+            <div class="study-container">
+                <div id="reviewContent"></div>
+            </div>
+        </section>
     </main>
 
     <footer class="footer">
@@ -778,6 +871,7 @@
     // ======================================================================
     let MODULOS = [];
     const STATE_KEY = 'bb_inteligente_state';
+    const FLASHCARD_STATE_KEY = 'bb_inteligente_flashcard_state';
 
     const defaultState = {
         xp: 0,
@@ -799,6 +893,11 @@
         examAnswered: false,
         lastWrongTopic: null,
         adaptAttempts: 0,
+        // Novos campos para revisão
+        reviewQueue: [],
+        reviewIndex: 0,
+        reviewModuleId: null,
+        reviewStats: { total: 0, acertos: 0, erros: 0 }
     };
 
     let state = loadState();
@@ -994,8 +1093,34 @@
             card.addEventListener('click', () => App.navigate('discipline', disciplina));
             grid.appendChild(card);
         });
+
+        // Atualizar o card de revisão no dashboard
+        atualizarCardRevisao();
     }
 
+    // ======================================================================
+    // 4.1 CARD DE REVISÃO NO DASHBOARD
+    // ======================================================================
+    function atualizarCardRevisao() {
+        const total = contarFlashcardsDisponiveis();
+        const text = document.getElementById('reviewSummaryText');
+        const btn = document.getElementById('btnIniciarRevisaoDashboard');
+        if (total === 0) {
+            text.textContent = 'Nenhum flashcard disponível para revisão no momento.';
+            btn.disabled = true;
+            btn.style.opacity = '0.5';
+            btn.style.cursor = 'not-allowed';
+        } else {
+            text.textContent = `Você tem ${total} flashcard${total > 1 ? 's' : ''} disponível${total > 1 ? 's' : ''} para revisar.`;
+            btn.disabled = false;
+            btn.style.opacity = '1';
+            btn.style.cursor = 'pointer';
+        }
+    }
+
+    // ======================================================================
+    // 5. RENDERIZAÇÃO DE DISCIPLINA E MÓDULO (com revisão)
+    // ======================================================================
     function renderDiscipline(disciplina) {
         document.getElementById('disciplineTitle').textContent = disciplina;
         document.getElementById('disciplineSubtitle').textContent = `Selecione um módulo para estudar (${disciplina})`;
@@ -1036,9 +1161,6 @@
         });
     }
 
-    // ======================================================================
-    // 5. RENDERIZAÇÃO DO MÓDULO (ETAPAS)
-    // ======================================================================
     function renderModuleTopics(moduloId) {
         const modulo = getModulo(moduloId);
         if (!modulo) {
@@ -1097,10 +1219,8 @@
                     ${isCompleted ? '<span class="badge badge--success">Concluído</span>' : (isLocked ? '<span class="badge badge--warning">Bloqueado</span>' : '<span class="badge badge--primary">Próximo</span>')}
                 </div>
             `;
-            // Permite clicar em qualquer etapa não bloqueada (incluindo concluídas) para revisão
             if (!isLocked) {
                 item.addEventListener('click', () => {
-                    // Se completed, abre em modo leitura (readonly)
                     App.iniciarEtapa(moduloId, idx, isCompleted);
                 });
             }
@@ -1124,6 +1244,21 @@
             } else {
                 examBtnContainer.innerHTML = '<p style="color: var(--text-muted);">Complete todas as etapas para liberar a avaliação final.</p>';
             }
+        }
+
+        // ===== NOVO: Botão de revisão específico do módulo =====
+        const reviewBtnContainer = document.getElementById('moduleReviewButton');
+        reviewBtnContainer.innerHTML = '';
+        // Verifica se há flashcards disponíveis para este módulo
+        const totalMod = contarFlashcardsDisponiveis(moduloId);
+        if (totalMod > 0) {
+            const btn = document.createElement('button');
+            btn.className = 'btn btn--secondary';
+            btn.textContent = `📖 Revisar (${totalMod} flashcard${totalMod > 1 ? 's' : ''})`;
+            btn.addEventListener('click', () => App.iniciarRevisao(moduloId));
+            reviewBtnContainer.appendChild(btn);
+        } else {
+            reviewBtnContainer.innerHTML = '<p style="color: var(--text-muted); font-size: 0.875rem;">Nenhum flashcard disponível para revisão neste módulo.</p>';
         }
     }
 
@@ -1239,14 +1374,12 @@
                 data.alternativas.forEach((alt, idx) => {
                     const disabled = readonly ? 'disabled' : '';
                     const isCorrect = (idx === data.correta);
-                    // Se readonly, mostrar a correta marcada
                     const extraClass = readonly && isCorrect ? ' btn--success' : '';
                     html += `<button class="btn btn--secondary${extraClass}" data-idx="${idx}" onclick="App.responderAlternativa('${moduloId}', ${stepIndex}, ${idx})" style="width:100%;margin:4px 0;justify-content:flex-start;" ${disabled}>
                         ${String.fromCharCode(65 + idx)}. ${alt}
                     </button>`;
                 });
                 html += `</div>`;
-                // Se readonly, mostrar a resposta correta e a explicação
                 if (readonly) {
                     const respostaCorreta = data.alternativas[data.correta];
                     html += `<div class="feedback-box success" style="margin-top:16px;">
@@ -1391,7 +1524,7 @@
     }
 
     // ======================================================================
-    // 9. APP - NAVEGAÇÃO E AÇÕES (com readonly)
+    // 9. APP - NAVEGAÇÃO E AÇÕES
     // ======================================================================
     const App = {
         navigate(screen, data) {
@@ -1432,6 +1565,11 @@
                 state.currentScreen = 'profile';
                 renderProfile();
                 renderHeader();
+            } else if (screen === 'review') {
+                document.getElementById('screen-review').classList.add('active');
+                state.currentScreen = 'review';
+                renderReview();
+                renderHeader();
             }
             saveState();
         },
@@ -1441,6 +1579,8 @@
                 App.navigate('discipline', state.disciplineFilter || 'Matemática');
             } else if (state.currentScreen === 'study' || state.currentScreen === 'exam') {
                 App.navigate('module', state.currentModuleId);
+            } else if (state.currentScreen === 'review') {
+                App.sairRevisao();
             } else {
                 App.navigate('dashboard');
             }
@@ -1473,7 +1613,6 @@
                 showToast('Esta etapa está bloqueada.', 'warning', 'Atenção');
                 return;
             }
-            // Se for readonly, forçamos a abertura independente do status
             App.navigate('study', { moduleId: moduloId, stepIndex, readonly });
         },
 
@@ -1529,7 +1668,6 @@
                 renderHeader();
                 renderDashboard();
                 showToast('+15 XP', 'success', 'Resposta correta!');
-                // Botão Continuar com clear
                 const nextWrapper = document.createElement('div');
                 nextWrapper.style.clear = 'both';
                 nextWrapper.style.marginTop = '12px';
@@ -1548,7 +1686,6 @@
                 saveState();
                 showToast('Tente novamente!', 'warning', 'Não foi dessa vez');
 
-                // Sistema adaptativo: oferecer outra questão
                 const questoesModulo = modulo.questoes || [];
                 const questoesRestantes = questoesModulo.filter(q => q.pergunta !== data.pergunta);
                 if (questoesRestantes.length > 0) {
@@ -1560,10 +1697,8 @@
                         conteudo: 'Tente resolver esta nova questão sobre o mesmo tópico.',
                     };
                     etapas[stepIndex].data = newData;
-                    // Re-renderiza a etapa sem readonly
                     renderStudy(moduloId, stepIndex, false);
                 } else {
-                    // Botão para tentar novamente
                     const retryWrapper = document.createElement('div');
                     retryWrapper.style.clear = 'both';
                     retryWrapper.style.marginTop = '12px';
@@ -1674,6 +1809,119 @@
             if (confirm('Tem certeza que deseja sair da avaliação? Seu progresso será perdido.')) {
                 App.goBack();
             }
+        },
+
+        // ==================================================================
+        // NOVOS MÉTODOS PARA REVISÃO
+        // ==================================================================
+
+        /**
+         * Inicia a revisão para um módulo específico ou para todos os módulos.
+         * @param {string|null} moduloId - Se fornecido, revisa apenas esse módulo; senão, todos.
+         */
+        iniciarRevisao(moduloId = null) {
+            const queue = [];
+            const modulosAlvo = moduloId ? [getModulo(moduloId)] : MODULOS;
+
+            for (const modulo of modulosAlvo) {
+                if (!modulo) continue;
+                const deck = DECKS[modulo.id];
+                if (!deck) continue;
+
+                // Obter índices de etapas concluídas
+                const progresso = state.progresso[modulo.id];
+                if (!progresso || !progresso.topicos) continue;
+                const etapasConcluidas = progresso.topicos
+                    .map((concluida, idx) => concluida ? idx : -1)
+                    .filter(idx => idx !== -1);
+
+                for (const etapaIndex of etapasConcluidas) {
+                    const flashcardsEtapa = deck.etapas[etapaIndex]?.flashcards || [];
+                    for (let fcIndex = 0; fcIndex < flashcardsEtapa.length; fcIndex++) {
+                        const flashcard = flashcardsEtapa[fcIndex];
+                        const estado = getFlashcardState(modulo.id, etapaIndex, fcIndex);
+                        const now = new Date();
+                        const proxima = estado.proximaRevisao ? new Date(estado.proximaRevisao) : null;
+                        // Seleciona se for nova ou se a data de revisão já passou
+                        if (estado.estado === 'nova' || (proxima && proxima <= now)) {
+                            queue.push({
+                                moduloId: modulo.id,
+                                etapaIndex,
+                                flashcardIndex: fcIndex,
+                                flashcard,
+                                estado
+                            });
+                        }
+                    }
+                }
+            }
+
+            // Ordenar por prioridade: vencidos primeiro, depois novos, depois próximos
+            queue.sort((a, b) => {
+                const prioridade = (item) => {
+                    if (item.estado.estado === 'vencida') return 0;
+                    if (item.estado.estado === 'nova') return 1;
+                    return 2;
+                };
+                return prioridade(a) - prioridade(b);
+            });
+
+            if (queue.length === 0) {
+                showToast('Nenhum flashcard disponível para revisão agora.', 'info', 'Revisão');
+                return;
+            }
+
+            state.reviewQueue = queue;
+            state.reviewIndex = 0;
+            state.reviewModuleId = moduloId;
+            state.reviewStats = { total: queue.length, acertos: 0, erros: 0 };
+            saveState();
+
+            App.navigate('review');
+        },
+
+        /** Sai da revisão, limpando a fila. */
+        sairRevisao() {
+            state.reviewQueue = [];
+            state.reviewIndex = 0;
+            state.reviewModuleId = null;
+            saveState();
+            // Volta para a tela anterior (dashboard ou módulo)
+            if (state.currentScreen === 'review') {
+                App.goBack();
+            } else {
+                App.navigate('dashboard');
+            }
+        },
+
+        /** Avança para o próximo flashcard na fila ou mostra resumo. */
+        proximoFlashcard() {
+            state.reviewIndex++;
+            if (state.reviewIndex >= state.reviewQueue.length) {
+                renderReviewSummary();
+            } else {
+                renderReview();
+            }
+        },
+
+        /** Marca o flashcard atual como acertado. */
+        acertouFlashcard() {
+            const item = state.reviewQueue[state.reviewIndex];
+            if (!item) return;
+            updateFlashcardState(item.moduloId, item.etapaIndex, item.flashcardIndex, true);
+            state.reviewStats.acertos++;
+            saveState();
+            this.proximoFlashcard();
+        },
+
+        /** Marca o flashcard atual como errado. */
+        errouFlashcard() {
+            const item = state.reviewQueue[state.reviewIndex];
+            if (!item) return;
+            updateFlashcardState(item.moduloId, item.etapaIndex, item.flashcardIndex, false);
+            state.reviewStats.erros++;
+            saveState();
+            this.proximoFlashcard();
         }
     };
 
@@ -1728,8 +1976,10 @@
     }
 
     // ======================================================================
-    // 11. CARREGAMENTO DOS MÓDULOS
+    // 11. CARREGAMENTO DOS MÓDULOS E DECKS
     // ======================================================================
+    const DECKS = {}; // global
+
     async function carregarTodosModulos() {
         const moduloIds = [
             'progressoes',
@@ -1786,7 +2036,33 @@
         });
         saveState();
 
+        // Carregar decks após os módulos
+        await carregarDecks();
+
         init();
+    }
+
+    /** Carrega dinamicamente os decks da pasta decks/ */
+    async function carregarDecks() {
+        for (const modulo of MODULOS) {
+            try {
+                const module = await import(`./decks/${modulo.id}.js`);
+                if (module.deck && module.deck.moduloId === modulo.id) {
+                    DECKS[modulo.id] = module.deck;
+                    console.log(`✅ Deck carregado para "${modulo.nome}" (${module.deck.etapas?.length || 0} etapas).`);
+                    // Validação opcional: número de etapas
+                    const totalEtapas = (modulo.introducao ? 1 : 0) + (modulo.teoria?.length || 0) + (modulo.exemplos?.length || 0) + (modulo.etapasAprendizagem?.length || 0);
+                    if (module.deck.etapas && module.deck.etapas.length !== totalEtapas) {
+                        console.warn(`⚠️ Deck de "${modulo.nome}" tem ${module.deck.etapas.length} etapas, mas o módulo tem ${totalEtapas}.`);
+                    }
+                } else {
+                    console.warn(`⚠️ Deck para "${modulo.id}" não corresponde ao módulo.`);
+                }
+            } catch (e) {
+                // Silencioso – deck não existe
+                // console.debug(`ℹ️ Nenhum deck para "${modulo.id}".`);
+            }
+        }
     }
 
     function validateModulo(mod) {
@@ -1801,7 +2077,235 @@
     }
 
     // ======================================================================
-    // 12. INICIALIZAÇÃO
+    // 12. SISTEMA DE REPETIÇÃO ESPAÇADA – PERSISTÊNCIA E ALGORITMO
+    // ======================================================================
+
+    /** Carrega o estado completo de todos os flashcards do localStorage */
+    function loadFlashcardState() {
+        try {
+            const saved = localStorage.getItem(FLASHCARD_STATE_KEY);
+            if (saved) {
+                return JSON.parse(saved);
+            }
+        } catch (e) {}
+        return {};
+    }
+
+    /** Salva o estado completo dos flashcards no localStorage */
+    function saveFlashcardState(flashcardState) {
+        try {
+            localStorage.setItem(FLASHCARD_STATE_KEY, JSON.stringify(flashcardState));
+        } catch (e) {}
+    }
+
+    /** Obtém o estado de um flashcard específico, criando um padrão se não existir */
+    function getFlashcardState(moduloId, etapaIndex, flashcardIndex) {
+        const allState = loadFlashcardState();
+        const moduloState = allState[moduloId] || {};
+        const etapaState = moduloState[etapaIndex] || [];
+        const flashcardId = `${etapaIndex}-${flashcardIndex}`;
+        let cardState = etapaState.find(f => f.flashcardId === flashcardId);
+        if (!cardState) {
+            // Cria estado inicial
+            cardState = {
+                flashcardId,
+                estado: 'nova',
+                ultimaRevisao: null,
+                proximaRevisao: null,
+                acertosConsecutivos: 0,
+                totalAcertos: 0,
+                totalErros: 0,
+                intervalo: 0
+            };
+            etapaState.push(cardState);
+            // Salvar imediatamente
+            allState[moduloId] = moduloState;
+            saveFlashcardState(allState);
+        }
+        return cardState;
+    }
+
+    /** Atualiza o estado de um flashcard após uma resposta (acertou ou errou) */
+    function updateFlashcardState(moduloId, etapaIndex, flashcardIndex, acertou) {
+        const allState = loadFlashcardState();
+        const moduloState = allState[moduloId] || {};
+        const etapaState = moduloState[etapaIndex] || [];
+        const flashcardId = `${etapaIndex}-${flashcardIndex}`;
+        let cardState = etapaState.find(f => f.flashcardId === flashcardId);
+        if (!cardState) {
+            cardState = {
+                flashcardId,
+                estado: 'nova',
+                ultimaRevisao: null,
+                proximaRevisao: null,
+                acertosConsecutivos: 0,
+                totalAcertos: 0,
+                totalErros: 0,
+                intervalo: 0
+            };
+            etapaState.push(cardState);
+        }
+
+        const now = new Date().toISOString();
+        if (acertou) {
+            cardState.totalAcertos++;
+            cardState.acertosConsecutivos++;
+            // Atualiza intervalo conforme tabela
+            const consec = cardState.acertosConsecutivos;
+            let dias;
+            if (consec === 1) dias = 1;
+            else if (consec === 2) dias = 3;
+            else if (consec === 3) dias = 7;
+            else if (consec === 4) dias = 14;
+            else if (consec === 5) dias = 30;
+            else dias = 60; // 6+ => dominada
+
+            // Define estado
+            if (consec >= 6) {
+                cardState.estado = 'dominada';
+            } else if (consec >= 3) {
+                cardState.estado = 'revisao';
+            } else {
+                cardState.estado = 'aprendendo';
+            }
+            cardState.intervalo = dias;
+        } else {
+            cardState.totalErros++;
+            cardState.acertosConsecutivos = 0;
+            cardState.estado = 'nova';
+            cardState.intervalo = 1;
+        }
+
+        cardState.ultimaRevisao = now;
+        const proxima = new Date();
+        proxima.setDate(proxima.getDate() + cardState.intervalo);
+        cardState.proximaRevisao = proxima.toISOString();
+
+        // Verifica se está vencida (atrasada > 2x intervalo)
+        const agora = new Date();
+        const proxDate = new Date(cardState.proximaRevisao);
+        const diffDias = Math.floor((agora - proxDate) / (1000 * 60 * 60 * 24));
+        if (diffDias > cardState.intervalo * 2 && cardState.estado !== 'nova') {
+            cardState.estado = 'vencida';
+        }
+
+        // Salva
+        moduloState[etapaIndex] = etapaState;
+        allState[moduloId] = moduloState;
+        saveFlashcardState(allState);
+    }
+
+    /** Calcula o intervalo (em dias) baseado nos acertos consecutivos (conforme tabela) */
+    function calcularIntervalo(acertosConsecutivos) {
+        if (acertosConsecutivos === 0) return 0;
+        if (acertosConsecutivos === 1) return 1;
+        if (acertosConsecutivos === 2) return 3;
+        if (acertosConsecutivos === 3) return 7;
+        if (acertosConsecutivos === 4) return 14;
+        if (acertosConsecutivos === 5) return 30;
+        return 60;
+    }
+
+    // ======================================================================
+    // 13. RENDERIZAÇÃO DA REVISÃO
+    // ======================================================================
+
+    function renderReview() {
+        const queue = state.reviewQueue;
+        const index = state.reviewIndex;
+        if (index >= queue.length) {
+            renderReviewSummary();
+            return;
+        }
+
+        const item = queue[index];
+        const flashcard = item.flashcard;
+        const total = queue.length;
+        const progresso = `${index + 1} de ${total}`;
+
+        const container = document.getElementById('reviewContent');
+        container.innerHTML = `
+            <div class="review-progress">📌 ${progresso}</div>
+            <div class="review-card">
+                <div class="review-card__question">${flashcard.pergunta || 'Pergunta não disponível'}</div>
+                <div id="reviewAnswer" class="hidden review-card__answer">${flashcard.resposta || 'Resposta não disponível'}</div>
+                <div class="review-card__actions" id="reviewActions">
+                    <button class="btn btn--primary" id="btnRevelar">👁️ Revelar Resposta</button>
+                </div>
+                <div id="reviewFeedback" style="margin-top: var(--space-lg);"></div>
+            </div>
+        `;
+
+        // Lógica de revelar
+        document.getElementById('btnRevelar').addEventListener('click', () => {
+            const answerDiv = document.getElementById('reviewAnswer');
+            answerDiv.classList.remove('hidden');
+            const actions = document.getElementById('reviewActions');
+            actions.innerHTML = `
+                <button class="btn btn--success" id="btnAcertou">✅ Acertou</button>
+                <button class="btn btn--error" id="btnErrou">❌ Errou</button>
+            `;
+            document.getElementById('btnAcertou').addEventListener('click', () => App.acertouFlashcard());
+            document.getElementById('btnErrou').addEventListener('click', () => App.errouFlashcard());
+        });
+    }
+
+    function renderReviewSummary() {
+        const stats = state.reviewStats;
+        const container = document.getElementById('reviewContent');
+        container.innerHTML = `
+            <div class="review-summary card">
+                <h2>🏁 Revisão Concluída!</h2>
+                <p style="color: var(--text-secondary); margin-bottom: var(--space-lg);">Você revisou todos os flashcards disponíveis.</p>
+                <div class="review-summary__stats">
+                    <div class="review-summary__stat">
+                        <div class="review-summary__stat-value">${stats.total}</div>
+                        <div class="review-summary__stat-label">Total</div>
+                    </div>
+                    <div class="review-summary__stat">
+                        <div class="review-summary__stat-value" style="color: var(--success);">${stats.acertos}</div>
+                        <div class="review-summary__stat-label">Acertos</div>
+                    </div>
+                    <div class="review-summary__stat">
+                        <div class="review-summary__stat-value" style="color: var(--error);">${stats.erros}</div>
+                        <div class="review-summary__stat-label">Erros</div>
+                    </div>
+                </div>
+                <button class="btn btn--primary" onclick="App.sairRevisao()">Voltar</button>
+            </div>
+        `;
+    }
+
+    /** Conta quantos flashcards estão disponíveis para revisão em um módulo (ou todos) */
+    function contarFlashcardsDisponiveis(moduloId = null) {
+        let total = 0;
+        const modulos = moduloId ? [getModulo(moduloId)] : MODULOS;
+        for (const modulo of modulos) {
+            if (!modulo) continue;
+            const deck = DECKS[modulo.id];
+            if (!deck) continue;
+            const progresso = state.progresso[modulo.id];
+            if (!progresso || !progresso.topicos) continue;
+            const etapasConcluidas = progresso.topicos
+                .map((concluida, idx) => concluida ? idx : -1)
+                .filter(idx => idx !== -1);
+            for (const etapaIndex of etapasConcluidas) {
+                const flashcards = deck.etapas[etapaIndex]?.flashcards || [];
+                for (let i = 0; i < flashcards.length; i++) {
+                    const estado = getFlashcardState(modulo.id, etapaIndex, i);
+                    const now = new Date();
+                    const proxima = estado.proximaRevisao ? new Date(estado.proximaRevisao) : null;
+                    if (estado.estado === 'nova' || (proxima && proxima <= now)) {
+                        total++;
+                    }
+                }
+            }
+        }
+        return total;
+    }
+
+    // ======================================================================
+    // 14. INICIALIZAÇÃO
     // ======================================================================
     function init() {
         document.querySelector('.logo').addEventListener('click', () => App.navigate('dashboard'));
@@ -1829,6 +2333,8 @@
         renderDashboard();
         renderHeader();
         document.getElementById('userName').textContent = 'Estudante';
+        // Atualiza card de revisão periodicamente
+        setInterval(atualizarCardRevisao, 30000);
     }
 
     document.addEventListener('DOMContentLoaded', carregarTodosModulos);
