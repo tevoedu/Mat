@@ -352,7 +352,8 @@ export const modulo = {
       correta: 1,
       explicacaoAcerto: "Correto! Os juros compostos incidem sobre a dívida: M = 1.000 × 1,0404 = 1.040,40. A multa fixa de 3% incide sobre o valor ORIGINAL: 3% × 1.000 = 30. Total = 1.040,40 + 30 = R$ 1.070,40. A pegadinha é somar 3% + 2% + 2% = 7% e calcular 1.000 × 1,07 = 1.070 (próximo, mas errado). Ou calcular multa sobre o montante (3% de 1.040,40 = 31,21 → total 1.071,61). A CESGRANRIO especifica 'sobre o valor original' para evitar ambiguidade.",
       explicacaoErro: "Se marcou R$ 1.073,12, calculou a multa sobre o montante (3% de 1.040,40). Mas o enunciado diz 'multa fixa de 3% sobre o valor ORIGINAL'. Se marcou R$ 1.040,40, esqueceu a multa completamente. Se marcou R$ 1.070, usou juros simples (2% × 2 = 4%) + 3% = 7% → 1.070. A ordem correta é: calcule os juros compostos primeiro, depois some a multa fixa sobre o original."
-    },
+    }
+  ],
 
   avaliacaoFinal: {
     quantidade: 20,
@@ -458,9 +459,9 @@ export const modulo = {
       {
         pergunta: "Um comerciante vende um produto por R$ 1.000 a vista ou em 2 parcelas mensais iguais, vencendo a primeira em 30 dias e a segunda em 60 dias, a juros compostos de 10% ao mês. Qual o valor de cada parcela?",
         alternativas: ["R$ 500", "R$ 525", "R$ 550", "R$ 576,19", "R$ 600"],
-      correta: 3,
-      explicacaoAcerto: "Correto! 1.000 = P/1,10 + P/(1,10)² = P/1,10 + P/1,21. MMC = 1,331: 1.000 = P(1,21 + 1,10)/1,331 = P × 2,31/1,331 → P = 1.000 × 1,331/2,31 = 576,19. Questão clássica de equivalência de capitais.",
-      explicacaoErro: "Você precisa igualar o valor à vista ao valor presente das parcelas: 1.000 = P/1,10 + P/1,21. Resolva para P. Se marcou 500, dividiu 1.000 por 2 sem considerar juros. Se marcou 525 ou 550, usou aproximações incorretas."
+        correta: 3,
+        explicacaoAcerto: "Correto! 1.000 = P/1,10 + P/(1,10)² = P/1,10 + P/1,21. MMC = 1,331: 1.000 = P(1,21 + 1,10)/1,331 = P × 2,31/1,331 → P = 1.000 × 1,331/2,31 = 576,19. Questão clássica de equivalência de capitais.",
+        explicacaoErro: "Você precisa igualar o valor à vista ao valor presente das parcelas: 1.000 = P/1,10 + P/1,21. Resolva para P. Se marcou 500, dividiu 1.000 por 2 sem considerar juros. Se marcou 525 ou 550, usou aproximações incorretas."
       },
       {
         pergunta: "Um investidor aplicou R$ 30.000 em um fundo que rende juros compostos de 1% ao mês. Após quantos meses o montante superará R$ 33.000 pela primeira vez? (Dados: log(1,10) = 0,0414; log(1,01) = 0,0043)",
@@ -494,8 +495,8 @@ export const modulo = {
         pergunta: "Um cliente tomou R$ 8.000 emprestados a juros compostos de 5% ao mês. Após 1 mês, pagou R$ 4.200. Após mais 1 mês, quitou a dívida. Qual o valor do último pagamento?",
         alternativas: ["R$ 3.800", "R$ 4.000", "R$ 4.200", "R$ 4.410", "R$ 4.600"],
         correta: 3,
-      explicacaoAcerto: "Correto! M₁ = 8.000 × 1,05 = 8.400. Pagou 4.200 → Saldo = 4.200. M₂ = 4.200 × 1,05 = 4.410. Questão de fluxo de caixa com pagamento parcial.",
-      explicacaoErro: "M₁ = 8.000 × 1,05 = 8.400. Pagou 4.200 → saldo 4.200. Capitaliza mais 1 mês: 4.200 × 1,05 = 4.410. Se pagou 4.200 (metade do montante) e achou que o saldo também é 4.200, acertou o saldo mas precisa capitalizar!"
+        explicacaoAcerto: "Correto! M₁ = 8.000 × 1,05 = 8.400. Pagou 4.200 → Saldo = 4.200. M₂ = 4.200 × 1,05 = 4.410. Questão de fluxo de caixa com pagamento parcial.",
+        explicacaoErro: "M₁ = 8.000 × 1,05 = 8.400. Pagou 4.200 → saldo 4.200. Capitaliza mais 1 mês: 4.200 × 1,05 = 4.410. Se pagou 4.200 (metade do montante) e achou que o saldo também é 4.200, acertou o saldo mas precisa capitalizar!"
       },
       {
         pergunta: "Qual a taxa trimestral equivalente a 60% ao ano, em juros compostos? (Dado: 1,60^(1/4) ≈ 1,1247)",
