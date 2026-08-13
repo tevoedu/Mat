@@ -76,7 +76,7 @@ export const modulo = {
       <div style="text-align:center; padding:15px; background:#1e293b; border-radius:8px; margin:15px 0;"><p style="font-size:20px; color:#fbbf24; font-weight:bold; margin:0;">(1 + i₁)^n₁ = (1 + i₂)^n₂</p></div>
       <p>Onde n₁ e n₂ são os números de períodos correspondentes a cada taxa.</p>
       <p><strong>Exemplo clássico:</strong> Qual a taxa anual equivalente a 5% ao mês (composto)?</p>
-      <p style="background:#0f172a; padding:10px; border-radius:6px; font-family:monospace; color:#e2e8f0;">(1 + i_ano) = (1,05)^12 ≈ 1,7959 → i_ano ≈ 79,59% a.a.</p>
+      <p style="background:#0f172a; padding:10px; border-radius:6px; font-family:monospace; color:#f8fafc;">(1 + i_ano) = (1,05)^12 ≈ 1,7959 → i_ano ≈ 79,59% a.a.</p>
       <p><strong>⚠️ Pegadinha CESGRANRIO #3:</strong> Muitos candidatos fazem 5% × 12 = 60% (regra de três simples). Isso está ERRADO! No regime composto, a taxa anual é sempre MAIOR que a soma linear. A CESGRANRIO coloca 60% como alternativa distrativa.</p>
       <p><strong>⚠️ Pegadinha CESGRANRIO #4:</strong> Taxa <em>nominal</em> vs <em>efetiva</em>. Se o enunciado diz "12% ao ano, capitalizados mensalmente", a taxa nominal é 12% a.a., mas a taxa efetiva mensal é 12%/12 = 1% a.m. O montante deve ser calculado com a taxa efetiva do período!</p>
       <p><strong>Taxa proporcional (simples):</strong> i₁/n₁ = i₂/n₂ — usada apenas em juros simples ou para encontrar a taxa efetiva a partir de uma nominal.</p>
@@ -100,7 +100,7 @@ export const modulo = {
       <div style="text-align:center; padding:15px; background:#1e293b; border-radius:8px; margin:15px 0;"><p style="font-size:20px; color:#f87171; font-weight:bold; margin:0;">VP = VF / (1 + i)ⁿ</p></div>
       <p>Onde VP é o valor presente, VF é o valor futuro (montante), i é a taxa efetiva por período e n é o número de períodos.</p>
       <p><strong>Exemplo:</strong> Um título de R$ 10.000 vence em 3 meses. Qual o seu valor presente a uma taxa de 2% ao mês?</p>
-      <p style="background:#0f172a; padding:10px; border-radius:6px; font-family:monospace; color:#e2e8f0;">VP = 10.000 / (1,02)³ = 10.000 / 1,0612 ≈ R$ 9.423</p>
+      <p style="background:#0f172a; padding:10px; border-radius:6px; font-family:monospace; color:#f8fafc;">VP = 10.000 / (1,02)³ = 10.000 / 1,0612 ≈ R$ 9.423</p>
       <p><strong>⚠️ Pegadinha CESGRANRIO #6:</strong> Desconto composto não é o mesmo que desconto simples. No desconto simples, subtrai-se juros linearmente; no composto, divide-se pelo fator de acumulação. A banca adora colocar alternativas com desconto simples.</p>`,
       imagem: `<svg width="700" height="300" viewBox="0 0 700 300" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="bg6" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0f172a"/><stop offset="100%" stop-color="#1e293b"/></linearGradient></defs><rect width="700" height="300" fill="url(#bg6)" rx="12"/><text x="350" y="35" text-anchor="middle" fill="#f8fafc" font-size="20" font-weight="bold" font-family="system-ui">Desconto Composto — Valor Presente</text><line x1="100" y1="150" x2="600" y2="150" stroke="#475569" stroke-width="2"/><circle cx="150" cy="150" r="8" fill="#10b981"/><circle cx="375" cy="150" r="8" fill="#f59e0b"/><circle cx="600" cy="150" r="8" fill="#ef4444"/><text x="150" y="190" text-anchor="middle" fill="#34d399" font-size="14" font-family="system-ui">Hoje (VP)</text><text x="150" y="210" text-anchor="middle" fill="#6ee7b7" font-size="12" font-family="system-ui">VP = ?</text><path d="M 150 150 L 150 110" stroke="#10b981" stroke-width="2" marker-end="url(#v1)"/><defs><marker id="v1" markerWidth="8" markerHeight="8" refX="4" refY="0" orient="auto"><path d="M0,6 L4,0 L8,6 z" fill="#10b981"/></marker></defs><text x="150" y="100" text-anchor="middle" fill="#34d399" font-size="12" font-weight="bold">Desconto</text><text x="375" y="190" text-anchor="middle" fill="#fbbf24" font-size="14" font-family="system-ui">n períodos</text><text x="375" y="210" text-anchor="middle" fill="#fcd34d" font-size="12" font-family="system-ui">i = taxa por período</text><text x="600" y="190" text-anchor="middle" fill="#f87171" font-size="14" font-family="system-ui">Vencimento (VF)</text><text x="600" y="210" text-anchor="middle" fill="#fca5a5" font-size="12" font-family="system-ui">VF = 10.000</text><path d="M 600 150 L 600 110" stroke="#ef4444" stroke-width="2" marker-end="url(#v2)"/><defs><marker id="v2" markerWidth="8" markerHeight="8" refX="4" refY="0" orient="auto"><path d="M0,6 L4,0 L8,6 z" fill="#ef4444"/></marker></defs><text x="600" y="100" text-anchor="middle" fill="#f87171" font-size="12" font-weight="bold">Capitalização</text><rect x="50" y="240" width="600" height="45" fill="#1e293b" stroke="#f59e0b" stroke-width="1" rx="8"/><text x="350" y="268" text-anchor="middle" fill="#e2e8f0" font-size="13" font-family="system-ui">Fórmula: VP = VF / (1+i)ⁿ — <tspan fill="#fbbf24" font-weight="bold">divida</tspan> pelo fator de acumulação, não subtraia!</text></svg>`
     },
@@ -133,7 +133,7 @@ export const modulo = {
       titulo: "8. Regimes Mistos e Juros Simples nos Atrasos Curtos",
       conteudo: `<p>A CESGRANRIO também explora situações em que parte do período usa juros simples e parte usa juros compostos. O exemplo clássico são os <strong>atrasos em contas</strong>.</p>
       <p><strong>Exemplo:</strong> Uma fatura de cartão de crédito com atraso de 40 dias. Os primeiros 30 dias (1 mês) são cobrados com juros compostos de 10% ao mês, e os 10 dias restantes com juros simples de 0,5% ao dia (mês comercial de 30 dias). Qual o valor pago?</p>
-      <p style="background:#0f172a; padding:10px; border-radius:6px; font-family:monospace; color:#e2e8f0;">M₁ = C × 1,10 (composto por 1 mês)<br>M₂ = M₁ × (1 + 0,005 × 10) (simples por 10 dias)</p>
+      <p style="background:#0f172a; padding:10px; border-radius:6px; font-family:monospace; color:#f8fafc;">M₁ = C × 1,10 (composto por 1 mês)<br>M₂ = M₁ × (1 + 0,005 × 10) (simples por 10 dias)</p>
       <p><strong>⚠️ Pegadinha CESGRANRIO #9:</strong> Muitos candidatos aplicam juros compostos para todo o período ou juros simples para todo o período. Leia com atenção: o enunciado especifica qual regime se aplica a cada trecho.</p>`,
       imagem: `<svg width="700" height="280" viewBox="0 0 700 280" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="bg9" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#0f172a"/><stop offset="100%" stop-color="#1e293b"/></linearGradient></defs><rect width="700" height="280" fill="url(#bg9)" rx="12"/><text x="350" y="35" text-anchor="middle" fill="#f8fafc" font-size="18" font-weight="bold" font-family="system-ui">Regime Misto: Composto + Simples</text><rect x="80" y="70" width="160" height="70" fill="#1e3a5f" stroke="#3b82f6" stroke-width="2" rx="8"/><text x="160" y="100" text-anchor="middle" fill="#bfdbfe" font-size="13" font-weight="bold" font-family="system-ui">30 dias (1 mês)</text><text x="160" y="120" text-anchor="middle" fill="#60a5fa" font-size="14" font-family="system-ui">Juros Compostos</text><text x="160" y="135" text-anchor="middle" fill="#93c5fd" font-size="11" font-family="system-ui">10% a.m.</text><path d="M 240 105 L 280 105" stroke="#f59e0b" stroke-width="3" fill="none" marker-end="url(#m1)"/><defs><marker id="m1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#f59e0b"/></marker></defs><text x="260" y="95" text-anchor="middle" fill="#fbbf24" font-size="11" font-weight="bold">→</text><rect x="290" y="70" width="160" height="70" fill="#7c2d12" stroke="#f97316" stroke-width="2" rx="8"/><text x="370" y="100" text-anchor="middle" fill="#fed7aa" font-size="13" font-weight="bold" font-family="system-ui">10 dias</text><text x="370" y="120" text-anchor="middle" fill="#fdba74" font-size="14" font-family="system-ui">Juros Simples</text><text x="370" y="135" text-anchor="middle" fill="#fcd34d" font-size="11" font-family="system-ui">0,5% a.d.</text><path d="M 450 105 L 490 105" stroke="#f59e0b" stroke-width="3" fill="none" marker-end="url(#m2)"/><defs><marker id="m2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#f59e0b"/></marker></defs><text x="470" y="95" text-anchor="middle" fill="#fbbf24" font-size="11" font-weight="bold">→</text><rect x="500" y="70" width="140" height="70" fill="#064e3b" stroke="#10b981" stroke-width="2" rx="8"/><text x="570" y="100" text-anchor="middle" fill="#a7f3d0" font-size="13" font-weight="bold" font-family="system-ui">Total Pago</text><text x="570" y="125" text-anchor="middle" fill="#34d399" font-size="15" font-weight="bold" font-family="system-ui">M₂</text><rect x="80" y="170" width="560" height="80" fill="#1e293b" stroke="#f59e0b" stroke-width="1" rx="8"/><text x="360" y="195" text-anchor="middle" fill="#fbbf24" font-size="13" font-weight="bold" font-family="system-ui">💡 Dica CESGRANRIO</text><text x="360" y="220" text-anchor="middle" fill="#e2e8f0" font-size="12" font-family="system-ui">Identifique no enunciado: quais períodos usam juros compostos e quais usam simples.</text><text x="360" y="240" text-anchor="middle" fill="#e2e8f0" font-size="12" font-family="system-ui">Aplique cada regime na ordem correta, sempre sobre o montante acumulado anteriormente.</text></svg>`
     }
@@ -146,9 +146,9 @@ export const modulo = {
       resolucao: `<p><strong>Passo 1 — Identificar os dados:</strong></p>
       <ul><li>Capital (C) = R$ 50.000</li><li>Taxa (i) = 2% a.m. = 0,02</li><li>Prazo (n) = 6 meses</li><li>Fator dado: 1,02⁶ = 1,126</li></ul>
       <p><strong>Passo 2 — Aplicar a fórmula:</strong></p>
-      <p style="background:#0f172a; padding:10px; border-radius:6px; font-family:monospace;">M = C × (1 + i)ⁿ = 50.000 × 1,02⁶ = 50.000 × 1,126</p>
+      <p style="background:#0f172a; padding:10px; border-radius:6px; font-family:monospace; color:#f8fafc;">M = C × (1 + i)ⁿ = 50.000 × 1,02⁶ = 50.000 × 1,126</p>
       <p><strong>Passo 3 — Calcular:</strong></p>
-      <p style="background:#0f172a; padding:10px; border-radius:6px; font-family:monospace;">M = 50.000 × 1,126 = <strong>R$ 56.300</strong></p>
+      <p style="background:#0f172a; padding:10px; border-radius:6px; font-family:monospace; color:#f8fafc;">M = 50.000 × 1,126 = <strong>R$ 56.300</strong></p>
       <p><strong>Passo 4 — Verificar o que foi pedido:</strong></p>
       <p>O enunciado pediu o <strong>montante</strong>. Se pedisse os <strong>juros</strong>, faríamos: J = M − C = 56.300 − 50.000 = <strong>R$ 6.300</strong>.</p>`,
       observacao: "Questão direta do tipo mais comum da CESGRANRIO. A banca forneceu a potência pronta (1,02⁶ = 1,126) para facilitar. Sempre verifique se a resposta pedida é montante ou juros!",
@@ -163,7 +163,7 @@ export const modulo = {
       <p>VP₁ = 1.440 / (1,20)² = 1.440 / 1,44 = <strong>R$ 1.000</strong></p>
       <p>VP₂ = 1.728 / (1,20)³ = 1.728 / 1,728 = <strong>R$ 1.000</strong></p>
       <p><strong>Passo 3 — Somar os valores presentes:</strong></p>
-      <p style="background:#0f172a; padding:10px; border-radius:6px; font-family:monospace;">C = VP₁ + VP₂ = 1.000 + 1.000 = <strong>R$ 2.000</strong></p>
+      <p style="background:#0f172a; padding:10px; border-radius:6px; font-family:monospace; color:#f8fafc;">C = VP₁ + VP₂ = 1.000 + 1.000 = <strong>R$ 2.000</strong></p>
       <p><strong>Passo 4 — Verificação:</strong></p>
       <p>Mês 2: 2.000 × 1,20² = 2.000 × 1,44 = 2.880. Pagou 1.440 → Saldo = 1.440</p>
       <p>Mês 3: 1.440 × 1,20 = 1.728 → Quitação! ✓</p>`,
@@ -174,13 +174,13 @@ export const modulo = {
       titulo: "Exemplo 3 — Pagamento Parcial e Equivalência de Taxas (Tipo F + I)",
       enunciado: "Um banco emprestou R$ 10.000 a um cliente em regime de juros compostos de 10% ao mês. Após 2 meses, o cliente pagou metade do saldo devedor. O restante foi quitado após mais 2 meses. Qual foi o valor do último pagamento?",
       resolucao: `<p><strong>Passo 1 — Calcular o montante após 2 meses:</strong></p>
-      <p style="background:#0f172a; padding:10px; border-radius:6px; font-family:monospace;">M₂ = 10.000 × (1,10)² = 10.000 × 1,21 = <strong>R$ 12.100</strong></p>
+      <p style="background:#0f172a; padding:10px; border-radius:6px; font-family:monospace; color:#f8fafc;">M₂ = 10.000 × (1,10)² = 10.000 × 1,21 = <strong>R$ 12.100</strong></p>
       <p><strong>Passo 2 — Calcular o pagamento parcial (metade do saldo):</strong></p>
-      <p style="background:#0f172a; padding:10px; border-radius:6px; font-family:monospace;">Pagamento = 12.100 / 2 = <strong>R$ 6.050</strong></p>
+      <p style="background:#0f172a; padding:10px; border-radius:6px; font-family:monospace; color:#f8fafc;">Pagamento = 12.100 / 2 = <strong>R$ 6.050</strong></p>
       <p><strong>Passo 3 — Calcular o saldo remanescente:</strong></p>
-      <p style="background:#0f172a; padding:10px; border-radius:6px; font-family:monospace;">Saldo = 12.100 − 6.050 = <strong>R$ 6.050</strong></p>
+      <p style="background:#0f172a; padding:10px; border-radius:6px; font-family:monospace; color:#f8fafc;">Saldo = 12.100 − 6.050 = <strong>R$ 6.050</strong></p>
       <p><strong>Passo 4 — Capitalizar o saldo por mais 2 meses:</strong></p>
-      <p style="background:#0f172a; padding:10px; border-radius:6px; font-family:monospace;">M₄ = 6.050 × (1,10)² = 6.050 × 1,21 = <strong>R$ 7.320,50</strong></p>
+      <p style="background:#0f172a; padding:10px; border-radius:6px; font-family:monospace; color:#f8fafc;">M₄ = 6.050 × (1,10)² = 6.050 × 1,21 = <strong>R$ 7.320,50</strong></p>
       <p><strong>Passo 5 — Resposta:</strong></p>
       <p>O valor do último pagamento foi de <strong>R$ 7.320,50</strong>.</p>
       <p><strong>⚠️ Pegadinha:</strong> Muitos calculam metade de R$ 10.000 (R$ 5.000) em vez de metade do montante acumulado (R$ 6.050). Se fizessem isso, o saldo seria 12.100 − 5.000 = 7.100, e o pagamento final seria 7.100 × 1,21 = 8.591 — alternativa distrativa!</p>`,
@@ -193,9 +193,9 @@ export const modulo = {
       resolucao: `<p><strong>Passo 1 — Identificar a taxa nominal e a capitalização:</strong></p>
       <p>Taxa nominal = 12% a.a., capitalização mensal → número de capitalizações por ano = 12.</p>
       <p><strong>Passo 2 — Calcular a taxa efetiva mensal:</strong></p>
-      <p style="background:#0f172a; padding:10px; border-radius:6px; font-family:monospace;">i_mensal = 12% / 12 = 1% a.m. = 0,01</p>
+      <p style="background:#0f172a; padding:10px; border-radius:6px; font-family:monospace; color:#f8fafc;">i_mensal = 12% / 12 = 1% a.m. = 0,01</p>
       <p><strong>Passo 3 — Calcular a taxa efetiva anual:</strong></p>
-      <p style="background:#0f172a; padding:10px; border-radius:6px; font-family:monospace;">i_anual = (1 + i_mensal)¹² − 1 = (1,01)¹² − 1 ≈ 1,1268 − 1 = 0,1268 = 12,68% a.a.</p>
+      <p style="background:#0f172a; padding:10px; border-radius:6px; font-family:monospace; color:#f8fafc;">i_anual = (1 + i_mensal)¹² − 1 = (1,01)¹² − 1 ≈ 1,1268 − 1 = 0,1268 = 12,68% a.a.</p>
       <p><strong>Resposta:</strong> A taxa efetiva anual é <strong>12,68% a.a.</strong></p>
       <p><strong>⚠️ Pegadinha:</strong> Muitos candidatos pensariam que a taxa efetiva anual é 12% (confundindo nominal com efetiva) ou fariam 12% × 1,12 (errado). A CESGRANRIO costuma colocar 12% como distrativa.</p>`,
       observacao: "A CESGRANRIO cobra bastante a distinção entre taxa nominal e efetiva. Sempre que o enunciado mencionar 'capitalizada' (mensalmente, trimestralmente etc.), você está diante de uma taxa nominal que precisa ser convertida.",
@@ -205,11 +205,11 @@ export const modulo = {
       titulo: "Exemplo 5 — Sucessão de Aumentos e Descontos (Tipo J)",
       enunciado: "Um produto teve dois aumentos consecutivos de 10% e 20%. Em seguida, sofreu um desconto para voltar ao preço original. Qual foi o desconto percentual aplicado?",
       resolucao: `<p><strong>Passo 1 — Calcular o fator acumulado após os aumentos:</strong></p>
-      <p style="background:#0f172a; padding:10px; border-radius:6px; font-family:monospace;">Fator = 1,10 × 1,20 = 1,32</p>
+      <p style="background:#0f172a; padding:10px; border-radius:6px; font-family:monospace; color:#f8fafc;">Fator = 1,10 × 1,20 = 1,32</p>
       <p>O preço final após os aumentos é 32% maior que o original.</p>
       <p><strong>Passo 2 — Calcular o desconto necessário para voltar ao original:</strong></p>
       <p>Preço final = Preço_original × 1,32. Queremos que: Preço_original × 1,32 × (1 − d) = Preço_original.</p>
-      <p style="background:#0f172a; padding:10px; border-radius:6px; font-family:monospace;">(1 − d) = 1 / 1,32 ≈ 0,7576 → d ≈ 0,2424 = 24,24%</p>
+      <p style="background:#0f172a; padding:10px; border-radius:6px; font-family:monospace; color:#f8fafc;">(1 − d) = 1 / 1,32 ≈ 0,7576 → d ≈ 0,2424 = 24,24%</p>
       <p><strong>Resposta:</strong> O desconto necessário foi de aproximadamente <strong>24,24%</strong>.</p>
       <p><strong>⚠️ Pegadinha:</strong> Muitos candidatos somariam 10% + 20% = 30% e depois aplicariam 30% de desconto para voltar. ERRADO! O desconto para voltar ao original é calculado sobre o valor já aumentado, então é menor que o aumento total.</p>`,
       observacao: "Questão típica da CESGRANRIO sobre reajustes sucessivos. A banca adora colocar alternativas com os percentuais somados ou subtraídos diretamente. O cálculo correto sempre envolve multiplicação de fatores e inversão.",
